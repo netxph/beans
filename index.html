@@ -3,286 +3,606 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>Mini Games Hub</title>
+    <meta name="theme-color" content="#4f8f66" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Kids Arcade" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./images/icon.svg" type="image/svg+xml" />
+    <title>Beans Kids Arcade</title>
     <style>
       :root {
-        --bg: #0b1020;
-        --panel: #121a2e;
-        --text: #e8ecff;
-        --muted: #9aa6d1;
-        --accent: #6ea8ff;
+        --text: #1f3328;
+        --muted: #496556;
+        --card-glass: rgba(243, 252, 245, 0.86);
+        --app-vh: 100dvh;
       }
 
       * { box-sizing: border-box; }
 
       html, body {
-        width: 100%;
-        height: 100%;
         margin: 0;
-        background: var(--bg);
+        width: 100%;
+        height: var(--app-vh);
+        min-height: var(--app-vh);
+        overflow: hidden;
+        font-family: "Nunito", "Inter", "Segoe UI", Roboto, system-ui, -apple-system, sans-serif;
         color: var(--text);
-        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+        background: #7bb48b url("./images/jungle.png") center top / cover no-repeat fixed;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        background: linear-gradient(180deg, rgba(28, 66, 45, 0.24), rgba(28, 66, 45, 0.12) 28%, rgba(242, 251, 245, 0.12) 62%, rgba(242, 251, 245, 0.2));
+      }
+
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        background: radial-gradient(120% 70% at 50% -10%, rgba(255,255,255,.28), rgba(255,255,255,0) 64%);
+      }
+
+      #app {
+        width: 100%;
+        height: var(--app-vh);
+        min-height: var(--app-vh);
+        position: relative;
+        z-index: 1;
         overflow: hidden;
       }
 
-      #app, .stage {
-        width: 100%;
-        height: 100%;
+      .home {
+        position: relative;
+        height: var(--app-vh);
+        min-height: var(--app-vh);
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding: max(1rem, env(safe-area-inset-top)) 1rem calc(1rem + env(safe-area-inset-bottom));
+        max-width: 980px;
+        margin: 0 auto;
       }
 
-      .stage { position: relative; }
-
-      iframe {
-        width: 100%;
-        height: 100%;
-        border: 0;
-        display: block;
-        background: #000;
+      .hero,
+      .games-grid {
+        position: relative;
+        z-index: 2;
       }
 
-      .edge-zone {
-        position: fixed;
-        inset: 0 0 0 auto;
-        width: 8px;
-        height: 100dvh;
-        z-index: 38;
-        touch-action: none;
-      }
-
-      .edge-bubble {
+      .jungle-art {
         position: absolute;
-        right: 0;
-        top: 50%;
-        transform: translate(calc(100% + 2px), -50%);
-        transition: transform 180ms ease, opacity 180ms ease;
-        opacity: 0;
-        background: #1a2544;
-        color: var(--text);
-        border: 1px solid rgba(255,255,255,0.2);
-        border-right: 0;
-        border-radius: 12px 0 0 12px;
-        padding: 0.6rem 0.45rem;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        overflow: hidden;
+      }
+
+      .jungle-art .a {
+        position: absolute;
+        font-size: clamp(1.3rem, 3vw, 2.1rem);
+        opacity: .23;
+        filter: drop-shadow(0 4px 8px rgba(0,0,0,.12));
+      }
+
+      .jungle-art .a1 { left: 8px; top: 104px; }
+      .jungle-art .a2 { right: 10px; top: 120px; }
+      .jungle-art .a3 { left: 14px; bottom: 18px; }
+      .jungle-art .a4 { right: 20px; bottom: 44px; }
+      .jungle-art .a5 { left: 48%; top: 48px; }
+
+      .home::before,
+      .home::after {
+        content: "";
+        position: absolute;
+        pointer-events: none;
+      }
+
+      .home::before {
+        left: -28px;
+        bottom: 54px;
+        width: 210px;
+        height: 64px;
+        border-radius: 80px;
+        background: linear-gradient(180deg, #8e5b43, #704532);
+        transform: rotate(-16deg);
+        box-shadow: 0 10px 20px rgba(0,0,0,.12);
+        z-index: 0;
+        opacity: .42;
+      }
+
+      .home::after {
+        right: -56px;
+        top: 34px;
+        width: 240px;
+        height: 72px;
+        border-radius: 80px;
+        background: linear-gradient(180deg, #8e5b43, #704532);
+        transform: rotate(18deg);
+        box-shadow: 0 10px 20px rgba(0,0,0,.1);
+        z-index: 0;
+        opacity: .4;
+      }
+
+      .hero {
+        position: relative;
+        background: var(--card-glass);
+        border: 2px solid rgba(226, 243, 231, .9);
+        border-radius: 26px;
+        padding: 1rem 1.05rem;
+        box-shadow: 0 14px 24px rgba(20, 52, 35, 0.2);
+        backdrop-filter: blur(3px);
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: "🦜 🐒 🌿";
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        font-size: 1.15rem;
+        opacity: .22;
+        pointer-events: none;
+      }
+
+      .hero > * {
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: .5rem;
+        margin: 0 0 .4rem;
+        padding: 0 .1rem;
+        position: relative;
+        z-index: 2;
+      }
+
+      .hero-mini {
+        font-size: .74rem;
         font-weight: 700;
-        cursor: pointer;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.35);
-        writing-mode: vertical-rl;
-        text-orientation: upright;
-        letter-spacing: 0.12rem;
+        color: #ecfff2;
+        letter-spacing: .01em;
+        text-shadow: 0 1px 2px rgba(21, 53, 36, 0.45);
       }
 
-      .edge-zone:hover .edge-bubble,
-      .edge-zone.reveal .edge-bubble,
-      .edge-bubble:focus-visible {
-        transform: translate(0, -50%);
-        opacity: 1;
+      .github-link {
+        width: 28px;
+        height: 28px;
+        border-radius: 999px;
+        display: grid;
+        place-items: center;
+        color: #2a493a;
+        background: rgba(255,255,255,.72);
+        border: 1px solid rgba(176, 211, 185, .95);
+        text-decoration: none;
       }
 
-      .menu {
-        position: fixed;
-        inset: 0 0 0 auto;
-        width: min(320px, 88vw);
-        background: linear-gradient(180deg, rgba(18,26,46,0.98), rgba(18,26,46,0.94));
-        border-left: 1px solid rgba(255,255,255,0.1);
-        backdrop-filter: blur(8px);
-        transform: translateX(102%);
-        transition: transform 220ms ease;
-        z-index: 40;
-        padding: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) 1rem 1rem;
+      .github-link svg {
+        width: 15px;
+        height: 15px;
+        fill: currentColor;
+      }
+
+      .hero h1 {
+        margin: 0;
+        font-size: clamp(1rem, 2.4vw, 1.18rem);
+        line-height: 1.2;
+        letter-spacing: 0;
+        font-weight: 800;
+      }
+
+      .games-grid {
+        margin-top: .9rem;
+        display: grid;
+        gap: .72rem;
+        justify-content: start;
+        grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
+      }
+
+      .game-card {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        border-radius: 28px;
+        padding: .62rem;
+        border: 2px solid rgba(255,255,255,.8);
+        box-shadow: 0 10px 18px rgba(27, 61, 89, 0.18), inset 0 1px 0 rgba(255,255,255,.55);
         display: flex;
         flex-direction: column;
-        gap: 0.9rem;
+        justify-content: space-between;
+        transition: transform .15s ease, box-shadow .15s ease;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
       }
 
-      .menu.open { transform: translateX(0); }
-
-      .menu-title {
-        font-weight: 800;
-        letter-spacing: .2px;
+      .game-card::before {
+        content: "";
+        position: absolute;
+        left: 10px;
+        right: 10px;
+        top: 8px;
+        height: 30%;
+        border-radius: 999px;
+        background: linear-gradient(180deg, rgba(255,255,255,.38), rgba(255,255,255,0));
+        pointer-events: none;
       }
 
-      .menu-sub {
-        color: var(--muted);
-        font-size: 0.84rem;
+      .game-card::after {
+        content: "";
+        position: absolute;
+        right: -22px;
+        bottom: -22px;
+        width: 86px;
+        height: 86px;
+        border-radius: 999px;
+        background: rgba(255,255,255,.2);
+        z-index: 0;
       }
 
-      select, .menu button {
+      .game-card > * {
+        position: relative;
+        z-index: 1;
+      }
+
+      .game-card.c1 { background: linear-gradient(180deg, #9be2b6, #7ecd9c); }
+      .game-card.c2 { background: linear-gradient(180deg, #f7d48a, #edbf64); }
+      .game-card.c3 { background: linear-gradient(180deg, #9fd9d0, #7ec3b8); }
+      .game-card.c4 { background: linear-gradient(180deg, #e5c78f, #d6ad6d); }
+
+      .game-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 24px rgba(27, 61, 89, 0.22), inset 0 1px 0 rgba(255,255,255,.55);
+      }
+
+      .game-card:active {
+        transform: scale(.96);
+        box-shadow: 0 7px 12px rgba(27, 61, 89, 0.2), inset 0 1px 0 rgba(255,255,255,.45);
+      }
+
+      .game-card.tap-pop {
+        animation: tapPop .22s ease;
+      }
+
+      @keyframes tapPop {
+        0% { transform: scale(1); }
+        45% { transform: scale(.94); }
+        100% { transform: scale(1); }
+      }
+
+      .game-emoji {
+        width: 88px;
+        height: 88px;
+        margin: .05rem auto 0;
+        border-radius: 22px;
+        display: grid;
+        place-items: center;
+        font-size: 2.6rem;
+        background: rgba(255,255,255,.72);
+        border: 2px solid rgba(255,255,255,.9);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.8);
+        overflow: hidden;
+      }
+
+      .game-emoji svg {
         width: 100%;
-        background: #1a2544;
-        color: var(--text);
-        border: 1px solid rgba(255,255,255,0.15);
-        border-radius: 10px;
-        padding: 0.62rem 0.72rem;
-        font-weight: 600;
+        height: 100%;
+        display: block;
       }
 
-      .menu button { cursor: pointer; }
-      .menu button:hover, select:hover { border-color: var(--accent); }
+      .game-title {
+        margin: 0;
+        text-align: center;
+        font-size: .86rem;
+        font-weight: 800;
+        line-height: 1.15;
+        color: #1f3b2d;
+      }
 
-      .backdrop {
+      .game-card:focus-visible {
+        outline: 3px solid rgba(255,255,255,.95);
+        outline-offset: 2px;
+      }
+      .player {
         position: fixed;
         inset: 0;
-        background: rgba(0,0,0,0.35);
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 220ms ease;
+        width: 100%;
+        height: var(--app-vh);
+        min-height: var(--app-vh);
+        background: #0b1020;
+        display: none;
+        flex-direction: column;
+        z-index: 20;
+      }
+
+      .player.show { display: flex; }
+
+      .top-trigger {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 10px;
         z-index: 35;
       }
 
-      .backdrop.show {
+      .player-top {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 40;
+        display: flex;
+        align-items: center;
+        gap: .6rem;
+        padding: max(.6rem, env(safe-area-inset-top)) .7rem .6rem;
+        background: #111827;
+        color: #e5e7eb;
+        border-bottom: 1px solid rgba(255,255,255,.14);
+        transform: translateY(-110%);
+        opacity: 0;
+        pointer-events: none;
+        transition: transform .18s ease, opacity .18s ease;
+      }
+
+      .player.nav-visible .player-top {
+        transform: translateY(0);
         opacity: 1;
         pointer-events: auto;
       }
 
-      .error {
-        display: none;
-        position: absolute;
-        inset: 0;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        padding: 1rem;
-        color: #ffd7d7;
-        background: rgba(100, 0, 0, 0.35);
+      .ghost-btn {
+        border: 1px solid rgba(255,255,255,.25);
+        background: #1f2937;
+        color: #fff;
+        border-radius: 10px;
+        padding: .45rem .65rem;
+        font-weight: 700;
+        cursor: pointer;
       }
 
-      .error.show { display: flex; }
+      .player-title {
+        margin-left: auto;
+        font-size: .95rem;
+        opacity: .9;
+      }
+
+      iframe {
+        border: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+        background: #000;
+      }
+
+      .empty {
+        background: #fff;
+        border-radius: 16px;
+        padding: 1rem;
+        color: #334155;
+        border: 1px dashed #cbd5e1;
+      }
+
     </style>
   </head>
   <body>
-    <div id="edgeZone" class="edge-zone" aria-hidden="false">
-      <button id="menuToggle" class="edge-bubble" aria-label="Open game menu">Games</button>
-    </div>
-
-    <aside id="menu" class="menu" aria-label="Game menu">
-      <div class="menu-title">🎮 Mini Games Hub</div>
-      <div class="menu-sub">Pick game, fullscreen, then menu auto-hides.</div>
-      <select id="gameSelect" aria-label="Select game"></select>
-      <button id="fsBtn" type="button">Fullscreen</button>
-    </aside>
-
-    <div id="backdrop" class="backdrop"></div>
-
     <div id="app">
-      <div class="stage">
+      <main id="home" class="home">
+        <div class="jungle-art" aria-hidden="true">
+          <span class="a a1">🦜</span>
+          <span class="a a2">🐒</span>
+          <span class="a a3">🦥</span>
+          <span class="a a4">🦋</span>
+          <span class="a a5">🌴</span>
+        </div>
+
+        <div class="hero-top">
+          <small class="hero-mini">🦁 Beans Kids Arcade</small>
+          <a class="github-link" href="https://github.com/netxph/beans" target="_blank" rel="noopener noreferrer" aria-label="GitHub repository">
+            <svg viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.5 7.5 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+            </svg>
+          </a>
+        </div>
+
+        <section class="hero">
+          <h1>Hi 👋 Pick a game</h1>
+        </section>
+
+        <section id="gamesGrid" class="games-grid"></section>
+      </main>
+
+      <section id="player" class="player" aria-label="Game player">
+        <div id="topTrigger" class="top-trigger" aria-hidden="true"></div>
+        <div id="playerTop" class="player-top">
+          <button id="backBtn" class="ghost-btn" type="button">← Back to Games</button>
+          <button id="fsBtn" class="ghost-btn" type="button">Fullscreen</button>
+          <div id="playerTitle" class="player-title"></div>
+        </div>
         <iframe id="gameFrame" allow="fullscreen; autoplay"></iframe>
-        <div id="error" class="error"></div>
-      </div>
+      </section>
     </div>
 
     <script>
+      function setDynamicVh() {
+        document.documentElement.style.setProperty('--app-vh', `${window.innerHeight}px`);
+      }
+
+      function debounce(fn, wait = 120) {
+        let t;
+        return (...args) => {
+          clearTimeout(t);
+          t = setTimeout(() => fn(...args), wait);
+        };
+      }
+
+      const setDynamicVhDebounced = debounce(setDynamicVh, 120);
+      setDynamicVh();
+      window.addEventListener('resize', setDynamicVhDebounced);
+      window.addEventListener('orientationchange', setDynamicVhDebounced);
+
+      const MULY_BEAR_ICON = `
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <circle cx="28" cy="28" r="14" fill="#7C3AED" />
+          <circle cx="28" cy="28" r="8" fill="#F472B6" />
+          <circle cx="72" cy="28" r="14" fill="#7C3AED" />
+          <circle cx="72" cy="28" r="8" fill="#F472B6" />
+          <circle cx="50" cy="55" r="34" fill="#8B5CF6" />
+          <circle cx="38" cy="48" r="5" fill="#1E1B4B" />
+          <circle cx="62" cy="48" r="5" fill="#1E1B4B" />
+          <circle cx="40" cy="46" r="1.5" fill="#FFFFFF" />
+          <circle cx="64" cy="46" r="1.5" fill="#FFFFFF" />
+          <circle cx="30" cy="58" r="4.5" fill="#F472B6" opacity="0.8" />
+          <circle cx="70" cy="58" r="4.5" fill="#F472B6" opacity="0.8" />
+          <ellipse cx="50" cy="62" rx="14" ry="10" fill="#E0E7FF" />
+          <polygon points="50,58 45,54 55,54" fill="#1E1B4B" />
+          <path d="M 44,62 Q 50,68 56,62" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none" />
+          <polygon points="50,15 75,22 50,29 25,22" fill="#38BDF8" />
+          <polygon points="40,26 40,36 60,36 60,26" fill="#0284C7" />
+          <line x1="75" y1="22" x2="75" y2="34" stroke="#FBBF24" stroke-width="2" />
+          <circle cx="75" cy="34" r="3" fill="#FBBF24" />
+        </svg>
+      `;
+
       const games = [
-        { id: 'mully', label: 'Mully', src: './mully/index.html' },
+        {
+          id: 'mully',
+          title: 'Mully Multiplication',
+          icon: MULY_BEAR_ICON,
+          description: 'Practice multiplication with fun puzzles and colorful feedback!',
+          src: './mully/index.html'
+        }
       ];
 
-      const select = document.getElementById('gameSelect');
+      const home = document.getElementById('home');
+      const grid = document.getElementById('gamesGrid');
+      const player = document.getElementById('player');
       const frame = document.getElementById('gameFrame');
-      const error = document.getElementById('error');
+      const backBtn = document.getElementById('backBtn');
       const fsBtn = document.getElementById('fsBtn');
-      const menu = document.getElementById('menu');
-      const menuToggle = document.getElementById('menuToggle');
-      const edgeZone = document.getElementById('edgeZone');
-      const backdrop = document.getElementById('backdrop');
+      const playerTitle = document.getElementById('playerTitle');
+      const topTrigger = document.getElementById('topTrigger');
+      const playerTop = document.getElementById('playerTop');
 
-      let hideTimer;
-      let bubbleTimer;
+      let navHideTimer;
 
-      function getInitialGameId() {
-        const byQuery = new URLSearchParams(location.search).get('game');
-        const byHash = location.hash?.replace('#', '');
-        const saved = localStorage.getItem('mini-games:last');
-        return byQuery || byHash || saved || games[0]?.id;
-      }
-
-      function setError(msg) {
-        error.textContent = msg;
-        error.classList.add('show');
-      }
-
-      function clearError() {
-        error.textContent = '';
-        error.classList.remove('show');
-      }
-
-      function openMenu() {
-        menu.classList.add('open');
-        backdrop.classList.add('show');
-        queueAutoHide();
-      }
-
-      function closeMenu() {
-        menu.classList.remove('open');
-        backdrop.classList.remove('show');
-        clearTimeout(hideTimer);
-      }
-
-      function revealBubble(ms = 1200) {
-        edgeZone.classList.add('reveal');
-        clearTimeout(bubbleTimer);
-        bubbleTimer = setTimeout(() => {
-          edgeZone.classList.remove('reveal');
-        }, ms);
-      }
-
-      function queueAutoHide(ms = 2500) {
-        clearTimeout(hideTimer);
-        hideTimer = setTimeout(closeMenu, ms);
-      }
-
-      function loadGame(gameId) {
-        const game = games.find(g => g.id === gameId) || games[0];
-        if (!game) {
-          setError('No games configured yet. Add one to the games array in index.html.');
+      function renderGames() {
+        if (!games.length) {
+          grid.innerHTML = '<div class="empty">No games yet. Add one in the <code>games</code> array in <code>index.html</code>.</div>';
           return;
         }
 
-        select.value = game.id;
-        localStorage.setItem('mini-games:last', game.id);
-        history.replaceState(null, '', `?game=${encodeURIComponent(game.id)}`);
-        clearError();
+        grid.innerHTML = games.map((g, i) => `
+          <article class="game-card c${(i % 4) + 1}" data-game-id="${g.id}" role="button" tabindex="0" aria-label="Play ${g.title}">
+            <div class="game-emoji">${g.icon || g.emoji || '🕹️'}</div>
+            <h2 class="game-title">${g.title}</h2>
+          </article>
+        `).join('');
+
+        grid.querySelectorAll('.game-card').forEach(card => {
+          card.addEventListener('click', () => {
+            card.classList.add('tap-pop');
+            setTimeout(() => openGame(card.dataset.gameId), 90);
+            setTimeout(() => card.classList.remove('tap-pop'), 220);
+          });
+
+          card.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              card.classList.add('tap-pop');
+              setTimeout(() => openGame(card.dataset.gameId), 90);
+              setTimeout(() => card.classList.remove('tap-pop'), 220);
+            }
+          });
+        });
+      }
+
+      function showNav(ms = 2200) {
+        clearTimeout(navHideTimer);
+        player.classList.add('nav-visible');
+        navHideTimer = setTimeout(() => {
+          player.classList.remove('nav-visible');
+        }, ms);
+      }
+
+      function hideNavSoon(ms = 180) {
+        clearTimeout(navHideTimer);
+        navHideTimer = setTimeout(() => {
+          player.classList.remove('nav-visible');
+        }, ms);
+      }
+
+      function openGame(id) {
+        const game = games.find(g => g.id === id);
+        if (!game) return;
+
         frame.src = game.src;
+        playerTitle.textContent = `${game.emoji || '🎮'} ${game.title}`;
+        player.classList.add('show');
+        document.getElementById('app').classList.add('in-game');
+        home.style.display = 'none';
+        history.replaceState(null, '', `?game=${encodeURIComponent(game.id)}`);
+        showNav(1200);
       }
 
-      function initSelect() {
-        games.forEach(g => {
-          const opt = document.createElement('option');
-          opt.value = g.id;
-          opt.textContent = g.label;
-          select.appendChild(opt);
-        });
-
-        select.addEventListener('change', e => {
-          loadGame(e.target.value);
-          closeMenu();
-        });
+      function closeGame() {
+        clearTimeout(navHideTimer);
+        player.classList.remove('show');
+        player.classList.remove('nav-visible');
+        document.getElementById('app').classList.remove('in-game');
+        home.style.display = '';
+        frame.src = 'about:blank';
+        history.replaceState(null, '', './');
       }
 
-      menuToggle.addEventListener('click', () => {
-        if (menu.classList.contains('open')) closeMenu();
-        else openMenu();
-      });
-
-      edgeZone.addEventListener('mouseenter', () => revealBubble(1800));
-      edgeZone.addEventListener('touchstart', () => revealBubble(1800), { passive: true });
-
-      backdrop.addEventListener('click', closeMenu);
-      menu.addEventListener('mouseenter', () => clearTimeout(hideTimer));
-      menu.addEventListener('mouseleave', () => queueAutoHide(800));
-      menu.addEventListener('mousemove', () => queueAutoHide());
-
-      fsBtn.addEventListener('click', async () => {
+      async function toggleFullscreen() {
         const root = document.documentElement;
         if (!document.fullscreenElement) await root.requestFullscreen?.();
         else await document.exitFullscreen?.();
-        queueAutoHide(1000);
+      }
+
+      function initFromUrl() {
+        const byQuery = new URLSearchParams(location.search).get('game');
+        if (byQuery) openGame(byQuery);
+      }
+
+      backBtn.addEventListener('click', closeGame);
+      fsBtn.addEventListener('click', () => {
+        toggleFullscreen();
+        showNav(1200);
       });
 
-      frame.addEventListener('error', () => {
-        setError('Could not load the selected game. Check the game path in index.html.');
-      });
+      topTrigger.addEventListener('mouseenter', () => showNav());
+      topTrigger.addEventListener('mousemove', () => showNav());
+      topTrigger.addEventListener('mouseleave', () => hideNavSoon());
+      topTrigger.addEventListener('touchstart', () => showNav(), { passive: true });
+      topTrigger.addEventListener('touchend', () => hideNavSoon(120), { passive: true });
+      topTrigger.addEventListener('touchcancel', () => hideNavSoon(120), { passive: true });
 
-      initSelect();
-      loadGame(getInitialGameId());
-      queueAutoHide(10); // start hidden
+      playerTop.addEventListener('mouseenter', () => showNav());
+      playerTop.addEventListener('mousemove', () => showNav());
+      playerTop.addEventListener('mouseleave', () => hideNavSoon());
+      playerTop.addEventListener('touchstart', () => showNav(), { passive: true });
+      playerTop.addEventListener('touchend', () => hideNavSoon(120), { passive: true });
+      playerTop.addEventListener('touchcancel', () => hideNavSoon(120), { passive: true });
+
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('./sw.js').catch(console.error);
+        });
+      }
+
+      renderGames();
+      initFromUrl();
     </script>
   </body>
 </html>

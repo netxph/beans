@@ -1,0 +1,20 @@
+{
+  "name": "Beans Kids Arcade",
+  "short_name": "Kids Arcade",
+  "description": "Play mini learning games in a kid-friendly jungle arcade.",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#7bb48b",
+  "theme_color": "#4f8f66",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "./images/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

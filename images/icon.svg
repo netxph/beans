@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#86c79b"/>
+      <stop offset="100%" stop-color="#5ea975"/>
+    </linearGradient>
+    <linearGradient id="leaf" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#d7f3de"/>
+      <stop offset="100%" stop-color="#9fddb1"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="512" height="512" rx="110" fill="url(#bg)"/>
+  <circle cx="398" cy="102" r="68" fill="#d6f1de" opacity="0.35"/>
+  <circle cx="120" cy="430" r="92" fill="#d6f1de" opacity="0.3"/>
+
+  <path d="M94 370 C146 315, 215 285, 276 292 C240 353, 172 392, 104 394 Z" fill="url(#leaf)"/>
+  <path d="M424 390 C386 322, 320 280, 246 284 C287 356, 352 404, 417 405 Z" fill="#c7eccf"/>
+
+  <text x="256" y="245" text-anchor="middle" font-size="170" font-family="Segoe UI Emoji, Apple Color Emoji, Noto Color Emoji">🦜</text>
+  <text x="256" y="330" text-anchor="middle" font-size="86" font-weight="800" fill="#1f3b2d" font-family="Nunito, Arial, sans-serif">PLAY</text>
+</svg>
