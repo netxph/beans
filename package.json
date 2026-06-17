@@ -1,0 +1,12 @@
+{
+  "name": "beans",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Mini games local host",
+  "scripts": {
+    "start": "bun scripts/serve-local.mjs",
+    "debug": "bun --inspect-wait scripts/serve-local.mjs",
+    "dev": "bun run start",
+    "dev:debug": "bun run debug"
+  }
+}

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Mully</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      html, body, #root { width: 100%; height: 100%; margin: 0; }
+      body { background: #0f172a; }
+      .boot {
+        position: fixed;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        color: #e2e8f0;
+        font-family: system-ui, sans-serif;
+      }
+      .boot-card {
+        background: #111827;
+        border: 1px solid rgba(255,255,255,.12);
+        border-radius: 12px;
+        padding: 12px 14px;
+        font-size: 14px;
+      }
+      .err { color: #fecaca; white-space: pre-wrap; max-width: min(90vw, 900px); }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <div id="boot" class="boot"><div class="boot-card">Loading Mully…</div></div>
+
+    <script type="module">
+      const boot = document.getElementById('boot');
+
+      function hideBoot() {
+        if (boot) boot.style.display = 'none';
+      }
+
+      function showError(message) {
+        if (!boot) return;
+        boot.innerHTML = `<div class="boot-card err">${message}</div>`;
+      }
+
+      try {
+        const res = await fetch('./mully.jsx');
+        if (!res.ok) throw new Error(`Could not load ./mully.jsx (${res.status})`);
+
+        let src = await res.text();
+
+        // Rewrite bare imports to browser-resolvable ESM URLs.
+        // Pin exact versions so React + ReactDOM + lucide-react share one React instance.
+        const REACT_URL = "https://esm.sh/react@18.2.0?dev";
+        const REACT_DOM_CLIENT_URL = "https://esm.sh/react-dom@18.2.0/client?dev&deps=react@18.2.0";
+        const LUCIDE_URL = "https://esm.sh/lucide-react@0.453.0?dev&deps=react@18.2.0";
+
+        src = src
+          .replace(/from\s+['"]react['"]/g, `from '${REACT_URL}'`)
+          .replace(/from\s+['"]react-dom\/client['"]/g, `from '${REACT_DOM_CLIENT_URL}'`)
+          .replace(/from\s+['"]lucide-react['"]/g, `from '${LUCIDE_URL}'`);
+
+        // Convert default export to local function so we can mount it.
+        src = src.replace('export default function App()', 'function App()');
+
+        const transformed = Babel.transform(src, {
+          presets: [['react', { runtime: 'classic' }]],
+          sourceType: 'module'
+        }).code;
+
+        const runtime = `\n\nimport { createRoot } from '${REACT_DOM_CLIENT_URL}';\nconst root = createRoot(document.getElementById('root'));\nroot.render(React.createElement(App));`;
+
+        const blob = new Blob([transformed + runtime], { type: 'text/javascript' });
+        const url = URL.createObjectURL(blob);
+
+        await import(url);
+        URL.revokeObjectURL(url);
+        hideBoot();
+      } catch (err) {
+        console.error(err);
+        showError(`Failed to load Mully.\n\n${err?.stack || err}`);
+      }
+    </script>
+  </body>
+</html>

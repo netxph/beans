@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Mini Games Hub</title>
+    <style>
+      :root {
+        --bg: #0b1020;
+        --panel: #121a2e;
+        --text: #e8ecff;
+        --muted: #9aa6d1;
+        --accent: #6ea8ff;
+      }
+
+      * { box-sizing: border-box; }
+
+      html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+        overflow: hidden;
+      }
+
+      #app, .stage {
+        width: 100%;
+        height: 100%;
+      }
+
+      .stage { position: relative; }
+
+      iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        display: block;
+        background: #000;
+      }
+
+      .edge-zone {
+        position: fixed;
+        inset: 0 0 0 auto;
+        width: 8px;
+        height: 100dvh;
+        z-index: 38;
+        touch-action: none;
+      }
+
+      .edge-bubble {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translate(calc(100% + 2px), -50%);
+        transition: transform 180ms ease, opacity 180ms ease;
+        opacity: 0;
+        background: #1a2544;
+        color: var(--text);
+        border: 1px solid rgba(255,255,255,0.2);
+        border-right: 0;
+        border-radius: 12px 0 0 12px;
+        padding: 0.6rem 0.45rem;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+        writing-mode: vertical-rl;
+        text-orientation: upright;
+        letter-spacing: 0.12rem;
+      }
+
+      .edge-zone:hover .edge-bubble,
+      .edge-zone.reveal .edge-bubble,
+      .edge-bubble:focus-visible {
+        transform: translate(0, -50%);
+        opacity: 1;
+      }
+
+      .menu {
+        position: fixed;
+        inset: 0 0 0 auto;
+        width: min(320px, 88vw);
+        background: linear-gradient(180deg, rgba(18,26,46,0.98), rgba(18,26,46,0.94));
+        border-left: 1px solid rgba(255,255,255,0.1);
+        backdrop-filter: blur(8px);
+        transform: translateX(102%);
+        transition: transform 220ms ease;
+        z-index: 40;
+        padding: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) 1rem 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.9rem;
+      }
+
+      .menu.open { transform: translateX(0); }
+
+      .menu-title {
+        font-weight: 800;
+        letter-spacing: .2px;
+      }
+
+      .menu-sub {
+        color: var(--muted);
+        font-size: 0.84rem;
+      }
+
+      select, .menu button {
+        width: 100%;
+        background: #1a2544;
+        color: var(--text);
+        border: 1px solid rgba(255,255,255,0.15);
+        border-radius: 10px;
+        padding: 0.62rem 0.72rem;
+        font-weight: 600;
+      }
+
+      .menu button { cursor: pointer; }
+      .menu button:hover, select:hover { border-color: var(--accent); }
+
+      .backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.35);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 220ms ease;
+        z-index: 35;
+      }
+
+      .backdrop.show {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .error {
+        display: none;
+        position: absolute;
+        inset: 0;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 1rem;
+        color: #ffd7d7;
+        background: rgba(100, 0, 0, 0.35);
+      }
+
+      .error.show { display: flex; }
+    </style>
+  </head>
+  <body>
+    <div id="edgeZone" class="edge-zone" aria-hidden="false">
+      <button id="menuToggle" class="edge-bubble" aria-label="Open game menu">Games</button>
+    </div>
+
+    <aside id="menu" class="menu" aria-label="Game menu">
+      <div class="menu-title">🎮 Mini Games Hub</div>
+      <div class="menu-sub">Pick game, fullscreen, then menu auto-hides.</div>
+      <select id="gameSelect" aria-label="Select game"></select>
+      <button id="fsBtn" type="button">Fullscreen</button>
+    </aside>
+
+    <div id="backdrop" class="backdrop"></div>
+
+    <div id="app">
+      <div class="stage">
+        <iframe id="gameFrame" allow="fullscreen; autoplay"></iframe>
+        <div id="error" class="error"></div>
+      </div>
+    </div>
+
+    <script>
+      const games = [
+        { id: 'mully', label: 'Mully', src: './mully/index.html' },
+      ];
+
+      const select = document.getElementById('gameSelect');
+      const frame = document.getElementById('gameFrame');
+      const error = document.getElementById('error');
+      const fsBtn = document.getElementById('fsBtn');
+      const menu = document.getElementById('menu');
+      const menuToggle = document.getElementById('menuToggle');
+      const edgeZone = document.getElementById('edgeZone');
+      const backdrop = document.getElementById('backdrop');
+
+      let hideTimer;
+      let bubbleTimer;
+
+      function getInitialGameId() {
+        const byQuery = new URLSearchParams(location.search).get('game');
+        const byHash = location.hash?.replace('#', '');
+        const saved = localStorage.getItem('mini-games:last');
+        return byQuery || byHash || saved || games[0]?.id;
+      }
+
+      function setError(msg) {
+        error.textContent = msg;
+        error.classList.add('show');
+      }
+
+      function clearError() {
+        error.textContent = '';
+        error.classList.remove('show');
+      }
+
+      function openMenu() {
+        menu.classList.add('open');
+        backdrop.classList.add('show');
+        queueAutoHide();
+      }
+
+      function closeMenu() {
+        menu.classList.remove('open');
+        backdrop.classList.remove('show');
+        clearTimeout(hideTimer);
+      }
+
+      function revealBubble(ms = 1200) {
+        edgeZone.classList.add('reveal');
+        clearTimeout(bubbleTimer);
+        bubbleTimer = setTimeout(() => {
+          edgeZone.classList.remove('reveal');
+        }, ms);
+      }
+
+      function queueAutoHide(ms = 2500) {
+        clearTimeout(hideTimer);
+        hideTimer = setTimeout(closeMenu, ms);
+      }
+
+      function loadGame(gameId) {
+        const game = games.find(g => g.id === gameId) || games[0];
+        if (!game) {
+          setError('No games configured yet. Add one to the games array in index.html.');
+          return;
+        }
+
+        select.value = game.id;
+        localStorage.setItem('mini-games:last', game.id);
+        history.replaceState(null, '', `?game=${encodeURIComponent(game.id)}`);
+        clearError();
+        frame.src = game.src;
+      }
+
+      function initSelect() {
+        games.forEach(g => {
+          const opt = document.createElement('option');
+          opt.value = g.id;
+          opt.textContent = g.label;
+          select.appendChild(opt);
+        });
+
+        select.addEventListener('change', e => {
+          loadGame(e.target.value);
+          closeMenu();
+        });
+      }
+
+      menuToggle.addEventListener('click', () => {
+        if (menu.classList.contains('open')) closeMenu();
+        else openMenu();
+      });
+
+      edgeZone.addEventListener('mouseenter', () => revealBubble(1800));
+      edgeZone.addEventListener('touchstart', () => revealBubble(1800), { passive: true });
+
+      backdrop.addEventListener('click', closeMenu);
+      menu.addEventListener('mouseenter', () => clearTimeout(hideTimer));
+      menu.addEventListener('mouseleave', () => queueAutoHide(800));
+      menu.addEventListener('mousemove', () => queueAutoHide());
+
+      fsBtn.addEventListener('click', async () => {
+        const root = document.documentElement;
+        if (!document.fullscreenElement) await root.requestFullscreen?.();
+        else await document.exitFullscreen?.();
+        queueAutoHide(1000);
+      });
+
+      frame.addEventListener('error', () => {
+        setError('Could not load the selected game. Check the game path in index.html.');
+      });
+
+      initSelect();
+      loadGame(getInitialGameId());
+      queueAutoHide(10); // start hidden
+    </script>
+  </body>
+</html>
