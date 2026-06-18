@@ -203,73 +203,80 @@
       .games-grid {
         margin-top: .9rem;
         display: grid;
-        gap: .72rem;
+        gap: 1rem .72rem;
         justify-content: start;
-        grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(102px, 1fr));
       }
 
       .game-card {
         width: 100%;
-        aspect-ratio: 1 / 1;
-        border-radius: 28px;
-        padding: .62rem;
-        border: 2px solid rgba(255,255,255,.8);
-        box-shadow: 0 10px 18px rgba(27, 61, 89, 0.18), inset 0 1px 0 rgba(255,255,255,.55);
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
-        transition: transform .15s ease, box-shadow .15s ease;
-        position: relative;
-        overflow: hidden;
+        align-items: center;
+        gap: .45rem;
+        border: 0;
+        background: transparent;
         cursor: pointer;
         -webkit-tap-highlight-color: transparent;
+        transition: transform .15s ease;
       }
 
-      .game-card::before {
+      .game-icon-box {
+        width: min(100%, 96px);
+        aspect-ratio: 1 / 1;
+        border-radius: 24px;
+        border: 2px solid rgba(255,255,255,.82);
+        box-shadow: 0 10px 18px rgba(27, 61, 89, 0.18), inset 0 1px 0 rgba(255,255,255,.55);
+        position: relative;
+        overflow: hidden;
+        transition: transform .15s ease, box-shadow .15s ease;
+      }
+
+      .game-icon-box::before {
         content: "";
         position: absolute;
-        left: 10px;
-        right: 10px;
-        top: 8px;
+        left: 9px;
+        right: 9px;
+        top: 7px;
         height: 30%;
         border-radius: 999px;
         background: linear-gradient(180deg, rgba(255,255,255,.38), rgba(255,255,255,0));
         pointer-events: none;
       }
 
-      .game-card::after {
+      .game-icon-box::after {
         content: "";
         position: absolute;
-        right: -22px;
-        bottom: -22px;
-        width: 86px;
-        height: 86px;
+        right: -20px;
+        bottom: -20px;
+        width: 84px;
+        height: 84px;
         border-radius: 999px;
         background: rgba(255,255,255,.2);
         z-index: 0;
       }
 
-      .game-card > * {
+      .game-icon-box > * {
         position: relative;
         z-index: 1;
       }
 
-      .game-card.c1 { background: linear-gradient(180deg, #9be2b6, #7ecd9c); }
-      .game-card.c2 { background: linear-gradient(180deg, #f7d48a, #edbf64); }
-      .game-card.c3 { background: linear-gradient(180deg, #9fd9d0, #7ec3b8); }
-      .game-card.c4 { background: linear-gradient(180deg, #e5c78f, #d6ad6d); }
+      .game-card.c1 .game-icon-box { background: linear-gradient(180deg, #9be2b6, #7ecd9c); }
+      .game-card.c2 .game-icon-box { background: linear-gradient(180deg, #f7d48a, #edbf64); }
+      .game-card.c3 .game-icon-box { background: linear-gradient(180deg, #9fd9d0, #7ec3b8); }
+      .game-card.c4 .game-icon-box { background: linear-gradient(180deg, #e5c78f, #d6ad6d); }
 
-      .game-card:hover {
+      .game-card:hover .game-icon-box {
         transform: translateY(-2px);
         box-shadow: 0 14px 24px rgba(27, 61, 89, 0.22), inset 0 1px 0 rgba(255,255,255,.55);
       }
 
-      .game-card:active {
+      .game-card:active .game-icon-box {
         transform: scale(.96);
         box-shadow: 0 7px 12px rgba(27, 61, 89, 0.2), inset 0 1px 0 rgba(255,255,255,.45);
       }
 
-      .game-card.tap-pop {
+      .game-card.tap-pop .game-icon-box {
         animation: tapPop .22s ease;
       }
 
@@ -280,16 +287,12 @@
       }
 
       .game-emoji {
-        width: 88px;
-        height: 88px;
-        margin: .05rem auto 0;
-        border-radius: 22px;
+        width: 100%;
+        height: 100%;
+        border-radius: inherit;
         display: grid;
         place-items: center;
         font-size: 2.6rem;
-        background: rgba(255,255,255,.72);
-        border: 2px solid rgba(255,255,255,.9);
-        box-shadow: inset 0 1px 0 rgba(255,255,255,.8);
         overflow: hidden;
       }
 
@@ -302,13 +305,25 @@
       .game-title {
         margin: 0;
         text-align: center;
-        font-size: .86rem;
+        font-size: .82rem;
         font-weight: 800;
         line-height: 1.15;
-        color: #1f3b2d;
+        color: #ffffff;
+        background: rgba(18, 50, 36, .62);
+        border: 1px solid rgba(255,255,255,.26);
+        border-radius: 999px;
+        padding: .22rem .52rem;
+        text-shadow: 0 1px 2px rgba(0,0,0,.5);
+        box-shadow: 0 4px 10px rgba(0,0,0,.16);
+        backdrop-filter: blur(2px);
+        -webkit-backdrop-filter: blur(2px);
       }
 
       .game-card:focus-visible {
+        outline: none;
+      }
+
+      .game-card:focus-visible .game-icon-box {
         outline: 3px solid rgba(255,255,255,.95);
         outline-offset: 2px;
       }
@@ -535,7 +550,9 @@
 
         grid.innerHTML = games.map((g, i) => `
           <article class="game-card c${(i % 4) + 1}" data-game-id="${g.id}" role="button" tabindex="0" aria-label="Play ${g.title}">
-            <div class="game-emoji">${g.icon || g.emoji || '🕹️'}</div>
+            <div class="game-icon-box">
+              <div class="game-emoji">${g.icon || g.emoji || '🕹️'}</div>
+            </div>
             <h2 class="game-title">${g.title}</h2>
           </article>
         `).join('');
