@@ -327,6 +327,28 @@
         outline: 3px solid rgba(255,255,255,.95);
         outline-offset: 2px;
       }
+
+      @media (max-width: 480px) {
+        .games-grid {
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: .75rem .45rem;
+        }
+
+        .game-icon-box {
+          width: min(100%, 72px);
+          border-radius: 18px;
+        }
+
+        .game-emoji {
+          font-size: 2rem;
+        }
+
+        .game-title {
+          font-size: .72rem;
+          padding: .18rem .4rem;
+        }
+      }
+
       .player {
         position: fixed;
         inset: 0;
