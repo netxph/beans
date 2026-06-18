@@ -144,40 +144,30 @@
         <!-- Math Answer & Targeting display -->
         <div class="bg-emerald-950 border-t-4 border-emerald-900 p-3 flex flex-col items-center space-y-2.5 z-10 shadow-2xl">
             
-            <!-- Targeting indicator displaying typed input -->
-            <div id="target-lock-bar" class="w-full flex items-center justify-between px-4 py-2 bg-slate-950/80 rounded-xl border border-emerald-800 max-w-sm">
-                <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest jungle-font">CROAKY'S ANSWER:</span>
-                <div class="flex items-center space-x-2">
-                    <span id="answer-preview" class="text-2xl font-black tracking-widest text-yellow-300 min-h-[36px] min-w-[70px] flex items-center justify-center bg-emerald-950/80 px-4 py-0.5 rounded-lg border border-emerald-700">
-                        <!-- Number displays here -->
-                    </span>
-                </div>
-            </div>
 
-            <!-- Single-Line Kids Mobile-Friendly Number Pad -->
-            <div class="w-full max-w-2xl px-1">
-                <div class="grid grid-cols-12 gap-1 md:gap-2">
-                    <button onclick="pressKey('1')" class="key-btn col-span-1 h-12 md:h-14 flex items-center justify-center bg-emerald-900/40 border border-emerald-700 hover:bg-emerald-800 text-white text-lg md:text-xl font-extrabold rounded-xl shadow transition-transform duration-75">1</button>
-                    <button onclick="pressKey('2')" class="key-btn col-span-1 h-12 md:h-14 flex items-center justify-center bg-emerald-900/40 border border-emerald-700 hover:bg-emerald-800 text-white text-lg md:text-xl font-extrabold rounded-xl shadow transition-transform duration-75">2</button>
-                    <button onclick="pressKey('3')" class="key-btn col-span-1 h-12 md:h-14 flex items-center justify-center bg-emerald-900/40 border border-emerald-700 hover:bg-emerald-800 text-white text-lg md:text-xl font-extrabold rounded-xl shadow transition-transform duration-75">3</button>
-                    <button onclick="pressKey('4')" class="key-btn col-span-1 h-12 md:h-14 flex items-center justify-center bg-emerald-900/40 border border-emerald-700 hover:bg-emerald-800 text-white text-lg md:text-xl font-extrabold rounded-xl shadow transition-transform duration-75">4</button>
-                    <button onclick="pressKey('5')" class="key-btn col-span-1 h-12 md:h-14 flex items-center justify-center bg-emerald-900/40 border border-emerald-700 hover:bg-emerald-800 text-white text-lg md:text-xl font-extrabold rounded-xl shadow transition-transform duration-75">5</button>
-                    <button onclick="pressKey('6')" class="key-btn col-span-1 h-12 md:h-14 flex items-center justify-center bg-emerald-900/40 border border-emerald-700 hover:bg-emerald-800 text-white text-lg md:text-xl font-extrabold rounded-xl shadow transition-transform duration-75">6</button>
-                    <button onclick="pressKey('7')" class="key-btn col-span-1 h-12 md:h-14 flex items-center justify-center bg-emerald-900/40 border border-emerald-700 hover:bg-emerald-800 text-white text-lg md:text-xl font-extrabold rounded-xl shadow transition-transform duration-75">7</button>
-                    <button onclick="pressKey('8')" class="key-btn col-span-1 h-12 md:h-14 flex items-center justify-center bg-emerald-900/40 border border-emerald-700 hover:bg-emerald-800 text-white text-lg md:text-xl font-extrabold rounded-xl shadow transition-transform duration-75">8</button>
-                    <button onclick="pressKey('9')" class="key-btn col-span-1 h-12 md:h-14 flex items-center justify-center bg-emerald-900/40 border border-emerald-700 hover:bg-emerald-800 text-white text-lg md:text-xl font-extrabold rounded-xl shadow transition-transform duration-75">9</button>
-                    <button onclick="pressKey('0')" class="key-btn col-span-1 h-12 md:h-14 flex items-center justify-center bg-emerald-900/40 border border-emerald-700 hover:bg-emerald-800 text-white text-lg md:text-xl font-extrabold rounded-xl shadow transition-transform duration-75">0</button>
-                    
-                    <!-- Backspace Key -->
-                    <button onclick="pressKey('backspace')" class="key-btn col-span-1 h-12 md:h-14 flex items-center justify-center bg-yellow-600 border border-yellow-500 hover:bg-yellow-500 text-white font-extrabold rounded-xl shadow transition-transform duration-75" title="Backspace">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <!-- Standard calculator-style keypad -->
+            <div class="w-full max-w-md px-1">
+                <div class="grid grid-cols-3 gap-2">
+                    <button onclick="pressKey('7')" class="key-btn h-14 sm:h-16 flex items-center justify-center bg-emerald-900/40 border border-emerald-700 hover:bg-emerald-800 text-white text-xl sm:text-2xl font-extrabold rounded-2xl shadow transition-transform duration-75">7</button>
+                    <button onclick="pressKey('8')" class="key-btn h-14 sm:h-16 flex items-center justify-center bg-emerald-900/40 border border-emerald-700 hover:bg-emerald-800 text-white text-xl sm:text-2xl font-extrabold rounded-2xl shadow transition-transform duration-75">8</button>
+                    <button onclick="pressKey('9')" class="key-btn h-14 sm:h-16 flex items-center justify-center bg-emerald-900/40 border border-emerald-700 hover:bg-emerald-800 text-white text-xl sm:text-2xl font-extrabold rounded-2xl shadow transition-transform duration-75">9</button>
+
+                    <button onclick="pressKey('4')" class="key-btn h-14 sm:h-16 flex items-center justify-center bg-emerald-900/40 border border-emerald-700 hover:bg-emerald-800 text-white text-xl sm:text-2xl font-extrabold rounded-2xl shadow transition-transform duration-75">4</button>
+                    <button onclick="pressKey('5')" class="key-btn h-14 sm:h-16 flex items-center justify-center bg-emerald-900/40 border border-emerald-700 hover:bg-emerald-800 text-white text-xl sm:text-2xl font-extrabold rounded-2xl shadow transition-transform duration-75">5</button>
+                    <button onclick="pressKey('6')" class="key-btn h-14 sm:h-16 flex items-center justify-center bg-emerald-900/40 border border-emerald-700 hover:bg-emerald-800 text-white text-xl sm:text-2xl font-extrabold rounded-2xl shadow transition-transform duration-75">6</button>
+
+                    <button onclick="pressKey('1')" class="key-btn h-14 sm:h-16 flex items-center justify-center bg-emerald-900/40 border border-emerald-700 hover:bg-emerald-800 text-white text-xl sm:text-2xl font-extrabold rounded-2xl shadow transition-transform duration-75">1</button>
+                    <button onclick="pressKey('2')" class="key-btn h-14 sm:h-16 flex items-center justify-center bg-emerald-900/40 border border-emerald-700 hover:bg-emerald-800 text-white text-xl sm:text-2xl font-extrabold rounded-2xl shadow transition-transform duration-75">2</button>
+                    <button onclick="pressKey('3')" class="key-btn h-14 sm:h-16 flex items-center justify-center bg-emerald-900/40 border border-emerald-700 hover:bg-emerald-800 text-white text-xl sm:text-2xl font-extrabold rounded-2xl shadow transition-transform duration-75">3</button>
+
+                    <button onclick="pressKey('backspace')" class="key-btn h-14 sm:h-16 flex items-center justify-center bg-yellow-600 border border-yellow-500 hover:bg-yellow-500 text-white font-extrabold rounded-2xl shadow transition-transform duration-75" title="Backspace">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2M3 12l6.414 6.414A2 2 0 0010.828 19H20a2 2 0 002-2V7a2 2 0 00-2-2h-9.172a2 2 0 00-1.414.586L3 12z" />
                         </svg>
                     </button>
-                    
-                    <!-- Bubble Shoot Button -->
-                    <button onclick="pressKey('fire')" class="key-btn col-span-1 h-12 md:h-14 flex items-center justify-center bg-gradient-to-r from-emerald-500 to-green-500 border border-emerald-400 hover:from-emerald-400 hover:to-green-400 text-white rounded-xl shadow transition-transform duration-75" title="Shoot Bubble">
-                        <span class="text-2xl">👅</span>
+                    <button onclick="pressKey('0')" class="key-btn h-14 sm:h-16 flex items-center justify-center bg-emerald-900/40 border border-emerald-700 hover:bg-emerald-800 text-white text-xl sm:text-2xl font-extrabold rounded-2xl shadow transition-transform duration-75">0</button>
+                    <button onclick="pressKey('fire')" class="key-btn h-14 sm:h-16 flex items-center justify-center bg-gradient-to-r from-emerald-500 to-green-500 border border-emerald-400 hover:from-emerald-400 hover:to-green-400 text-white rounded-2xl shadow transition-transform duration-75" title="Shoot Bubble">
+                        <span class="text-3xl">👅</span>
                     </button>
                 </div>
             </div>
@@ -279,7 +269,6 @@
         const canvas = document.getElementById('gameCanvas');
         const keyboardCapture = document.getElementById('keyboardCapture');
         const ctx = canvas.getContext('2d');
-        const desktopKeyboardMode = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
         
         let fireflies = [];
         let flies = [];
@@ -298,6 +287,7 @@
         let flySpeed = 0.24; // dynamically increased by stage
         let gameStartTime = 0;
         let scaleFactor = 1;
+        let inputFlashTimer = 0;
 
         // Player frog positioning variables
         let frogX = 0;
@@ -426,23 +416,16 @@
                 audioCtx.resume();
             }
 
-            const targetBar = document.getElementById('target-lock-bar');
-            
             if (key === 'backspace') {
                 currentInput = currentInput.slice(0, -1);
             } else if (key === 'fire') {
                 submitAnswer();
-            } else {
-                if (currentInput.length < 4) {
-                    currentInput += key;
-                }
+            } else if (currentInput.length < 4) {
+                currentInput += key;
             }
-            
-            // Update preview HUD
-            const previewEl = document.getElementById('answer-preview');
-            previewEl.textContent = currentInput;
-            
-            targetBar.classList.remove('shake-element');
+
+            // Clear wrong-answer flash once player continues typing.
+            inputFlashTimer = 0;
         }
 
         // Submit typed calculation
@@ -487,23 +470,15 @@
                 
                 playSound('bubble');
                 currentInput = '';
-                document.getElementById('answer-preview').textContent = '';
             } else {
-                // Incorrect vibration and sound
-                const targetBar = document.getElementById('target-lock-bar');
-                targetBar.classList.add('shake-element');
+                // Incorrect answer feedback on in-canvas input badge
+                inputFlashTimer = 12;
                 playSound('error');
-                
-                const previewEl = document.getElementById('answer-preview');
-                previewEl.classList.add('text-red-500');
-                setTimeout(() => {
-                    previewEl.classList.remove('text-red-500');
-                }, 250);
             }
         }
 
         function focusKeyboardCapture() {
-            if (!desktopKeyboardMode || !gameActive) return;
+            if (!gameActive) return;
             keyboardCapture.value = '';
             keyboardCapture.focus({ preventScroll: true });
         }
@@ -563,14 +538,33 @@
             focusKeyboardCapture();
         });
 
+        function restoreKeyboardFocus() {
+            if (!gameActive || document.hidden) return;
+            canvas.focus({ preventScroll: true });
+            focusKeyboardCapture();
+
+            // Retry once because tab/window focus can settle asynchronously.
+            setTimeout(() => {
+                if (!gameActive || document.hidden) return;
+                canvas.focus({ preventScroll: true });
+                focusKeyboardCapture();
+            }, 60);
+        }
+
         canvas.addEventListener('pointerdown', () => {
-            canvas.focus();
+            canvas.focus({ preventScroll: true });
             focusKeyboardCapture();
         });
 
         window.addEventListener('pointerdown', () => {
             focusKeyboardCapture();
         }, { passive: true });
+
+        window.addEventListener('focus', restoreKeyboardFocus);
+        window.addEventListener('pageshow', restoreKeyboardFocus);
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) restoreKeyboardFocus();
+        });
 
         // Procedurally draw the fly
         function drawFly(ctx, x, y, size, color) {
@@ -868,6 +862,23 @@
                 ctx.shadowBlur = 0;
             });
 
+            // In-canvas typed answer display (replaces external answer bar)
+            const displayInput = currentInput || '•';
+            ctx.font = `900 ${Math.max(20, 18 * scaleFactor)}px 'Fredoka', sans-serif`;
+            const inputTextWidth = ctx.measureText(displayInput).width;
+            const inputY = (height - 70) - 28;
+
+            const flashing = inputFlashTimer > 0;
+            ctx.fillStyle = flashing ? '#fca5a5' : '#fde047';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.shadowColor = 'rgba(0,0,0,.55)';
+            ctx.shadowBlur = 5;
+            ctx.fillText(displayInput, width / 2, inputY);
+            ctx.shadowBlur = 0;
+
+            if (inputFlashTimer > 0) inputFlashTimer--;
+
             // Danger boundary: Brambles / Thorny vine line
             const dangerY = height - 70;
             ctx.strokeStyle = '#b45309'; // warm wood-brown branch
@@ -979,7 +990,7 @@
             document.getElementById('hud-stage').textContent = '1';
             document.getElementById('hud-timer').textContent = '00:00';
             document.getElementById('hud-lives').textContent = '3';
-            document.getElementById('answer-preview').textContent = '';
+            inputFlashTimer = 0;
 
             gameStartTime = Date.now();
             applyStagePacing(gameStartTime);
