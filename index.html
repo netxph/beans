@@ -428,7 +428,7 @@
           <button id="fsBtn" class="ghost-btn" type="button">Fullscreen</button>
           <div id="playerTitle" class="player-title"></div>
         </div>
-        <iframe id="gameFrame" allow="fullscreen; autoplay"></iframe>
+        <iframe id="gameFrame" tabindex="0" allow="fullscreen; autoplay"></iframe>
       </section>
     </div>
 
@@ -473,7 +473,39 @@
         </svg>
       `;
 
+      const CROAKY_FROG_ICON = `
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <ellipse cx="27" cy="76" rx="12" ry="7" fill="#047857" />
+          <ellipse cx="73" cy="76" rx="12" ry="7" fill="#047857" />
+
+          <circle cx="50" cy="57" r="28" fill="#10b981" />
+          <ellipse cx="50" cy="63" rx="17" ry="13" fill="#fef08a" />
+
+          <circle cx="34" cy="35" r="12" fill="#10b981" />
+          <circle cx="66" cy="35" r="12" fill="#10b981" />
+
+          <circle cx="34" cy="35" r="7" fill="#ffffff" />
+          <circle cx="66" cy="35" r="7" fill="#ffffff" />
+
+          <circle cx="34" cy="35" r="3.5" fill="#000000" />
+          <circle cx="66" cy="35" r="3.5" fill="#000000" />
+
+          <circle cx="38" cy="57" r="3" fill="#f43f5e" opacity="0.8" />
+          <circle cx="62" cy="57" r="3" fill="#f43f5e" opacity="0.8" />
+
+          <path d="M 38 63 Q 50 73 62 63" stroke="#047857" stroke-width="3.5" fill="none" stroke-linecap="round" />
+        </svg>
+      `;
+
       const games = [
+        {
+          id: 'flies-invasion',
+          title: 'Flies Invasion',
+          icon: CROAKY_FROG_ICON,
+          emoji: '🐸',
+          description: 'Protect the jungle by solving multiplication and splatting invading flies!',
+          src: './flies-invasion/index.html'
+        },
         {
           id: 'mully',
           title: 'Mully Multiplication',
@@ -552,6 +584,16 @@
         home.style.display = 'none';
         history.replaceState(null, '', `?game=${encodeURIComponent(game.id)}`);
         showNav(1200);
+
+        const focusFrame = () => {
+          try {
+            frame.focus();
+            frame.contentWindow?.focus?.();
+          } catch {}
+        };
+
+        frame.addEventListener('load', focusFrame, { once: true });
+        setTimeout(focusFrame, 120);
       }
 
       function closeGame() {
@@ -594,6 +636,33 @@
       playerTop.addEventListener('touchstart', () => showNav(), { passive: true });
       playerTop.addEventListener('touchend', () => hideNavSoon(120), { passive: true });
       playerTop.addEventListener('touchcancel', () => hideNavSoon(120), { passive: true });
+
+      // Forward desktop keyboard input to iframe game even when iframe focus is unreliable.
+      window.addEventListener('keydown', (e) => {
+        if (!player.classList.contains('show')) return;
+        if (e.altKey || e.ctrlKey || e.metaKey) return;
+
+        const handled = /^[0-9]$/.test(e.key)
+          || /^Numpad[0-9]$/.test(e.code)
+          || e.key === 'Backspace'
+          || e.key === 'Delete'
+          || e.key === 'Enter'
+          || e.code === 'NumpadEnter'
+          || e.key === ' ';
+
+        if (!handled) return;
+
+        try {
+          frame.contentWindow?.postMessage({
+            type: 'beans-key',
+            key: e.key,
+            code: e.code
+          }, window.location.origin);
+        } catch {}
+
+        e.preventDefault();
+        showNav(1200);
+      });
 
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {

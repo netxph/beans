@@ -1,4 +1,4 @@
-const CACHE_NAME = 'beans-kids-arcade-v1';
+const CACHE_NAME = 'beans-kids-arcade-v9';
 const APP_SHELL = [
   './',
   './index.html',
@@ -6,7 +6,9 @@ const APP_SHELL = [
   './images/jungle.png',
   './images/icon.svg',
   './mully/index.html',
-  './mully/mully.jsx'
+  './mully/mully.jsx',
+  './flies-invasion/index.html',
+  './flies-invasion/flies-invasion.jsx'
 ];
 
 self.addEventListener('install', (event) => {
