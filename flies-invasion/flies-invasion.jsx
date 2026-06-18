@@ -88,7 +88,7 @@
         <!-- Interactive Game Window / Canvas -->
         <div class="relative flex-1 w-full bg-emerald-950/50 border-x-4 border-emerald-900 overflow-hidden">
             <canvas id="gameCanvas" tabindex="0" class="w-full h-full block outline-none"></canvas>
-            <input id="keyboardCapture" type="text" inputmode="numeric" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-hidden="true" class="absolute opacity-0 pointer-events-none w-px h-px" />
+            <input id="keyboardCapture" type="text" inputmode="none" readonly autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-hidden="true" class="absolute opacity-0 pointer-events-none w-px h-px" />
 
             <!-- Leafy Vine Overlay Left -->
             <div class="absolute left-1 top-0 vines opacity-30 pointer-events-none select-none text-2xl">🍃🌿</div>
@@ -269,6 +269,15 @@
         const canvas = document.getElementById('gameCanvas');
         const keyboardCapture = document.getElementById('keyboardCapture');
         const ctx = canvas.getContext('2d');
+
+        const hasCoarsePointer = window.matchMedia?.('(pointer: coarse)')?.matches ?? false;
+        const isMobileUA = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent || '');
+        const allowHiddenKeyboardCapture = !(hasCoarsePointer || isMobileUA || navigator.maxTouchPoints > 0);
+
+        if (!allowHiddenKeyboardCapture) {
+            // Keep physical key events on window, but never trigger the soft keyboard.
+            keyboardCapture.blur();
+        }
         
         let fireflies = [];
         let flies = [];
@@ -478,7 +487,10 @@
         }
 
         function focusKeyboardCapture() {
-            if (!gameActive) return;
+            if (!gameActive || !allowHiddenKeyboardCapture) {
+                keyboardCapture.blur();
+                return;
+            }
             keyboardCapture.value = '';
             keyboardCapture.focus({ preventScroll: true });
         }
