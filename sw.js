@@ -1,4 +1,4 @@
-const CACHE_NAME = 'beans-kids-arcade-v9';
+const CACHE_NAME = 'beans-kids-arcade-v10';
 const APP_SHELL = [
   './',
   './index.html',
