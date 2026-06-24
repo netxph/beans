@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inspector Gecko - Wikipedia Mystery Guess Who!</title>
+    <!-- Tailwind CSS for vibrant UI -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Playful Google Font suited for Grade 2 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background-color: #f0fdf4; /* Soft green */
+        }
+        /* Custom bouncy animation for Inspector Gecko */
+        @keyframes gentle-bounce {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(1deg); }
+        }
+        .bouncy-gecko {
+            animation: gentle-bounce 3s ease-in-out infinite;
+        }
+        /* Pulse for glowing elements */
+        @keyframes pulse-glow {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 4px rgba(74, 222, 128, 0.6)); }
+            50% { transform: scale(1.03); filter: drop-shadow(0 0 12px rgba(74, 222, 128, 0.9)); }
+        }
+        .glowing-btn {
+            animation: pulse-glow 2s infinite;
+        }
+        /* Shaking for wrong answers */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
+        .shake-element {
+            animation: shake 0.3s ease-in-out 2;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between overflow-x-hidden text-slate-800">
+
+    <!-- Header bar with Sound Toggle, Score and Reset -->
+    <header class="bg-emerald-600 text-white p-4 shadow-md flex justify-between items-center rounded-b-2xl border-b-4 border-emerald-700">
+        <div class="flex items-center space-x-3">
+            <!-- Mini Gecko Badge -->
+            <div class="w-10 h-10 bg-yellow-300 rounded-full flex items-center justify-center shadow-inner">
+                <span class="text-xl">🦎</span>
+            </div>
+            <div>
+                <h1 class="text-xl md:text-2xl font-bold tracking-wide">Inspector Gecko</h1>
+                <p class="text-xs text-emerald-100 hidden sm:block">Grade 2 Wikipedia Investigators</p>
+            </div>
+        </div>
+        
+        <div class="flex items-center space-x-3">
+            <!-- Sound Button -->
+            <button id="sound-toggle" onclick="toggleMute()" class="bg-emerald-500 hover:bg-emerald-400 px-3 py-1.5 rounded-xl border-b-2 border-emerald-700 transition active:scale-95 text-sm md:text-base font-bold" title="Toggle Sound">
+                🔊 Sound On
+            </button>
+            <!-- Case Progress -->
+            <div id="top-progress" class="bg-emerald-800 px-3 py-1.5 rounded-xl font-bold text-sm md:text-base">
+                Case 0 / 5
+            </div>
+        </div>
+    </header>
+
+    <!-- Canvas for Confetti effects -->
+    <canvas id="confetti-canvas" class="fixed inset-0 pointer-events-none z-50 w-full h-full"></canvas>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow flex items-center justify-center p-4 md:p-6">
+        <div id="game-card" class="bg-white rounded-3xl border-4 border-slate-800 shadow-[8px_8px_0px_0px_rgba(30,41,59,1)] max-w-2xl w-full p-6 md:p-8 relative overflow-hidden transition-all duration-300">
+            <!-- SCREEN CONTENT DYNAMICALLY INJECTED HERE -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center p-4 text-xs text-emerald-800 font-medium tracking-wide">
+        &copy; Inspector Gecko's Academy. Powered by Wikipedia Live Libraries 📚
+    </footer>
+
+    <!-- Custom Modal Container for Notifications -->
+    <div id="custom-modal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl border-4 border-slate-800 max-w-sm w-full p-6 text-center transform scale-95 transition-transform duration-200">
+            <div id="modal-icon" class="text-5xl mb-4">💡</div>
+            <h3 id="modal-title" class="text-2xl font-bold text-slate-800 mb-2">Attention!</h3>
+            <p id="modal-desc" class="text-slate-600 mb-6 font-medium">Message details go here.</p>
+            <button onclick="closeModal()" class="w-full bg-yellow-400 hover:bg-yellow-300 text-slate-800 font-bold py-3 px-6 rounded-xl border-b-4 border-yellow-600 active:scale-95 transition">
+                Got it! 👍
+            </button>
+        </div>
+    </div>
+
+    <!-- Audio, Game Pool, and Wikipedia API Logic -->
+    <script>
+        // --- SOUND SYNTHESIS USING WEB AUDIO API ---
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        let isMuted = false;
+
+        function playSound(type) {
+            if (isMuted) return;
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            const now = audioCtx.currentTime;
+
+            if (type === 'click') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(300, now);
+                osc.frequency.exponentialRampToValueAtTime(100, now + 0.1);
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.linearRampToValueAtTime(0.01, now + 0.1);
+                osc.start(now);
+                osc.stop(now + 0.1);
+            } else if (type === 'correct') {
+                const notes = [261.63, 329.63, 392.00, 523.25];
+                notes.forEach((freq, idx) => {
+                    const noteOsc = audioCtx.createOscillator();
+                    const noteGain = audioCtx.createGain();
+                    noteOsc.connect(noteGain);
+                    noteGain.connect(audioCtx.destination);
+                    noteOsc.type = 'sine';
+                    noteOsc.frequency.setValueAtTime(freq, now + idx * 0.08);
+                    noteGain.gain.setValueAtTime(0.1, now + idx * 0.08);
+                    noteGain.gain.linearRampToValueAtTime(0.01, now + idx * 0.08 + 0.15);
+                    noteOsc.start(now + idx * 0.08);
+                    noteOsc.stop(now + idx * 0.08 + 0.2);
+                });
+            } else if (type === 'wrong') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(180, now);
+                osc.frequency.linearRampToValueAtTime(110, now + 0.35);
+                gain.gain.setValueAtTime(0.12, now);
+                gain.gain.linearRampToValueAtTime(0.01, now + 0.35);
+                osc.start(now);
+                osc.stop(now + 0.35);
+            } else if (type === 'unlock') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(880, now);
+                osc.frequency.exponentialRampToValueAtTime(1200, now + 0.15);
+                gain.gain.setValueAtTime(0.08, now);
+                gain.gain.linearRampToValueAtTime(0.001, now + 0.15);
+                osc.start(now);
+                osc.stop(now + 0.2);
+            } else if (type === 'fanfare') {
+                const chords = [392.00, 493.88, 587.33, 783.99];
+                chords.forEach((freq, idx) => {
+                    const noteOsc = audioCtx.createOscillator();
+                    const noteGain = audioCtx.createGain();
+                    noteOsc.connect(noteGain);
+                    noteGain.connect(audioCtx.destination);
+                    noteOsc.type = 'triangle';
+                    noteOsc.frequency.setValueAtTime(freq, now);
+                    noteOsc.frequency.exponentialRampToValueAtTime(freq * 1.5, now + 0.8);
+                    noteGain.gain.setValueAtTime(0.06, now);
+                    noteGain.gain.linearRampToValueAtTime(0.001, now + 1.2);
+                    noteOsc.start(now);
+                    noteOsc.stop(now + 1.2);
+                });
+            }
+        }
+
+        function toggleMute() {
+            isMuted = !isMuted;
+            const btn = document.getElementById('sound-toggle');
+            if (isMuted) {
+                btn.innerHTML = '🔇 Sound Off';
+                btn.classList.replace('bg-emerald-500', 'bg-slate-500');
+            } else {
+                btn.innerHTML = '🔊 Sound On';
+                btn.classList.replace('bg-slate-500', 'bg-emerald-500');
+                playSound('click');
+            }
+        }
+
+        // --- CUSTOM MODAL ---
+        function showNotification(title, message, icon = '💡') {
+            document.getElementById('modal-icon').innerText = icon;
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-desc').innerText = message;
+            
+            const modal = document.getElementById('custom-modal');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.firstElementChild.classList.remove('scale-95');
+                modal.firstElementChild.classList.add('scale-100');
+            }, 50);
+        }
+
+        function closeModal() {
+            playSound('click');
+            const modal = document.getElementById('custom-modal');
+            modal.firstElementChild.classList.replace('scale-100', 'scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 150);
+        }
+
+        // --- CONFETTI SYSTEM ---
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let animationFrameId = null;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class ConfettiParticle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * -canvas.height - 20;
+                this.size = Math.random() * 8 + 6;
+                this.color = `hsl(${Math.random() * 360}, 90%, 65%)`;
+                this.speedY = Math.random() * 3 + 4;
+                this.speedX = Math.random() * 2 - 1;
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = Math.random() * 4 - 2;
+            }
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX;
+                this.rotation += this.rotationSpeed;
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate((this.rotation * Math.PI) / 180);
+                ctx.fillStyle = this.color;
+                ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
+                ctx.restore();
+            }
+        }
+
+        function spawnConfetti() {
+            particles = [];
+            for (let i = 0; i < 100; i++) {
+                particles.push(new ConfettiParticle());
+            }
+            if (!animationFrameId) {
+                runConfettiLoop();
+            }
+        }
+
+        function runConfettiLoop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            let active = false;
+            particles.forEach((p) => {
+                p.update();
+                p.draw();
+                if (p.y < canvas.height) active = true;
+            });
+            if (active) {
+                animationFrameId = requestAnimationFrame(runConfettiLoop);
+            } else {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            }
+        }
+
+        // --- EXTENSIVE GRADE 2 HISTORICAL POOL ---
+        const CASE_REGISTRY = [
+            {
+                name: "Amelia Earhart",
+                category: "Explorer",
+                clues: [
+                    "I loved looking at the open blue sky when I was young.",
+                    "I was the first woman pilot to fly all alone across the giant Atlantic Ocean!",
+                    "I loved wearing brown leather pilot jackets and cool flying goggles."
+                ],
+                famousFor: "She was an incredibly brave pilot who proved to the world that girls can fly high and chase big, wild dreams!",
+                trivia: "When she was a little girl, she built a homemade wooden roller coaster in her backyard with her sister!",
+                decoys: ["Sally Ride", "Bessie Coleman", "Frida Kahlo"]
+            },
+            {
+                name: "Albert Einstein",
+                category: "Scientist",
+                clues: [
+                    "I had super wild, messy white hair and loved thinking big thoughts.",
+                    "I loved playing the violin and eating sweet, delicious ice cream.",
+                    "I thought of amazing ideas about how light, time, and gravity work!"
+                ],
+                famousFor: "He was one of the smartest scientists who ever lived, changing how we understand our whole universe!",
+                trivia: "He did not like wearing socks at all, and would often go completely sock-free even to fancy events!",
+                decoys: ["Isaac Newton", "Thomas Edison", "Alexander Graham Bell"]
+            },
+            {
+                name: "Neil Armstrong",
+                category: "Space Explorer",
+                clues: [
+                    "I wore a big puffy white suit and a shiny round helmet.",
+                    "I traveled to a quiet, dusty place far away in a roaring rocket ship.",
+                    "I was the very first human being to step onto the surface of the Moon!"
+                ],
+                famousFor: "He was the brave astronaut who took a giant leap for mankind by walking on the moon in 1969.",
+                trivia: "Because there is no wind or rain on the Moon, his boot footprints are still there today and will stay for millions of years!",
+                decoys: ["Buzz Aldrin", "Yuri Gagarin", "Sally Ride"]
+            },
+            {
+                name: "Frida Kahlo",
+                category: "Artist",
+                clues: [
+                    "I loved painting colorful pictures of myself, animals, and bright tropical flowers.",
+                    "I lived in a famous, beautiful bright blue house in Mexico.",
+                    "I had lots of unusual pets, including monkeys, dogs, and a baby deer!"
+                ],
+                famousFor: "She was an internationally loved artist known for her incredible self-portraits and celebration of Mexican culture.",
+                trivia: "Because she had to rest in bed sometimes due to injuries, she had a mirror attached to her bed's canopy so she could paint herself!",
+                decoys: ["Mona Lisa", "Georgia O'Keeffe", "Rosa Parks"]
+            },
+            {
+                name: "Jane Goodall",
+                category: "Animal Scientist",
+                clues: [
+                    "I spent many years living quietly in the wild forests of Africa.",
+                    "My best friends were chimpanzees, and I learned how they talk, play, and make tools.",
+                    "I carry a toy stuffed monkey named Jubilee with me on my travels."
+                ],
+                famousFor: "She is a world-famous scientist and animal protector who taught humans how smart chimpanzees really are.",
+                trivia: "She got her love for animals from a toy chimpanzee her father gave her when she was just a toddler!",
+                decoys: ["Marie Curie", "Florence Nightingale", "Steve Irwin"]
+            },
+            {
+                name: "Marie Curie",
+                category: "Scientist",
+                clues: [
+                    "I discovered magical elements that glowed in the dark with soft blue-green light.",
+                    "I was the first woman ever to win a prestigious Nobel Prize—and I actually won two of them!",
+                    "I helped invent mobile X-ray machines to help hurt soldiers in my lifetime."
+                ],
+                famousFor: "She was an extraordinary scientist who discovered radioactivity and helped doctors see inside human bones using X-rays!",
+                trivia: "Her notebooks are still so energetic with radiation that researchers have to wear heavy protective suits just to read them!",
+                decoys: ["Jane Goodall", "Ada Lovelace", "Sally Ride"]
+            },
+            {
+                name: "Abraham Lincoln",
+                category: "Leader",
+                clues: [
+                    "I grew up in a humble, small wooden log cabin in the wilderness.",
+                    "I was very, very tall and famously wore a giant, black stovepipe hat.",
+                    "I was the president who helped end slavery and keep the United States together."
+                ],
+                famousFor: "He was the 16th President of the United States, remembered for his kindness, leadership, and bravery during a difficult war.",
+                trivia: "He used his giant black top hat like a mailbox, storing important notes, letters, and documents inside it!",
+                decoys: ["George Washington", "Thomas Jefferson", "Theodore Roosevelt"]
+            },
+            {
+                name: "Harriet Tubman",
+                category: "Brave Hero",
+                clues: [
+                    "I was nicknamed 'Moses' because I guided so many people to safety and freedom.",
+                    "I traveled secretly at night, using the bright North Star as my map.",
+                    "I led a secret network of trails and safehouses called the Underground Railroad."
+                ],
+                famousFor: "She was an incredibly brave woman who escaped slavery and risked her life to rescue hundreds of others.",
+                trivia: "She was so clever that she once bought two live chickens and let them go to distract slave catchers while she escaped!",
+                decoys: ["Rosa Parks", "Sojourner Truth", "Bessie Coleman"]
+            },
+            {
+                name: "Leonardo da Vinci",
+                category: "Inventor & Artist",
+                clues: [
+                    "I painted the most famous, mysterious smiling lady in the entire world.",
+                    "I wrote all my notes backward in mirror-writing so nobody could steal my ideas!",
+                    "I filled notebooks with drawings of flying bicycles, helicopters, and giant mechanical wings."
+                ],
+                famousFor: "He was a super-genius of the Italian Renaissance who excelled at painting, sculpting, anatomy, and engineering.",
+                trivia: "He loved animals so much that he would buy caged birds at the market just to set them free into the wild sky!",
+                decoys: ["Pablo Picasso", "Vincent van Gogh", "Michelangelo"]
+            },
+            {
+                name: "Bessie Coleman",
+                category: "Pilot",
+                clues: [
+                    "I had to learn French and travel to Europe just to attend flying school because of my skin color.",
+                    "I was the very first African-American woman to get an international pilot's license!",
+                    "I was famous for doing thrilling loops, figure-eights, and tricks in the sky."
+                ],
+                famousFor: "She was a spectacular stunt pilot who smashed barriers and inspired young people to reach for the skies.",
+                trivia: "She was nicknamed 'Brave Bessie' because she absolutely loved dangerous, high-flying stunts!",
+                decoys: ["Amelia Earhart", "Sally Ride", "Mae Jemison"]
+            },
+            {
+                name: "Wolfgang Amadeus Mozart",
+                category: "Musician",
+                clues: [
+                    "I wrote my very first beautiful piece of piano music when I was only five years old!",
+                    "I could listen to a long musical song just once and write it down perfectly.",
+                    "I traveled all over Europe playing concerts in giant, glittering palaces for kings."
+                ],
+                famousFor: "He was a musical child prodigy who grew up to write some of the most beautiful classical music ever heard.",
+                trivia: "He had a pet starling (a little black bird) that could whistle the main theme song of his piano concertos!",
+                decoys: ["Ludwig van Beethoven", "Johann Sebastian Bach", "Taylor Swift"]
+            },
+            {
+                name: "Mary Anning",
+                category: "Fossil Hunter",
+                clues: [
+                    "I climbed dangerous, muddy cliffs by the seaside looking for ancient stones.",
+                    "I discovered the skeleton of a giant, swimming sea monster when I was only twelve years old!",
+                    "I ran a little fossil shop by the ocean to help buy food for my family."
+                ],
+                famousFor: "She was a brilliant fossil hunter who discovered ancient creatures from the age of the dinosaurs.",
+                trivia: "The famous tongue-twister song 'She sells seashells by the seashore' was written all about Mary Anning!",
+                decoys: ["Jane Goodall", "Marie Curie", "Sally Ride"]
+            }
+        ];
+
+        // --- GAME STATE VARIABLES ---
+        let currentQuizIndex = 0;
+        let score = 0;
+        let selectedQuizzes = [];
+        let cluesOpened = [true, false, false];
+        let hasGuessedThisRound = false;
+        let pointsEarnedThisRound = 10;
+
+        // --- WIKIPEDIA API FETCH ---
+        async function fetchWikipediaData(personName) {
+            const encodedTitle = encodeURIComponent(personName);
+            // Wikipedia opensearch or query with intro text & standard medium thumbnail
+            const url = `https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&prop=extracts|pageimages&exintro=1&explaintext=1&piprop=thumbnail&pithumbsize=400&titles=${encodedTitle}`;
+            
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                const pages = data.query?.pages;
+                if (!pages) return null;
+                const pageId = Object.keys(pages)[0];
+                if (pageId === "-1") return null;
+                
+                const rawExtract = pages[pageId].extract || "";
+                // Keep more intro sentences so post-answer reading feels richer.
+                const sentences = rawExtract.match(/[^.!?]+[.!?]+/g) || [rawExtract];
+                const simplifiedExtract = sentences.slice(0, 6).join(" ");
+                
+                const thumbnail = pages[pageId].thumbnail?.source || null;
+                return {
+                    summary: simplifiedExtract,
+                    image: thumbnail
+                };
+            } catch (err) {
+                console.error("Wikipedia fetch failed: ", err);
+                return null;
+            }
+        }
+
+        // --- GECKO SVG MASCOT ---
+        const GECKO_SVG = `
+        <svg class="w-36 h-36 mx-auto bouncy-gecko" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="100" cy="100" r="85" fill="#f0fdf4"/>
+            <circle cx="100" cy="100" r="80" stroke="#86efac" stroke-width="4" stroke-dasharray="6,6"/>
+            
+            <!-- Tail -->
+            <path d="M 50,150 Q 20,150 25,120 Q 30,90 60,110" stroke="#22c55e" stroke-width="12" stroke-linecap="round" fill="none" />
+            
+            <!-- Body -->
+            <ellipse cx="100" cy="120" rx="40" ry="50" fill="#22c55e" stroke="#15803d" stroke-width="4"/>
+            <ellipse cx="100" cy="125" rx="25" ry="35" fill="#bbf7d0"/>
+            
+            <!-- Head -->
+            <circle cx="100" cy="70" r="35" fill="#22c55e" stroke="#15803d" stroke-width="4"/>
+            
+            <!-- Cute Big Eyes -->
+            <circle cx="83" cy="65" r="11" fill="white" stroke="#15803d" stroke-width="3"/>
+            <circle cx="85" cy="65" r="5" fill="#ca8a04"/> 
+            <circle cx="84" cy="63" r="2" fill="white"/>
+            
+            <circle cx="117" cy="65" r="11" fill="white" stroke="#15803d" stroke-width="3"/>
+            <circle cx="115" cy="65" r="5" fill="#ca8a04"/> 
+            <circle cx="114" cy="63" r="2" fill="white"/>
+            
+            <!-- Smile -->
+            <path d="M 90,83 Q 100,90 110,83" stroke="#15803d" stroke-width="4" stroke-linecap="round" fill="none"/>
+            
+            <!-- Detective Hat -->
+            <path d="M 60,50 Q 100,20 140,50" fill="#a16207" stroke="#713f12" stroke-width="4"/>
+            <ellipse cx="100" cy="50" rx="42" ry="6" fill="#a16207" stroke="#713f12" stroke-width="2"/>
+            <rect x="68" y="44" width="64" height="6" fill="#ca8a04"/>
+            <circle cx="100" cy="35" r="5" fill="#ca8a04"/>
+            
+            <!-- Magnifying Glass -->
+            <g transform="translate(115, 100)">
+                <rect x="-4" y="10" width="8" height="30" rx="4" fill="#713f12" stroke="#451a03" stroke-width="2"/>
+                <circle cx="0" cy="0" r="18" fill="#e0f2fe" stroke="#ca8a04" stroke-width="4" opacity="0.9"/>
+                <circle cx="0" cy="0" r="14" stroke="#38bdf8" stroke-width="2" fill="none"/>
+                <path d="M -8,-6 A 12,12 0 0,1 4,-10" stroke="white" stroke-width="3" stroke-linecap="round" fill="none"/>
+            </g>
+        </svg>
+        `;
+
+        // --- MAIN CATEGORY ICONS ---
+        function getCategoryIcon(category) {
+            const cat = (category || "").toLowerCase();
+            if (cat.includes('science') || cat.includes('chemist') || cat.includes('physicist') || cat.includes('mathematician')) {
+                return `<span class="text-4xl">🧪</span>`;
+            } else if (cat.includes('inventor') || cat.includes('engineer')) {
+                return `<span class="text-4xl">💡</span>`;
+            } else if (cat.includes('philosopher')) {
+                return `<span class="text-4xl">🤔</span>`;
+            } else if (cat.includes('leader')) {
+                return `<span class="text-4xl">👑</span>`;
+            } else if (cat.includes('sport')) {
+                return `<span class="text-4xl">🏅</span>`;
+            } else {
+                return `<span class="text-4xl">🕵️‍♂️</span>`;
+            }
+        }
+
+        // --- GAME FLOW LOGIC ---
+
+        const PEOPLE_SEED_URL = './people-seed.json';
+        let peopleSeedCache = null;
+
+        function shuffle(arr) {
+            return [...arr].sort(() => Math.random() - 0.5);
+        }
+
+        function withArticle(text) {
+            return /^[aeiou]/i.test(text.trim()) ? `an ${text}` : `a ${text}`;
+        }
+
+        function splitSentences(text) {
+            const clean = (text || '').replace(/\s+/g, ' ').trim();
+            if (!clean) return [];
+
+            const rough = clean.match(/[^.!?]+[.!?]+/g) || [clean];
+            const merged = [];
+            let carry = '';
+
+            for (const part of rough) {
+                let s = part.trim();
+                if (!s) continue;
+
+                if (carry) {
+                    s = `${carry} ${s}`.replace(/\s+/g, ' ').trim();
+                    carry = '';
+                }
+
+                const tooShort = s.length < 30;
+                const mostlySymbols = !/[A-Za-z]{3,}/.test(s);
+                const danglingDate = /\b(c\.|ca\.|circa)\s*$/i.test(s);
+
+                if (tooShort || mostlySymbols || danglingDate) {
+                    carry = s;
+                    continue;
+                }
+
+                merged.push(s);
+            }
+
+            if (carry && merged.length) {
+                merged[merged.length - 1] = `${merged[merged.length - 1]} ${carry}`.replace(/\s+/g, ' ').trim();
+            } else if (carry) {
+                merged.push(carry);
+            }
+
+            return merged;
+        }
+
+        function escapeRegExp(s) {
+            return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        }
+
+        function detectPronoun(text = '') {
+            const lower = text.toLowerCase();
+            const heCount = (lower.match(/\b(he|him|his)\b/g) || []).length;
+            const sheCount = (lower.match(/\b(she|her|hers)\b/g) || []).length;
+            if (sheCount > heCount) return 'she';
+            if (heCount > sheCount) return 'he';
+            return 'they'; // ponytail: neutral fallback when Wikipedia intro is ambiguous.
+        }
+
+        function pronounForms(base = 'they') {
+            if (base === 'she') return { subject: 'she', possessive: 'her' };
+            if (base === 'he') return { subject: 'he', possessive: 'his' };
+            return { subject: 'they', possessive: 'their' };
+        }
+
+        function redactName(text, name, pronoun = 'they') {
+            if (!text || !name) return text;
+
+            const cleanName = name.replace(/\s*\(.*?\)\s*/g, ' ').replace(/\s+/g, ' ').trim();
+            const noSuffix = cleanName.replace(/\s+(Jr\.?|Sr\.?|II|III|IV)$/i, '').trim();
+            const parts = noSuffix.split(/\s+/).filter(Boolean);
+            const lastName = parts.length > 1 ? parts[parts.length - 1] : '';
+
+            const variants = [name, cleanName, noSuffix, lastName]
+                .filter(v => v && v.length > 2);
+
+            const forms = pronounForms(pronoun);
+            let out = text;
+
+            for (const variant of [...new Set(variants)]) {
+                const possessiveRe = new RegExp(`\\b${escapeRegExp(variant)}(?:'s|’s)`, 'gi');
+                out = out.replace(possessiveRe, forms.possessive);
+
+                const plainRe = new RegExp(`\\b${escapeRegExp(variant)}\\b`, 'gi');
+                out = out.replace(plainRe, forms.subject);
+            }
+            return out;
+        }
+
+        function buildQuizFromSeed(seed, wikiData = null) {
+            const wikiSummary = wikiData?.summary || '';
+            const wikiSentences = splitSentences(wikiSummary);
+            const pronoun = detectPronoun(wikiSummary);
+            const clueSentences = wikiSentences
+                .map(s => redactName(s, seed.name, pronoun))
+                .filter(s => s && s.length >= 35 && /[A-Za-z]{4,}/.test(s));
+
+            const clue1 = clueSentences[3] || clueSentences[2] || `I worked on ideas linked to ${seed.known_for}.`;
+            const clue2 = clueSentences[1] || `I am known for ${seed.known_for}.`;
+            const clue3 = clueSentences[0] || `People remember me for ${seed.known_for}.`;
+
+            const primaryBio = wikiSentences.slice(0, 2).join(' ');
+            const extraWiki = wikiSentences.slice(2, 6).join(' ');
+
+            const readMore = [
+                `${seed.name} is best known for ${seed.known_for}.`,
+                primaryBio
+            ].join(' ').trim();
+
+            const trivia = wikiSentences[4]
+                || wikiSentences[3]
+                || `Fun fact: ${seed.name} is known for ${seed.known_for}.`;
+
+            return {
+                id: seed.id,
+                name: seed.name,
+                category: seed.category,
+                clues: [clue1, clue2, clue3].map(s => s.length > 180 ? `${s.slice(0, 179).trim()}…` : s),
+                famousFor: readMore,
+                trivia,
+                wikiSummary: extraWiki || primaryBio,
+                wikiImage: wikiData?.image || null
+            };
+        }
+
+        async function loadPeopleSeed() {
+            if (peopleSeedCache) return peopleSeedCache;
+
+            try {
+                const res = await fetch(PEOPLE_SEED_URL);
+                if (!res.ok) return [];
+                const data = await res.json();
+                // ponytail: keep only bare fields game needs.
+                peopleSeedCache = (Array.isArray(data) ? data : []).map(p => ({
+                    id: p.id,
+                    name: p.name,
+                    category: p.category,
+                    known_for: p.known_for
+                }));
+                return peopleSeedCache;
+            } catch {
+                return [];
+            }
+        }
+
+        function pickCategoryBalancedCases(cases, targetCount = 5) {
+            const byCategory = new Map();
+            for (const quiz of shuffle(cases)) {
+                const cat = quiz.category || 'Historical Figure';
+                if (!byCategory.has(cat)) byCategory.set(cat, []);
+                byCategory.get(cat).push(quiz);
+            }
+
+            const result = [];
+            let categoryOrder = shuffle([...byCategory.keys()]);
+
+            while (result.length < targetCount) {
+                let addedAny = false;
+
+                for (const cat of categoryOrder) {
+                    const bucket = byCategory.get(cat);
+                    if (!bucket || !bucket.length) continue;
+
+                    result.push(bucket.pop());
+                    addedAny = true;
+                    if (result.length >= targetCount) break;
+                }
+
+                if (!addedAny) break;
+                categoryOrder = shuffle(categoryOrder); // ponytail: cheap rotation for fresher category order.
+            }
+
+            return result;
+        }
+
+        async function fetchFamousPeopleCases(targetCount = 5) {
+            const pool = await loadPeopleSeed();
+            if (!pool.length) return [];
+
+            const picks = shuffle(pool).slice(0, targetCount);
+            const wikiDataList = await Promise.all(picks.map(p => fetchWikipediaData(p.name)));
+            const cases = picks.map((p, i) => buildQuizFromSeed(p, wikiDataList[i]));
+
+            return pickCategoryBalancedCases(cases, targetCount);
+        }
+
+        function getRoundOptions(quiz) {
+            const poolDecoys = shuffle(
+                selectedQuizzes
+                    .filter(q => q.name !== quiz.name)
+                    .map(q => q.name)
+            ).slice(0, 3);
+
+            const fallbackDecoys = Array.isArray(quiz.decoys) ? quiz.decoys : [];
+            const decoys = [...new Set([...poolDecoys, ...fallbackDecoys])].slice(0, 3);
+            return shuffle([quiz.name, ...decoys]);
+        }
+
+        async function initGame() {
+            playSound('click');
+            currentQuizIndex = 0;
+            score = 0;
+
+            const card = document.getElementById('game-card');
+            card.innerHTML = `
+                <div class="text-center py-12">
+                    <div class="relative w-24 h-24 mx-auto mb-6 flex items-center justify-center">
+                        <div class="absolute inset-0 border-4 border-dashed border-emerald-500 rounded-full animate-spin"></div>
+                        <span class="text-4xl">🕵️‍♂️</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-emerald-800">Picking random people from the Gecko list...</h3>
+                    <p class="text-slate-500 font-medium mt-2">Inspector Gecko is enriching each case with Wikipedia facts.</p>
+                </div>
+            `;
+
+            const randomCases = await fetchFamousPeopleCases(5);
+            if (randomCases.length >= 5) {
+                selectedQuizzes = randomCases.slice(0, 5);
+            } else {
+                const fallback = shuffle(CASE_REGISTRY).slice(0, 5 - randomCases.length);
+                selectedQuizzes = [...randomCases, ...fallback];
+            }
+
+            startRound();
+        }
+
+        function updateTopBar() {
+            document.getElementById('top-progress').innerText = `Case ${currentQuizIndex + 1} / 5`;
+        }
+
+        function startRound() {
+            if (currentQuizIndex >= 5) {
+                showGraduationScreen();
+                return;
+            }
+            updateTopBar();
+
+            cluesOpened = [true, false, false]; 
+            hasGuessedThisRound = false;
+            pointsEarnedThisRound = 10; 
+
+            renderRoundScreen();
+        }
+
+        function renderRoundScreen() {
+            const quiz = selectedQuizzes[currentQuizIndex];
+            const card = document.getElementById('game-card');
+
+            // Shuffle options
+            const options = getRoundOptions(quiz);
+
+            let html = `
+                <!-- Screen Header -->
+                <div class="flex justify-between items-center border-b-2 border-slate-100 pb-3 mb-6">
+                    <span class="bg-yellow-100 text-yellow-800 font-bold px-3 py-1 rounded-full border border-yellow-300 text-sm tracking-wide flex items-center">
+                        <span class="mr-1">🔎</span> Mystery File
+                    </span>
+                    <span class="text-slate-500 font-semibold text-sm">Category: ${quiz.category || 'Secret'}</span>
+                </div>
+
+                <!-- Inspector Gecko & Sleuthing Board -->
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                    
+                    <!-- Left Mascot -->
+                    <div class="md:col-span-4 text-center">
+                        ${GECKO_SVG}
+                        <p class="text-emerald-800 font-bold text-sm mt-2 italic">"Find the clues, detective!"</p>
+                    </div>
+
+                    <!-- Right Clue Board -->
+                    <div class="md:col-span-8 space-y-4">
+                        <h3 class="text-2xl font-bold text-slate-800 flex items-center">
+                            <span class="bg-emerald-100 p-1.5 rounded-lg mr-2">👣</span> Case Evidence:
+                        </h3>
+                        
+                        <!-- Clue 1 (Always Open) -->
+                        <div class="bg-yellow-50 border-2 border-slate-700 p-4 rounded-2xl relative shadow-sm">
+                            <span class="absolute -top-3 left-4 bg-slate-800 text-white text-xs px-2.5 py-0.5 rounded-full font-bold">Clue #1</span>
+                            <p class="text-lg font-medium text-slate-700 mt-1">${quiz.clues[0]}</p>
+                        </div>
+
+                        <!-- Clue 2 -->
+                        <div id="clue-2-box">
+                            ${renderClueBox(1, quiz.clues[1])}
+                        </div>
+
+                        <!-- Clue 3 -->
+                        <div id="clue-3-box">
+                            ${renderClueBox(2, quiz.clues[2])}
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Selection Buttons -->
+                <div class="mt-8">
+                    <h4 class="text-center font-bold text-slate-500 mb-4 tracking-wider uppercase text-xs">Tap a name to make an arrest!</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        ${options.map(opt => `
+                            <button 
+                                onclick="handleGuess('${opt.replace(/'/g, "\\'")}', this)"
+                                class="btn-option bg-sky-50 hover:bg-sky-100 text-sky-900 border-2 border-sky-200 hover:border-sky-400 py-4 px-6 rounded-2xl font-bold text-lg text-left transition transform active:scale-95 shadow-sm flex items-center justify-between"
+                            >
+                                <span>👤 &nbsp; ${opt}</span>
+                                <span class="text-2xl opacity-0 transition-opacity duration-200">🔍</span>
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            card.innerHTML = html;
+        }
+
+        function renderClueBox(index, text) {
+            if (cluesOpened[index]) {
+                return `
+                    <div class="bg-yellow-50 border-2 border-slate-700 p-4 rounded-2xl relative shadow-sm">
+                        <span class="absolute -top-3 left-4 bg-slate-800 text-white text-xs px-2.5 py-0.5 rounded-full font-bold">Clue #${index + 1}</span>
+                        <p class="text-lg font-medium text-slate-700 mt-1">${text}</p>
+                    </div>
+                `;
+            } else {
+                return `
+                    <button 
+                        onclick="unlockClue(${index})"
+                        class="w-full bg-emerald-100 hover:bg-emerald-200 text-emerald-800 border-2 border-dashed border-emerald-400 p-4 rounded-2xl flex items-center justify-center space-x-3 transition active:scale-[0.99]"
+                    >
+                        <span class="text-2xl">🔍</span>
+                        <span class="font-bold text-lg">Inspect Clue #${index + 1}</span>
+                    </button>
+                `;
+            }
+        }
+
+        function unlockClue(index) {
+            cluesOpened[index] = true;
+            playSound('unlock');
+            pointsEarnedThisRound = Math.max(pointsEarnedThisRound - 2, 5);
+            renderRoundScreen();
+        }
+
+        function handleGuess(selectedName, btnElement) {
+            if (hasGuessedThisRound) return;
+
+            const quiz = selectedQuizzes[currentQuizIndex];
+
+            if (selectedName === quiz.name) {
+                playSound('correct');
+                score += pointsEarnedThisRound;
+                spawnConfetti();
+
+                // Style Correct Button
+                btnElement.classList.replace('bg-sky-50', 'bg-green-100');
+                btnElement.classList.replace('border-sky-200', 'border-green-600');
+                btnElement.classList.add('text-green-900', 'border-4');
+                btnElement.querySelector('span:last-child').innerHTML = '✅';
+                btnElement.querySelector('span:last-child').classList.replace('opacity-0', 'opacity-100');
+
+                hasGuessedThisRound = true;
+
+                // Load Wikipedia Data & Reveal Screen
+                setTimeout(() => {
+                    renderWikipediaReveal(quiz, true);
+                }, 1000);
+
+            } else {
+                playSound('wrong');
+                btnElement.classList.add('shake-element');
+                setTimeout(() => btnElement.classList.remove('shake-element'), 600);
+
+                btnElement.classList.replace('bg-sky-50', 'bg-red-50');
+                btnElement.classList.replace('border-sky-200', 'border-red-400');
+                btnElement.classList.add('text-red-700');
+                btnElement.querySelector('span:last-child').innerHTML = '❌';
+                btnElement.querySelector('span:last-child').classList.replace('opacity-0', 'opacity-100');
+
+                pointsEarnedThisRound = Math.max(pointsEarnedThisRound - 3, 2);
+
+                // Auto open locked clues
+                let openedNewClue = false;
+                for (let i = 1; i <= 2; i++) {
+                    if (!cluesOpened[i]) {
+                        cluesOpened[i] = true;
+                        openedNewClue = true;
+                        break;
+                    }
+                }
+                if (openedNewClue) {
+                    setTimeout(() => {
+                        showNotification("Clue Discovered!", "Inspector Gecko searched again and found another clue!", "🕵️‍♂️");
+                        renderRoundScreen();
+                    }, 800);
+                }
+            }
+        }
+
+        // --- FULL PAGE WIKIPEDIA REVEAL SCREEN ---
+        async function renderWikipediaReveal(quiz, wasCorrect) {
+            const card = document.getElementById('game-card');
+
+            // Show Wikipedia fetching loader
+            card.innerHTML = `
+                <div class="text-center py-12">
+                    <div class="relative w-24 h-24 mx-auto mb-6 flex items-center justify-center">
+                        <div class="absolute inset-0 border-4 border-dashed border-emerald-500 rounded-full animate-spin"></div>
+                        <span class="text-4xl">📚</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-emerald-800">Opening Wikipedia Files...</h3>
+                    <p class="text-slate-500 font-medium mt-2">Inspector Gecko is fetching official photo and files!</p>
+                </div>
+            `;
+
+            // Live Fetch (or reuse cached data from random-case generation)
+            const wikiData = (quiz.wikiSummary || quiz.wikiImage)
+                ? { summary: quiz.wikiSummary || '', image: quiz.wikiImage || null }
+                : await fetchWikipediaData(quiz.name);
+
+            let bannerColor = wasCorrect ? 'bg-green-500' : 'bg-amber-500';
+            let statusTitle = wasCorrect ? 'Case Solved!' : 'Case Investigation Complete!';
+            let subTitle = wasCorrect ? 'Outstanding Detective Work!' : 'Discover historical facts below!';
+
+            // Choose either wiki image or cute category icon as fallback
+            let imageSectionHTML = '';
+            if (wikiData && wikiData.image) {
+                imageSectionHTML = `
+                    <div class="relative inline-block mt-4">
+                        <img 
+                            src="${wikiData.image}" 
+                            alt="${quiz.name}" 
+                            class="w-44 h-44 object-cover rounded-3xl border-4 border-slate-800 shadow-[4px_4px_0px_0px_rgba(30,41,59,1)]"
+                        />
+                        <span class="absolute -bottom-2 -right-2 bg-yellow-300 p-2 rounded-full border-2 border-slate-800 text-xl shadow">
+                            📷
+                        </span>
+                    </div>
+                `;
+            } else {
+                imageSectionHTML = `
+                    <div class="p-6 bg-slate-100 border-4 border-slate-800 rounded-full shadow-inner mt-4 inline-flex">
+                        ${getCategoryIcon(quiz.category)}
+                    </div>
+                `;
+            }
+
+            // Create a backup descriptive summary if Wikipedia failed to return an intro
+            let wikiExtractHTML = '';
+            if (wikiData && wikiData.summary) {
+                wikiExtractHTML = `
+                    <div class="bg-slate-50 border-2 border-slate-700 p-4 rounded-2xl">
+                        <h5 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Wikipedia Encyclopedia Entry</h5>
+                        <p class="text-slate-700 font-medium text-base leading-relaxed italic">
+                            "${wikiData.summary}"
+                        </p>
+                    </div>
+                `;
+            }
+
+            card.innerHTML = `
+                <!-- Top Header Banner -->
+                <div class="${bannerColor} text-white -mx-6 md:-mx-8 -mt-6 md:-mt-8 p-6 text-center rounded-t-2xl border-b-4 border-black/10 relative">
+                    <span class="absolute top-4 left-4 text-3xl">🗂️</span>
+                    <h2 class="text-3xl font-extrabold tracking-wider">${statusTitle}</h2>
+                    <p class="text-emerald-50 text-sm font-semibold">${subTitle}</p>
+                </div>
+
+                <!-- Picture and Name Frame -->
+                <div class="flex flex-col items-center mt-6">
+                    ${imageSectionHTML}
+                    
+                    <span class="bg-slate-800 text-white font-bold px-4 py-1 rounded-full text-xs uppercase tracking-widest shadow-md mt-4">
+                        ${quiz.category || 'Historical Figure'}
+                    </span>
+                    <h3 class="text-4xl font-extrabold text-slate-800 text-center mt-2 tracking-wide">
+                        ${quiz.name}
+                    </h3>
+                </div>
+
+                <!-- Dynamic Content Sections -->
+                <div class="mt-6 space-y-4">
+                    
+                    <!-- What makes them famous -->
+                    <div class="bg-sky-50 border-l-8 border-sky-400 p-4 rounded-r-2xl shadow-sm">
+                        <h4 class="text-sky-900 font-extrabold text-lg flex items-center mb-1">
+                            ⭐ &nbsp; Why are they Famous?
+                        </h4>
+                        <p class="text-sky-800 font-medium text-lg leading-relaxed">
+                            ${quiz.famousFor}
+                        </p>
+                    </div>
+
+                    <!-- Live Wikipedia Summary (If loaded successfully) -->
+                    ${wikiExtractHTML}
+
+                    <!-- Fun Kid Trivia -->
+                    <div class="bg-amber-50 border-l-8 border-amber-400 p-4 rounded-r-2xl shadow-sm">
+                        <h4 class="text-amber-900 font-extrabold text-lg flex items-center mb-1">
+                            🧠 &nbsp; Mind-Blowing Trivia!
+                        </h4>
+                        <p class="text-amber-800 font-medium text-base leading-relaxed">
+                            ${quiz.trivia}
+                        </p>
+                    </div>
+
+                </div>
+
+                <!-- Action Button -->
+                <div class="mt-8 flex justify-center">
+                    <button 
+                        onclick="advanceCase()"
+                        class="glowing-btn bg-emerald-500 hover:bg-emerald-400 text-white font-bold py-4 px-10 rounded-2xl border-b-4 border-emerald-700 shadow-md text-xl tracking-wide flex items-center space-x-3 transition transform active:scale-95"
+                    >
+                        <span>Next Mystery Case</span>
+                        <span class="text-2xl">➡️</span>
+                    </button>
+                </div>
+            `;
+        }
+
+        function advanceCase() {
+            playSound('click');
+            currentQuizIndex++;
+            startRound();
+        }
+
+        // --- GRADUATION SCREEN ---
+        function showGraduationScreen() {
+            playSound('fanfare');
+            spawnConfetti();
+
+            const card = document.getElementById('game-card');
+
+            let badgeTitle = "";
+            let badgeIcon = "";
+            let badgeColor = "";
+            let description = "";
+
+            if (score >= 45) {
+                badgeTitle = "Chief Golden Lizard";
+                badgeIcon = "🏆";
+                badgeColor = "from-yellow-400 to-amber-500 text-yellow-950";
+                description = "Master sleuth! Your deduction skills are unparalleled. You found every single historical trail perfectly!";
+            } else if (score >= 30) {
+                badgeTitle = "Super Sleuth Silver";
+                badgeIcon = "🥈";
+                badgeColor = "from-slate-200 to-slate-400 text-slate-900";
+                description = "Excellent detective work! You cracked the cases quickly and with smart connections!";
+            } else {
+                badgeTitle = "Junior Detective Bronze";
+                badgeIcon = "🥉";
+                badgeColor = "from-amber-600 to-amber-800 text-amber-50";
+                description = "Well done! You researched deeply and graduated with honors from Inspector Gecko's Academy!";
+            }
+
+            card.innerHTML = `
+                <div class="text-center py-6">
+                    <h2 class="text-4xl font-black text-emerald-800 mb-2">🎉 Academy Graduation!</h2>
+                    <p class="text-slate-400 font-bold tracking-widest uppercase text-xs mb-4">Official Detective Achievement Award</p>
+
+                    <!-- Large Badge -->
+                    <div class="my-6 relative inline-block">
+                        <div class="absolute inset-0 bg-yellow-400 rounded-full blur-xl opacity-20 animate-pulse"></div>
+                        <div class="bg-gradient-to-br ${badgeColor} p-8 rounded-full border-4 border-slate-800 shadow-[6px_6px_0px_0px_rgba(30,41,59,1)] inline-flex items-center justify-center transform -rotate-3">
+                            <div class="text-center">
+                                <span class="text-7xl block mb-2">${badgeIcon}</span>
+                                <span class="font-extrabold text-lg uppercase tracking-wider">${badgeTitle}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="text-3xl font-extrabold text-slate-800 mb-2">Total Score: ${score} Points</h3>
+                    <p class="text-slate-600 font-medium text-lg max-w-md mx-auto mb-8">
+                        ${description}
+                    </p>
+
+                    <!-- Play Again Button -->
+                    <button 
+                        onclick="initGame()"
+                        class="bg-yellow-400 hover:bg-yellow-300 text-slate-800 font-extrabold py-4 px-12 rounded-2xl border-b-6 border-yellow-600 hover:border-yellow-500 text-xl tracking-wide shadow-md transform hover:-translate-y-0.5 active:translate-y-1 transition"
+                    >
+                        🔄 Play New Cases!
+                    </button>
+                </div>
+            `;
+        }
+
+        // --- WELCOME SCREEN (INITIAL STATE) ---
+        function renderWelcomeScreen() {
+            const card = document.getElementById('game-card');
+            card.innerHTML = `
+                <div class="text-center py-4">
+                    <span class="bg-emerald-100 text-emerald-800 font-bold px-4 py-1.5 rounded-full text-xs tracking-wider uppercase inline-block mb-4 border border-emerald-300">
+                        🕵️‍♂️ Wikipedia Detective Academy
+                    </span>
+                    
+                    <h2 class="text-4xl md:text-5xl font-black text-slate-800 tracking-tight leading-none mb-3">
+                        Inspector Gecko
+                    </h2>
+                    <p class="text-xl text-slate-500 font-semibold mb-6">
+                        Unlock clues & inspect historical cases!
+                    </p>
+
+                    <!-- Mascot Display -->
+                    <div class="my-6">
+                        ${GECKO_SVG}
+                    </div>
+
+                    <p class="text-slate-600 font-medium max-w-md mx-auto mb-8 text-lg">
+                        Solve 5 mystery quizzes! Each time you guess, Inspector Gecko will open his official Wikipedia files to show real portraits, facts, and funny trivia!
+                    </p>
+
+                    <!-- Start Game -->
+                    <button 
+                        onclick="initGame()"
+                        class="w-full max-w-xs bg-yellow-400 hover:bg-yellow-300 text-slate-950 font-black py-4 px-8 rounded-2xl border-b-6 border-yellow-600 hover:border-yellow-500 text-xl tracking-wide shadow-md transform hover:-translate-y-0.5 active:translate-y-1 transition glowing-btn"
+                    >
+                        🟢 Start Solving Cases!
+                    </button>
+                </div>
+            `;
+        }
+
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', () => {
+            renderWelcomeScreen();
+        });
+    </script>
+</body>
+</html>
