@@ -113,6 +113,9 @@
     <div class="bg-emerald-950/80 px-2 py-1 rounded-full border border-emerald-600">
       🌊 <span id="hud-level" class="text-green-300 font-bold">1</span>
     </div>
+    <div class="bg-emerald-950/80 px-2 py-1 rounded-full border border-amber-600">
+      ⭐ <span id="hud-score" class="text-yellow-300 font-black text-base">0</span>
+    </div>
     <div class="bg-emerald-950/80 px-2 py-1 rounded-full border border-emerald-600">
       🐟 <span id="hud-fish" class="text-cyan-200 font-black text-base">0</span>/<span id="hud-total" class="text-cyan-200 font-bold">10</span>
     </div>
@@ -152,9 +155,17 @@
       <h2 class="text-3xl font-extrabold text-red-400 jungle-font mb-2">GATOR IS STARVING!</h2>
       <p class="text-emerald-200 text-sm mb-4">Gator didn't eat enough. You need at least 80% of the food each round!</p>
       <div class="bg-black/30 rounded-xl p-3 mb-3">
-        <div class="text-xs text-emerald-300 uppercase font-bold">Reached Level</div>
-        <div id="end-level" class="text-5xl font-black text-yellow-300 jungle-font mt-1">1</div>
-        <div id="end-score" class="text-sm text-emerald-300 mt-1"></div>
+        <div class="flex justify-between items-start gap-4">
+          <div>
+            <div class="text-xs text-emerald-300 uppercase font-bold">Reached Level</div>
+            <div id="end-level" class="text-5xl font-black text-yellow-300 jungle-font mt-1">1</div>
+          </div>
+          <div class="text-right">
+            <div class="text-xs text-amber-300 uppercase font-bold">⭐ Score</div>
+            <div id="end-score-val" class="text-5xl font-black text-yellow-300 jungle-font mt-1">0</div>
+          </div>
+        </div>
+        <div id="end-score" class="text-sm text-emerald-300 mt-2"></div>
       </div>
       <button onclick="openCheatSheet()" class="w-full py-2 text-sm font-semibold text-emerald-300 border border-emerald-700/50 rounded-xl bg-black/20 hover:bg-black/40 active:scale-95 transition-all mb-3">
         📖 Note Guide
@@ -426,8 +437,10 @@ function flashKey(name, correct) {
 // ════════════════════════════════════════════
 let gameActive = false;
 let level = 1;
+let score = 0;            // cumulative across levels, resets on new game
+let streak = 0;           // consecutive fish eaten without a miss
 let eaten = 0, spawned = 0, totalFish = 10;
-let foods = [], particles = [];
+let foods = [], particles = [], scorePopups = [];
 let spawnTimer = null, levelEnding = false;
 
 // Level scaling — speed and spawn gap increase each level
@@ -488,11 +501,16 @@ function triggerNote(name) {
     if (best.note === name) {
       best.eaten = true;
       eaten++;
+      streak++;
+      const pts = 10 * level * (streak >= 5 ? 2 : streak >= 3 ? 1 : 1);
+      score += pts;
+      scorePopups.push({ x: BITE_X - 28, y: best.y - 12, text: '+' + pts, alpha: 1 });
       spawnSplash(BITE_X, best.y, best.color);
       playSFX('eat');
       flashKey(name, true);
     } else {
       playSFX('miss');
+      streak = 0;
       flashKey(name, false);
     }
   } else {
@@ -542,6 +560,7 @@ function updateHUD() {
   document.getElementById('hunger-pct').textContent = pct + '%';
   document.getElementById('hud-fish').textContent = spawned;
   document.getElementById('hud-total').textContent = totalFish;
+  document.getElementById('hud-score').textContent = score;
 }
 
 // ════════════════════════════════════════════
@@ -565,15 +584,17 @@ function endLevel() {
     }, 2600);
   } else {
     document.getElementById('end-level').textContent = level;
+    document.getElementById('end-score-val').textContent = score;
     document.getElementById('end-score').textContent =
-      `Ate ${eaten} of ${spawned} food (${Math.round(ratio * 100)}%) — need 80%`;
+      `Ate ${eaten} of ${spawned} fish (${Math.round(ratio * 100)}%) — need 80%`;
     document.getElementById('gameover-screen').classList.remove('hidden');
   }
 }
 
 function startLevel() {
-  foods = []; particles = [];
+  foods = []; particles = []; scorePopups = [];
   eaten = 0; spawned = 0;
+  streak = 0;
   totalFish = levelFishCount();
   levelEnding = false;
   gatorY = noteY(1.5);
@@ -584,15 +605,17 @@ function startLevel() {
 
 function startGame() {
   document.getElementById('start-menu').classList.add('hidden');
-  level = 1;
+  level = 1; score = 0; streak = 0;
   document.getElementById('hud-level').textContent = 1;
+  document.getElementById('hud-score').textContent = 0;
   startLevel();
 }
 
 function restartGame() {
   document.getElementById('gameover-screen').classList.add('hidden');
-  level = 1;
+  level = 1; score = 0; streak = 0;
   document.getElementById('hud-level').textContent = 1;
+  document.getElementById('hud-score').textContent = 0;
   startLevel();
 }
 
@@ -970,11 +993,32 @@ function loop(ts) {
     // Prune settled fish (eaten or fully faded)
     foods = foods.filter(f => !(f.eaten || (f.missed && f.alpha <= 0)));
 
-    // Level complete: all fish spawned and none left active
+    // Reset streak when fish escapes
+    for (const f of foods) {
+      if (f.missed && !f._streakReset) { f._streakReset = true; streak = 0; }
+    }
+
+    // Level complete
     if (!levelEnding && spawned >= totalFish && foods.length === 0) {
       levelEnding = true;
-      setTimeout(endLevel, 500); // brief pause so last splash fades
+      setTimeout(endLevel, 500);
     }
+  }
+
+  // Score popups (float up + fade, independent of gameActive)
+  for (let i = scorePopups.length - 1; i >= 0; i--) {
+    const p = scorePopups[i];
+    p.y -= 38 * dt;
+    p.alpha -= 1.6 * dt;
+    if (p.alpha <= 0) { scorePopups.splice(i, 1); continue; }
+    c.save();
+    c.globalAlpha = p.alpha;
+    c.fillStyle = '#ffd43b';
+    c.font = `bold ${Math.round(FOOD_R * 1.4)}px Fredoka, sans-serif`;
+    c.textAlign = 'center'; c.textBaseline = 'middle';
+    c.shadowColor = 'rgba(0,0,0,0.55)'; c.shadowBlur = 4;
+    c.fillText(p.text, p.x, p.y);
+    c.restore();
   }
 
   foods.forEach(drawFood);

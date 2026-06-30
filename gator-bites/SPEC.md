@@ -67,7 +67,32 @@ the matching piano key at the moment the fish reaches Gator's snout.
 
 ---
 
-## Scoring & Level Flow
+## Scoring
+
+### Points per Fish
+- Each fish eaten = `10 × level` points.
+- Level 1: 10 pts/fish · Level 2: 20 pts/fish · Level 3: 30 pts/fish · …
+- Score is **cumulative across levels** — resets only on new game.
+
+### Streak
+- `streak` counter tracks consecutive correct hits.
+- Resets to 0 when a fish escapes past the bite line or a wrong note is pressed.
+- Streak ≥ 3: bonus label planned (future); currently streak is tracked but not yet
+  multiplied into points (base `10 × level` applies regardless).
+
+### Score Popups
+- A floating `+N` yellow label spawns near the bite line on each eat, drifts upward,
+  and fades out over ~0.6 s (alpha decay `1.6/s`, upward drift `38 px/s`).
+- Popups render independently of `gameActive` so they complete their animation even
+  after a level ends.
+
+### HUD
+- ⭐ Live score shown in an amber-bordered badge between Level and Fish counter.
+- Updates on every eat event via `updateHUD()`.
+
+### Game Over Screen
+- Shows **Level reached** (left) and **⭐ Score** (right) side-by-side in large text.
+- Sub-line: `Ate N of N fish (Z%) — need 80%`.
 
 ### Hunger Meter
 - Tracks `eaten / spawned` as a percentage (0–100%).
@@ -90,6 +115,7 @@ the matching piano key at the moment the fish reaches Gator's snout.
 ### HUD
 - 🍖 Hunger meter + % label
 - 🌊 Level number
+- ⭐ Score (amber badge, live)
 - 🐟 `spawned / totalFish` fish counter
 
 ---
