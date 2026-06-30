@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Gator Bites</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Luckiest+Guy&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      width: 100%; height: 100%;
+      margin: 0; padding: 0;
+      overflow: hidden;
+      background: #0a2e1a;
+      font-family: 'Fredoka', sans-serif;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+    }
+    body { display: flex; flex-direction: column; }
+    .jungle-font { font-family: 'Luckiest Guy', cursive; letter-spacing: 0.04em; }
+
+    /* ── Piano ── */
+    #piano-section {
+      flex-shrink: 0;
+      display: flex; justify-content: center; align-items: flex-start;
+      padding: 5px 8px 8px;
+      background: linear-gradient(to bottom, #1a0e00, #2d1a00);
+      border-top: 3px solid #3d2800;
+    }
+    .piano {
+      display: flex; gap: 3px;
+      background: #1a0a00; padding: 5px;
+      border-radius: 8px; border: 2px solid #5a3a10;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+    }
+    .w-key {
+      display: flex; flex-direction: column;
+      justify-content: flex-end; align-items: center;
+      padding-bottom: 5px;
+      height: 78px; width: 46px; min-width: 30px;
+      background: linear-gradient(to bottom, #f0ebd8, #d9cdb0);
+      border-radius: 0 0 6px 6px;
+      border: 1px solid #a09070;
+      cursor: pointer;
+      box-shadow: 0 5px 0 #a09070, inset 0 0 5px rgba(255,255,255,0.4);
+      transition: all 0.06s;
+    }
+    .w-key:active, .w-key.pressed {
+      background: linear-gradient(to bottom, #b8d8f8, #90bce8);
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 #80a0c0;
+    }
+    .w-key.wrong {
+      background: linear-gradient(to bottom, #ffb3b3, #ff8888);
+      transform: translateY(2px);
+    }
+    .w-key .note-name { font-size: 15px; font-weight: 800; color: #3a2a10; line-height: 1.1; }
+    .w-key .note-oct  { font-size: 9px; color: #888; }
+    .w-key .shortcut  { font-size: 10px; color: #aaa; font-family: monospace; }
+    @media (max-width: 420px) {
+      .w-key { height: 64px; width: 37px; }
+      .w-key .note-name { font-size: 12px; }
+      .piano { gap: 2px; padding: 4px; }
+    }
+
+    /* ── Overlays ── */
+    .overlay {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.88);
+      z-index: 30; padding: 16px;
+    }
+    .overlay-card {
+      background: linear-gradient(to bottom, #0d3b20, #091f12);
+      border: 2px solid rgba(100,200,120,0.3);
+      border-radius: 24px; padding: 22px 18px;
+      max-width: 380px; width: 100%; text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+    }
+
+    @keyframes shake {
+      0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)}
+    }
+    .shake { animation: shake 0.25s ease-in-out 2; }
+  </style>
+</head>
+<body>
+
+<!-- ── HUD ── -->
+<header class="flex-shrink-0 bg-gradient-to-b from-emerald-900 to-green-950 border-b-4 border-emerald-800 px-3 py-2 flex justify-between items-center text-white shadow-lg z-10">
+  <div class="flex items-center gap-2">
+    <span class="text-2xl leading-none">🐊</span>
+    <div>
+      <h1 class="text-lg font-black text-yellow-300 jungle-font leading-none">GATOR BITES</h1>
+      <p class="text-xs text-emerald-300 leading-none mt-0.5">Piano Notes Reading</p>
+    </div>
+  </div>
+  <div class="flex items-center gap-2 text-xs font-semibold">
+    <div class="flex flex-col items-end gap-0.5">
+      <span class="text-emerald-300 text-xs">🍖 Hunger</span>
+      <div class="flex items-center gap-1">
+        <div class="w-20 h-3 bg-slate-700 rounded-full overflow-hidden border border-slate-600 relative">
+          <div id="hunger-bar" class="h-full bg-gradient-to-r from-red-500 via-yellow-400 to-green-400 rounded-full transition-all duration-300" style="width:0%"></div>
+          <!-- 80% goal marker -->
+          <div class="absolute inset-y-0 border-r-2 border-white/60" style="left:80%"></div>
+        </div>
+        <span id="hunger-pct" class="text-yellow-300 w-7 text-right">0%</span>
+      </div>
+    </div>
+    <div class="bg-emerald-950/80 px-2 py-1 rounded-full border border-emerald-600">
+      🌊 <span id="hud-level" class="text-green-300 font-bold">1</span>
+    </div>
+    <div class="bg-emerald-950/80 px-2 py-1 rounded-full border border-emerald-600">
+      🐟 <span id="hud-fish" class="text-cyan-200 font-black text-base">0</span>/<span id="hud-total" class="text-cyan-200 font-bold">10</span>
+    </div>
+  </div>
+</header>
+
+<!-- ── Canvas ── -->
+<main id="game-main" class="relative flex-1 w-full overflow-hidden" style="min-height:0">
+  <canvas id="gameCanvas" style="display:block;position:absolute;top:0;left:0"></canvas>
+
+  <!-- Start Menu -->
+  <div id="start-menu" class="overlay">
+    <div class="overlay-card">
+      <div class="text-6xl mb-3">🐊</div>
+      <h2 class="text-3xl font-extrabold text-yellow-300 jungle-font mb-2">GATOR BITES!</h2>
+      <p class="text-emerald-100 text-sm mb-4">Help hungry Gator eat his food floating down the river! Read the note on the <b>music staff</b>, then press the right piano key when food hits the <span class="text-yellow-300 font-bold">yellow line</span>!</p>
+      <div class="bg-black/30 rounded-2xl p-3 mb-3 text-left space-y-1.5 text-sm text-emerald-100">
+        <div>🎵 Bottom line of the staff = <b class="text-yellow-200">E</b></div>
+        <div>🎹 Press the piano key when food reaches the <b class="text-yellow-300">yellow line</b></div>
+        <div>🍖 Eat <b class="text-green-400">80%</b> of the fish to advance to the next level!</div>
+        <div>🌊 Each level adds <b>5 more fish</b> and the river flows <b>faster!</b></div>
+        <div class="text-emerald-400 text-xs pt-1">Keyboard: A S D F G H J K = C D E F G A B C</div>
+      </div>
+      <button onclick="openCheatSheet()" class="w-full py-2 text-sm font-semibold text-emerald-300 border border-emerald-700/50 rounded-xl bg-black/20 hover:bg-black/40 active:scale-95 transition-all mb-3">
+        📖 Note Guide
+      </button>
+      <button onclick="startGame()" class="w-full py-4 bg-gradient-to-r from-yellow-400 to-emerald-500 text-white rounded-2xl font-black text-xl shadow-lg active:scale-95 transition-all jungle-font">
+        FEED THE GATOR! 🐊
+      </button>
+    </div>
+  </div>
+
+  <!-- Game Over -->
+  <div id="gameover-screen" class="overlay hidden">
+    <div class="overlay-card">
+      <div class="text-6xl mb-3">😢</div>
+      <h2 class="text-3xl font-extrabold text-red-400 jungle-font mb-2">GATOR IS STARVING!</h2>
+      <p class="text-emerald-200 text-sm mb-4">Gator didn't eat enough. You need at least 80% of the food each round!</p>
+      <div class="bg-black/30 rounded-xl p-3 mb-3">
+        <div class="text-xs text-emerald-300 uppercase font-bold">Reached Level</div>
+        <div id="end-level" class="text-5xl font-black text-yellow-300 jungle-font mt-1">1</div>
+        <div id="end-score" class="text-sm text-emerald-300 mt-1"></div>
+      </div>
+      <button onclick="openCheatSheet()" class="w-full py-2 text-sm font-semibold text-emerald-300 border border-emerald-700/50 rounded-xl bg-black/20 hover:bg-black/40 active:scale-95 transition-all mb-3">
+        📖 Note Guide
+      </button>
+      <button onclick="restartGame()" class="w-full py-3.5 bg-gradient-to-r from-emerald-500 to-green-600 text-white rounded-2xl font-black text-lg active:scale-95 transition-all jungle-font">
+        TRY AGAIN! 🔁
+      </button>
+    </div>
+  </div>
+
+  <!-- Level Up -->
+  <div id="levelup-screen" class="overlay hidden">
+    <div class="overlay-card">
+      <div class="text-6xl mb-3">🐊</div>
+      <h2 class="text-3xl font-extrabold text-yellow-300 jungle-font mb-2">GATOR IS HAPPY!</h2>
+      <p class="text-emerald-100 text-base mb-3">You fed the Gator enough! More fish coming — and faster!</p>
+      <div class="text-6xl font-black text-white jungle-font" id="levelup-num">Level 2</div>
+      <p class="text-emerald-300 text-sm mt-2">🌊 River flows faster now!</p>
+    </div>
+  </div>
+</main>
+
+  <!-- Cheat Sheet Modal -->
+  <div id="cheat-modal" class="overlay hidden" onclick="closeCheatSheet()" style="z-index:50;padding:16px">
+    <div class="overlay-card" onclick="event.stopPropagation()" style="max-width:320px;padding:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <span style="font-size:13px;font-weight:700;color:#6ee7b7">📖 Note Positions</span>
+        <button onclick="closeCheatSheet()" style="color:rgba(255,255,255,.5);font-size:20px;background:none;border:none;cursor:pointer;padding:0 2px;line-height:1">&times;</button>
+      </div>
+      <div style="display:flex;gap:8px">
+
+        <!-- On a Line -->
+        <div style="flex:1;background:rgba(0,0,0,.35);border-radius:8px;padding:6px 4px">
+          <p style="text-align:center;font-size:10px;color:rgba(255,255,255,.75);font-weight:700;margin:0 0 3px">― On a Line ―</p>
+          <svg viewBox="0 0 50 100" width="100%" style="display:block">
+            <line x1="2" y1="78" x2="48" y2="78" stroke="rgba(255,255,255,.45)" stroke-width="1.5"/>
+            <line x1="2" y1="64" x2="48" y2="64" stroke="rgba(255,255,255,.45)" stroke-width="1.5"/>
+            <line x1="2" y1="50" x2="48" y2="50" stroke="rgba(255,255,255,.45)" stroke-width="1.5"/>
+            <line x1="2" y1="36" x2="48" y2="36" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+            <line x1="2" y1="22" x2="48" y2="22" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+            <!-- C4: ledger -->
+            <line x1="6" y1="92" x2="22" y2="92" stroke="rgba(255,255,255,.5)" stroke-width="1.5"/>
+            <ellipse cx="14" cy="92" rx="5.5" ry="3.2" transform="rotate(-15 14 92)" fill="#ff6b6b"/>
+            <line x1="6" y1="92" x2="22" y2="92" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
+            <text x="26" y="96" font-size="12" font-weight="700" fill="#ff6b6b" font-family="Fredoka,sans-serif">C</text>
+            <!-- E4: line 1 -->
+            <ellipse cx="14" cy="78" rx="5.5" ry="3.2" transform="rotate(-15 14 78)" fill="#ffd43b"/>
+            <line x1="6" y1="78" x2="22" y2="78" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
+            <text x="26" y="82" font-size="12" font-weight="700" fill="#ffd43b" font-family="Fredoka,sans-serif">E</text>
+            <!-- G4: line 2 -->
+            <ellipse cx="14" cy="64" rx="5.5" ry="3.2" transform="rotate(-15 14 64)" fill="#74c0fc"/>
+            <line x1="6" y1="64" x2="22" y2="64" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
+            <text x="26" y="68" font-size="12" font-weight="700" fill="#74c0fc" font-family="Fredoka,sans-serif">G</text>
+            <!-- B4: line 3 -->
+            <ellipse cx="14" cy="50" rx="5.5" ry="3.2" transform="rotate(-15 14 50)" fill="#f783ac"/>
+            <line x1="6" y1="50" x2="22" y2="50" stroke="rgba(255,255,255,.7)" stroke-width="1.5"/>
+            <text x="26" y="54" font-size="12" font-weight="700" fill="#f783ac" font-family="Fredoka,sans-serif">B</text>
+            <!-- D5: line 4, grayed -->
+            <ellipse cx="14" cy="36" rx="5.5" ry="3.2" transform="rotate(-15 14 36)" fill="rgba(255,255,255,.25)"/>
+            <line x1="6" y1="36" x2="22" y2="36" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
+            <text x="26" y="40" font-size="12" font-weight="700" fill="rgba(255,255,255,.35)" font-family="Fredoka,sans-serif">D</text>
+            <!-- F5: line 5, grayed -->
+            <ellipse cx="14" cy="22" rx="5.5" ry="3.2" transform="rotate(-15 14 22)" fill="rgba(255,255,255,.25)"/>
+            <line x1="6" y1="22" x2="22" y2="22" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
+            <text x="26" y="26" font-size="12" font-weight="700" fill="rgba(255,255,255,.35)" font-family="Fredoka,sans-serif">F</text>
+          </svg>
+        </div>
+
+        <!-- In a Space -->
+        <div style="flex:1;background:rgba(0,0,0,.35);border-radius:8px;padding:6px 4px">
+          <p style="text-align:center;font-size:10px;color:rgba(255,255,255,.75);font-weight:700;margin:0 0 3px">∿ In a Space ∿</p>
+          <svg viewBox="0 0 50 100" width="100%" style="display:block">
+            <line x1="2" y1="78" x2="48" y2="78" stroke="rgba(255,255,255,.45)" stroke-width="1.5"/>
+            <line x1="2" y1="64" x2="48" y2="64" stroke="rgba(255,255,255,.45)" stroke-width="1.5"/>
+            <line x1="2" y1="50" x2="48" y2="50" stroke="rgba(255,255,255,.45)" stroke-width="1.5"/>
+            <line x1="2" y1="36" x2="48" y2="36" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+            <line x1="2" y1="22" x2="48" y2="22" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+            <!-- D4: below line 1 -->
+            <ellipse cx="14" cy="85" rx="5.5" ry="3.2" transform="rotate(-15 14 85)" fill="#ffa94d"/>
+            <text x="26" y="89" font-size="12" font-weight="700" fill="#ffa94d" font-family="Fredoka,sans-serif">D</text>
+            <!-- F4: space 1 -->
+            <ellipse cx="14" cy="71" rx="5.5" ry="3.2" transform="rotate(-15 14 71)" fill="#69db7c"/>
+            <text x="26" y="75" font-size="12" font-weight="700" fill="#69db7c" font-family="Fredoka,sans-serif">F</text>
+            <!-- A4: space 2 -->
+            <ellipse cx="14" cy="57" rx="5.5" ry="3.2" transform="rotate(-15 14 57)" fill="#da77f2"/>
+            <text x="26" y="61" font-size="12" font-weight="700" fill="#da77f2" font-family="Fredoka,sans-serif">A</text>
+            <!-- C5: space 3 -->
+            <ellipse cx="14" cy="43" rx="5.5" ry="3.2" transform="rotate(-15 14 43)" fill="#63e6be"/>
+            <text x="26" y="47" font-size="12" font-weight="700" fill="#63e6be" font-family="Fredoka,sans-serif">C</text>
+            <!-- E5: space 4, grayed -->
+            <ellipse cx="14" cy="29" rx="5.5" ry="3.2" transform="rotate(-15 14 29)" fill="rgba(255,255,255,.25)"/>
+            <text x="26" y="33" font-size="12" font-weight="700" fill="rgba(255,255,255,.35)" font-family="Fredoka,sans-serif">E</text>
+          </svg>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+<!-- ── Piano Keyboard ── -->
+<div id="piano-section">
+  <div class="piano" id="piano"></div>
+</div>
+
+<script>
+// ════════════════════════════════════════════
+// CHEAT SHEET (injected into start + game-over)
+// ════════════════════════════════════════════
+// Two-panel cheat sheet lives in #cheat-modal (HTML), opened via button
+function openCheatSheet()  { document.getElementById('cheat-modal').classList.remove('hidden'); }
+function closeCheatSheet() { document.getElementById('cheat-modal').classList.add('hidden'); }
+
+// ════════════════════════════════════════════
+// AUDIO
+// ════════════════════════════════════════════
+let audioCtx = null;
+function getAudio() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  return audioCtx;
+}
+
+const NOTE_HZ = { C:261.63, D:293.66, E:329.63, F:349.23, G:392.00, A:440.00, B:493.88, C5:523.25 };
+
+function playNote(name) {
+  try {
+    const ac = getAudio(), t = ac.currentTime;
+    const osc = ac.createOscillator(), g = ac.createGain();
+    osc.connect(g); g.connect(ac.destination);
+    osc.type = 'triangle';
+    osc.frequency.value = NOTE_HZ[name] || 440;
+    g.gain.setValueAtTime(0.22, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + 0.55);
+    osc.start(t); osc.stop(t + 0.55);
+  } catch(e) {}
+}
+
+function playSFX(type) {
+  try {
+    const ac = getAudio(), t = ac.currentTime;
+    const osc = ac.createOscillator(), g = ac.createGain();
+    osc.connect(g); g.connect(ac.destination);
+    if (type === 'eat') {
+      // Chomp
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(220, t);
+      osc.frequency.exponentialRampToValueAtTime(55, t + 0.18);
+      g.gain.setValueAtTime(0.35, t);
+      g.gain.exponentialRampToValueAtTime(0.001, t + 0.2);
+      osc.start(t); osc.stop(t + 0.2);
+    } else if (type === 'miss') {
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(110, t);
+      osc.frequency.linearRampToValueAtTime(70, t + 0.22);
+      g.gain.setValueAtTime(0.1, t);
+      g.gain.linearRampToValueAtTime(0.001, t + 0.25);
+      osc.start(t); osc.stop(t + 0.25);
+    } else if (type === 'level_up') {
+      osc.type = 'sine';
+      [261.63, 329.63, 392, 523.25].forEach((f, i) => osc.frequency.setValueAtTime(f, t + i * 0.13));
+      g.gain.setValueAtTime(0.2, t);
+      g.gain.exponentialRampToValueAtTime(0.001, t + 0.7);
+      osc.start(t); osc.stop(t + 0.7);
+    }
+  } catch(e) {}
+}
+
+// ════════════════════════════════════════════
+// NOTES & STAFF
+// ════════════════════════════════════════════
+// Treble clef: staffStep 0 = E4 (line 1, bottom line)
+// Every step up = half a line gap higher (upward = lower Y in canvas)
+// Lines at staffStep: 0(E4), 2(G4), 4(B4), 6(D5), 8(F5)
+// Spaces at:          1(F4), 3(A4), 5(C5)
+// Below staff:       -1(D4 space), -2(C4 ledger line)
+const NOTES = [
+  { name:'C',  label:'C', oct:'4', staffStep:-2, key:'a' },
+  { name:'D',  label:'D', oct:'4', staffStep:-1, key:'s' },
+  { name:'E',  label:'E', oct:'4', staffStep: 0, key:'d' },
+  { name:'F',  label:'F', oct:'4', staffStep: 1, key:'f' },
+  { name:'G',  label:'G', oct:'4', staffStep: 2, key:'g' },
+  { name:'A',  label:'A', oct:'4', staffStep: 3, key:'h' },
+  { name:'B',  label:'B', oct:'4', staffStep: 4, key:'j' },
+  { name:'C5', label:'C', oct:'5', staffStep: 5, key:'k' },
+];
+const KEY_MAP = {};
+NOTES.forEach(n => KEY_MAP[n.key] = n.name);
+
+// ════════════════════════════════════════════
+// CANVAS & LAYOUT
+// ════════════════════════════════════════════
+const canvas = document.getElementById('gameCanvas');
+const c = canvas.getContext('2d');
+let W = 0, H = 0, DPR = 1;
+let riverY = 0, riverH = 0;
+let staffBotY = 0;   // canvas Y of E4 (line 1, bottommost staff line)
+const LINE_GAP = 28; // pixels between adjacent staff lines (wider = easier to read)
+let BITE_X = 0;      // X of the snap/timing line
+let FOOD_R = 20;     // fish radius
+let gatorY = 0;      // tracks approaching food (declared here to avoid TDZ in resize)
+let rArtifacts = { bubbles: [], weeds: [], ripples: [] }; // decorative river elements
+
+function resize() {
+  DPR = window.devicePixelRatio || 1;
+  const r = document.getElementById('game-main').getBoundingClientRect();
+  const containerW = r.width;
+  W = Math.min(containerW, 700); // cap game width; excess is dark sidebars
+  H = r.height;
+
+  canvas.width  = Math.round(W * DPR);
+  canvas.height = Math.round(H * DPR);
+  c.setTransform(DPR, 0, 0, DPR, 0, 0);
+
+  // Center the capped-width canvas inside the full-width container
+  canvas.style.width  = W + 'px';
+  canvas.style.height = H + 'px';
+  canvas.style.left   = Math.floor((containerW - W) / 2) + 'px';
+
+  riverY = Math.round(H * 0.07);
+  riverH = Math.round(H * 0.86);
+
+  const staffH = LINE_GAP * 4;
+  const staffCenterY = riverY + riverH * 0.52;
+  staffBotY = Math.round(staffCenterY + staffH / 2);
+
+  BITE_X = Math.round(Math.min(W - 110, 570));
+  FOOD_R = Math.round(LINE_GAP * 0.40); // fits within a staff space
+
+  initRiverArtifacts();
+}
+
+window.addEventListener('resize', resize);
+resize();
+gatorY = noteY(1.5); // safe to call now — let gatorY is declared above
+initRiverArtifacts();
+
+// Canvas Y for a given staffStep
+function noteY(step) {
+  return staffBotY - step * (LINE_GAP / 2);
+}
+
+// ════════════════════════════════════════════
+// PIANO KEYBOARD (HTML)
+// ════════════════════════════════════════════
+const pianoEl = document.getElementById('piano');
+NOTES.forEach(note => {
+  const el = document.createElement('div');
+  el.className = 'w-key';
+  el.id = 'k-' + note.name;
+  el.innerHTML = `
+    <span class="note-name">${note.label}</span>
+    <span class="note-oct">${note.oct}</span>
+    <span class="shortcut">[${note.key.toUpperCase()}]</span>
+  `;
+  el.addEventListener('pointerdown', e => { e.preventDefault(); triggerNote(note.name); });
+  pianoEl.appendChild(el);
+});
+
+function flashKey(name, correct) {
+  const el = document.getElementById('k-' + name);
+  if (!el) return;
+  el.classList.add(correct ? 'pressed' : 'wrong');
+  if (!correct) el.classList.add('shake');
+  setTimeout(() => el.classList.remove('pressed', 'wrong', 'shake'), 220);
+}
+
+// ════════════════════════════════════════════
+// GAME STATE
+// ════════════════════════════════════════════
+let gameActive = false;
+let level = 1;
+let eaten = 0, spawned = 0, totalFish = 10;
+let foods = [], particles = [];
+let spawnTimer = null, levelEnding = false;
+
+// Level scaling — speed and spawn gap increase each level
+function foodSpeed()    { return 70 + (level - 1) * 28; }                     // px/s
+function spawnDelay()   { return Math.max(900, 2400 - (level - 1) * 200); }   // ms
+function timingWindow() { return Math.max(26, 56 - (level - 1) * 4); }        // ±px
+function levelFishCount() { return 10 + (level - 1) * 5; }
+
+// ════════════════════════════════════════════
+// FOOD SPAWNING
+// ════════════════════════════════════════════
+const FISH_COLORS = ['#ff6b6b','#ffa94d','#ffd43b','#69db7c','#74c0fc','#da77f2','#f783ac','#63e6be'];
+
+function spawnFood() {
+  if (!gameActive) return;
+  if (spawned >= totalFish) return;           // all fish for this level queued
+  if (foods.filter(f => !f.eaten && !f.missed).length >= 3) {
+    spawnTimer = setTimeout(spawnFood, 400);  // wait until screen clears
+    return;
+  }
+  const note = NOTES[Math.floor(Math.random() * NOTES.length)];
+  foods.push({
+    note: note.name,
+    label: note.label,
+    staffStep: note.staffStep,
+    x: -FOOD_R,
+    y: noteY(note.staffStep),
+    eaten: false,
+    missed: false,
+    wobble: Math.random() * Math.PI * 2,
+    color: FISH_COLORS[Math.floor(Math.random() * FISH_COLORS.length)],
+    alpha: 1,
+  });
+  spawned++;
+  updateHUD();
+  if (spawned < totalFish) {
+    spawnTimer = setTimeout(spawnFood, spawnDelay());
+  }
+  // When spawned === totalFish, stop scheduling — loop detects level end
+}
+
+// ════════════════════════════════════════════
+// NOTE INPUT
+// ════════════════════════════════════════════
+function triggerNote(name) {
+  if (!gameActive) return;
+  playNote(name);
+
+  const win = timingWindow();
+  let best = null, bestDist = Infinity;
+  for (const f of foods) {
+    if (f.eaten || f.missed) continue;
+    const d = Math.abs(f.x - BITE_X);
+    if (d <= win && d < bestDist) { bestDist = d; best = f; }
+  }
+
+  if (best) {
+    if (best.note === name) {
+      best.eaten = true;
+      eaten++;
+      spawnSplash(BITE_X, best.y, best.color);
+      playSFX('eat');
+      flashKey(name, true);
+    } else {
+      playSFX('miss');
+      flashKey(name, false);
+    }
+  } else {
+    flashKey(name, true);
+  }
+  updateHUD();
+}
+
+// Keyboard
+window.addEventListener('keydown', e => {
+  if (!gameActive) return;
+  const note = KEY_MAP[e.key.toLowerCase()];
+  if (note) { e.preventDefault(); triggerNote(note); }
+});
+
+// Parent arcade iframe key forwarding
+window.addEventListener('message', e => {
+  if (e.data?.type !== 'beans-key') return;
+  const note = KEY_MAP[e.data.key?.toLowerCase()];
+  if (note && gameActive) triggerNote(note);
+});
+
+// ════════════════════════════════════════════
+// PARTICLES
+// ════════════════════════════════════════════
+function spawnSplash(x, y, fishColor) {
+  const colors = ['#74c0fc', '#a9e34b', '#fff', '#ffd43b', fishColor];
+  for (let i = 0; i < 18; i++) {
+    const a = Math.random() * Math.PI * 2;
+    const s = Math.random() * 5 + 1.5;
+    particles.push({
+      x, y,
+      vx: Math.cos(a) * s, vy: Math.sin(a) * s,
+      r: Math.random() * 4 + 2,
+      alpha: 1, decay: 0.038,
+      color: colors[Math.floor(Math.random() * colors.length)],
+    });
+  }
+}
+
+// ════════════════════════════════════════════
+// HUD
+// ════════════════════════════════════════════
+function updateHUD() {
+  const pct = spawned > 0 ? Math.round((eaten / spawned) * 100) : 0;
+  document.getElementById('hunger-bar').style.width = pct + '%';
+  document.getElementById('hunger-pct').textContent = pct + '%';
+  document.getElementById('hud-fish').textContent = spawned;
+  document.getElementById('hud-total').textContent = totalFish;
+}
+
+// ════════════════════════════════════════════
+// LEVEL FLOW
+// ════════════════════════════════════════════
+function endLevel() {
+  clearTimeout(spawnTimer);
+  gameActive = false;
+  levelEnding = false;
+
+  const ratio = spawned > 0 ? eaten / spawned : 0;
+  if (ratio >= 0.8) {
+    playSFX('level_up');
+    level++;
+    document.getElementById('hud-level').textContent = level;
+    document.getElementById('levelup-num').textContent = 'Level ' + level;
+    document.getElementById('levelup-screen').classList.remove('hidden');
+    setTimeout(() => {
+      document.getElementById('levelup-screen').classList.add('hidden');
+      startLevel();
+    }, 2600);
+  } else {
+    document.getElementById('end-level').textContent = level;
+    document.getElementById('end-score').textContent =
+      `Ate ${eaten} of ${spawned} food (${Math.round(ratio * 100)}%) — need 80%`;
+    document.getElementById('gameover-screen').classList.remove('hidden');
+  }
+}
+
+function startLevel() {
+  foods = []; particles = [];
+  eaten = 0; spawned = 0;
+  totalFish = levelFishCount();
+  levelEnding = false;
+  gatorY = noteY(1.5);
+  updateHUD();
+  gameActive = true;
+  spawnTimer = setTimeout(spawnFood, 700);
+}
+
+function startGame() {
+  document.getElementById('start-menu').classList.add('hidden');
+  level = 1;
+  document.getElementById('hud-level').textContent = 1;
+  startLevel();
+}
+
+function restartGame() {
+  document.getElementById('gameover-screen').classList.add('hidden');
+  level = 1;
+  document.getElementById('hud-level').textContent = 1;
+  startLevel();
+}
+
+// ════════════════════════════════════════════
+// DRAWING
+// ════════════════════════════════════════════
+function drawBanks() {
+  // Top bank (above river)
+  const topG = c.createLinearGradient(0, 0, 0, riverY + 10);
+  topG.addColorStop(0, '#1c6630'); topG.addColorStop(1, '#0a3018');
+  c.fillStyle = topG;
+  c.fillRect(0, 0, W, riverY + 10);
+
+  // Bottom bank (below river)
+  const botG = c.createLinearGradient(0, riverY + riverH - 10, 0, H);
+  botG.addColorStop(0, '#0a3018'); botG.addColorStop(1, '#1c6630');
+  c.fillStyle = botG;
+  c.fillRect(0, riverY + riverH - 10, W, H);
+}
+
+function drawRiver() {
+  // River water gradient
+  const rg = c.createLinearGradient(0, riverY, 0, riverY + riverH);
+  rg.addColorStop(0,   '#0b4d6e');
+  rg.addColorStop(0.5, '#0d6888');
+  rg.addColorStop(1,   '#0b4d6e');
+  c.fillStyle = rg;
+  c.fillRect(0, riverY, W, riverH);
+
+  // Subtle moving current streaks
+  const t = Date.now() * 0.0012;
+  c.strokeStyle = 'rgba(255,255,255,0.045)';
+  c.lineWidth = 2;
+  for (let i = 0; i < 7; i++) {
+    const sy = riverY + (riverH / 8) * (i + 1);
+    const ox = ((t * 58 + i * 50) % (W + 90)) - 45;
+    c.beginPath(); c.moveTo(ox, sy); c.lineTo(ox + 75, sy); c.stroke();
+  }
+
+  // Wavy top edge
+  const t2 = Date.now() * 0.002;
+  c.fillStyle = '#0b4d6e';
+  c.beginPath();
+  for (let x = 0; x <= W + 4; x += 4) {
+    const wy = riverY + Math.sin((x / 55 + t2) * Math.PI * 2) * 5;
+    x === 0 ? c.moveTo(x, wy) : c.lineTo(x, wy);
+  }
+  c.lineTo(W, riverY - 12); c.lineTo(0, riverY - 12); c.closePath(); c.fill();
+}
+
+// ════════════════════════════════════════════
+// RIVER ARTIFACTS
+// ════════════════════════════════════════════
+// (rArtifacts declared near layout vars above to avoid TDZ)
+function initRiverArtifacts() {
+  // Floating bubbles
+  rArtifacts.bubbles = Array.from({ length: 18 }, (_, i) => ({
+    xFrac: 0.04 + (i / 18) * 0.88,
+    y: riverY + Math.random() * riverH,
+    r: Math.random() * 2.2 + 0.6,
+    speed: Math.random() * 14 + 7,
+    phase: Math.random() * 6000,
+    wobble: Math.random() * Math.PI * 2,
+  }));
+
+  // Seaweed along the bottom bank edge
+  rArtifacts.weeds = Array.from({ length: 9 }, (_, i) => ({
+    xFrac: 0.03 + (i / 9) * 0.85,
+    h: (Math.random() * 0.12 + 0.06) * riverH,
+    phase: Math.random() * Math.PI * 2,
+    thick: Math.random() * 1.5 + 1.5,
+    color: ['#1a6b2a','#155c24','#196028','#12501e'][Math.floor(Math.random()*4)],
+  }));
+
+  // Ripple rings (3 staggered positions)
+  rArtifacts.ripples = [0, 2000, 4000].map(offset => ({
+    xFrac: 0.15 + Math.random() * 0.65,
+    yFrac: 0.15 + Math.random() * 0.70,
+    period: 3000 + Math.random() * 2000,
+    offset,
+  }));
+}
+
+function drawRiverArtifacts() {
+  const now = Date.now();
+
+  // ── Bubbles ──
+  c.lineWidth = 1;
+  rArtifacts.bubbles.forEach(b => {
+    const elapsed = (now + b.phase) * 0.001;
+    const cycleDur = riverH / b.speed;
+    const prog = (elapsed % cycleDur) / cycleDur;
+    const bx = b.xFrac * W + Math.sin(elapsed * 1.8 + b.wobble) * 3;
+    const by = riverY + riverH - prog * riverH;
+    c.strokeStyle = `rgba(255,255,255,${0.12 + Math.sin(elapsed * 3) * 0.04})`;
+    c.beginPath(); c.arc(bx, by, b.r, 0, Math.PI * 2); c.stroke();
+  });
+
+  // ── Seaweed at bottom edge ──
+  const t = now * 0.001;
+  rArtifacts.weeds.forEach(w => {
+    const wx = w.xFrac * W;
+    const baseY = riverY + riverH - 2;
+    const tipY  = baseY - w.h;
+    const sway  = Math.sin(t * 1.4 + w.phase) * 5;
+    c.strokeStyle = w.color;
+    c.lineWidth = w.thick;
+    c.lineCap = 'round';
+    c.beginPath();
+    c.moveTo(wx, baseY);
+    c.quadraticCurveTo(wx + sway * 0.5, baseY - w.h * 0.5, wx + sway, tipY);
+    c.stroke();
+    // Small oval leaf at tip
+    c.fillStyle = w.color;
+    c.beginPath();
+    c.ellipse(wx + sway, tipY, 3, 5, sway * 0.08, 0, Math.PI * 2);
+    c.fill();
+  });
+
+  // ── Ripple rings ──
+  rArtifacts.ripples.forEach(r => {
+    const prog = ((now + r.offset) % r.period) / r.period;
+    const rx = r.xFrac * W;
+    const ry = riverY + r.yFrac * riverH;
+    const maxR = 18;
+    c.strokeStyle = `rgba(255,255,255,${0.12 * (1 - prog)})`;
+    c.lineWidth = 1;
+    c.beginPath(); c.ellipse(rx, ry, prog * maxR, prog * maxR * 0.35, 0, 0, Math.PI * 2); c.stroke();
+    // second inner ring, half phase
+    const prog2 = (prog + 0.5) % 1;
+    c.strokeStyle = `rgba(255,255,255,${0.08 * (1 - prog2)})`;
+    c.beginPath(); c.ellipse(rx, ry, prog2 * maxR, prog2 * maxR * 0.35, 0, 0, Math.PI * 2); c.stroke();
+  });
+
+  c.lineCap = 'butt'; // reset
+}
+
+function drawStaff() {
+  const startX = 55; // leave room for treble clef
+
+  // 5 horizontal staff lines
+  c.strokeStyle = 'rgba(255,255,255,0.30)';
+  c.lineWidth = 1.5;
+  for (let i = 0; i < 5; i++) {
+    const y = staffBotY - i * LINE_GAP;
+    c.beginPath(); c.moveTo(startX, y); c.lineTo(BITE_X - 6, y); c.stroke();
+  }
+
+  // Treble clef glyph
+  c.font = `${LINE_GAP * 3.7}px serif`;
+  c.fillStyle = 'rgba(255,255,255,0.52)';
+  c.textAlign = 'center';
+  c.textBaseline = 'alphabetic';
+  c.fillText('𝄞', 28, staffBotY + LINE_GAP * 0.45);
+
+  // Pulsing bite line (yellow dashed vertical)
+  const pulse = 0.55 + Math.sin(Date.now() * 0.005) * 0.3;
+  c.strokeStyle = `rgba(255,224,50,${pulse})`;
+  c.lineWidth = 2.5;
+  c.setLineDash([7, 5]);
+  c.beginPath();
+  c.moveTo(BITE_X, riverY + 12);
+  c.lineTo(BITE_X, riverY + riverH - 12);
+  c.stroke();
+  c.setLineDash([]);
+
+  // Small "snap here" label above bite line
+  c.fillStyle = `rgba(255,224,50,${pulse * 0.9})`;
+  c.font = 'bold 10px Fredoka, sans-serif';
+  c.textAlign = 'center';
+  c.textBaseline = 'bottom';
+  c.fillText('SNAP!', BITE_X, riverY + 14);
+}
+
+function drawFood(f) {
+  if (f.eaten) return;
+  const R = FOOD_R;
+  const y = f.y + Math.sin(f.wobble) * 1.8;
+  f.wobble += 0.07;
+
+  if (f.missed) {
+    c.globalAlpha = Math.max(0, f.alpha);
+    f.alpha -= 0.055;
+  }
+
+  // Glow as food nears bite line
+  const dist = Math.abs(f.x - BITE_X);
+  if (dist < timingWindow() * 2.2 && !f.missed) {
+    c.shadowBlur = 14; c.shadowColor = '#ffe03a';
+  }
+
+  // Ledger line for C4 (staffStep -2, below the staff)
+  if (f.staffStep === -2) {
+    c.strokeStyle = 'rgba(255,255,255,0.50)';
+    c.lineWidth = 1.8;
+    c.beginPath();
+    c.moveTo(f.x - R - 6, f.y);
+    c.lineTo(f.x + R + 6, f.y);
+    c.stroke();
+  }
+
+  // Fish body — slightly flattened oval, angled like a note head
+  c.fillStyle = f.color;
+  c.beginPath();
+  c.ellipse(f.x, y, R, R * 0.60, -0.22, 0, Math.PI * 2);
+  c.fill();
+
+  // Fish tail
+  c.beginPath();
+  c.moveTo(f.x - R * 0.85, y);
+  c.lineTo(f.x - R * 1.5, y - R * 0.52);
+  c.lineTo(f.x - R * 1.5, y + R * 0.52);
+  c.closePath(); c.fill();
+
+  // Eye
+  c.shadowBlur = 0;
+  c.fillStyle = '#fff';
+  c.beginPath(); c.arc(f.x + R * 0.38, y - R * 0.16, R * 0.22, 0, Math.PI * 2); c.fill();
+  c.fillStyle = '#111';
+  c.beginPath(); c.arc(f.x + R * 0.40, y - R * 0.16, R * 0.11, 0, Math.PI * 2); c.fill();
+
+  // ── Line-through indicator ──────────────────────────────────────
+  // When fish is ON a staff line (even staffStep), draw that line
+  // visibly through the fish so position is unambiguous.
+  if (f.staffStep % 2 === 0) {
+    c.strokeStyle = 'rgba(255,255,255,0.75)';
+    c.lineWidth = 1.8;
+    c.beginPath();
+    c.moveTo(f.x - R - 4, f.y); // use f.y (not wobbled) — line stays fixed
+    c.lineTo(f.x + R + 4, f.y);
+    c.stroke();
+  }
+
+  c.shadowBlur = 0;
+  c.globalAlpha = 1;
+}
+
+// Smoothly track the food nearest to the bite line
+function updateGatorY() {
+  let targetY = staffBotY - LINE_GAP * 1.5; // default: G4-ish
+  let minDist = Infinity;
+  for (const f of foods) {
+    if (f.eaten || f.missed) continue;
+    const d = Math.abs(f.x - BITE_X);
+    if (d < minDist) { minDist = d; targetY = f.y; }
+  }
+  gatorY += (targetY - gatorY) * 0.07;
+}
+
+function drawGator() {
+  updateGatorY();
+  const cy  = gatorY;         // vertical center of snout (tracks food)
+  const tip = BITE_X;         // snout tip — food is eaten here
+  const HL  = 65;             // visible head length rightward from tip
+  const BX  = tip + HL + 18; // bank/grass starts here
+
+  c.save();
+
+  // ── Upper jaw & skull ─────────────────────
+  // Slopes from narrow snout tip up to full skull height
+  c.fillStyle = '#1e9234';
+  c.beginPath();
+  c.moveTo(tip,      cy - 3);   // snout tip
+  c.lineTo(tip + 6,  cy - 16);  // snout top edge rises
+  c.lineTo(tip + HL, cy - 38);  // skull top
+  c.lineTo(BX,       cy - 38);  // bank edge (top)
+  c.lineTo(BX,       cy + 5);   // bank edge (right)
+  c.lineTo(tip + HL, cy + 4);   // jaw base
+  c.lineTo(tip + 4,  cy + 1);   // snout underside (flat)
+  c.closePath(); c.fill();
+
+  // ── Lower jaw ────────────────────────────
+  c.fillStyle = '#24b040';
+  c.beginPath();
+  c.moveTo(tip + 5,  cy + 7);
+  c.lineTo(tip + HL, cy + 8);
+  c.lineTo(BX,       cy + 8);
+  c.lineTo(BX,       cy + 26);
+  c.lineTo(tip + HL, cy + 24);
+  c.lineTo(tip + 5,  cy + 22);
+  c.closePath(); c.fill();
+
+  // ── Upper teeth (hang down) ───────────────
+  c.fillStyle = '#f5f0d8';
+  for (let i = 0; i < 5; i++) {
+    const tx = tip + 8 + i * 9;
+    c.beginPath();
+    c.moveTo(tx,     cy + 1);
+    c.lineTo(tx + 3, cy + 10);
+    c.lineTo(tx + 7, cy + 1);
+    c.closePath(); c.fill();
+  }
+
+  // ── Lower teeth (poke UP — signature alligator trait) ────
+  c.fillStyle = '#e8e4c8';
+  for (let i = 0; i < 4; i++) {
+    const tx = tip + 13 + i * 10;
+    c.beginPath();
+    c.moveTo(tx,     cy + 8);
+    c.lineTo(tx + 3, cy - 2);
+    c.lineTo(tx + 6, cy + 8);
+    c.closePath(); c.fill();
+  }
+
+  // ── Nostrils (bump pair on top of snout tip) ──────────────
+  c.fillStyle = '#145c1c';
+  c.beginPath(); c.arc(tip + 3,  cy - 10, 4, 0, Math.PI * 2); c.fill();
+  c.beginPath(); c.arc(tip + 15, cy - 12, 4, 0, Math.PI * 2); c.fill();
+
+  // ── Eye bumps on top of skull (classic reptile placement) ─
+  [[tip + 54, cy - 37], [tip + 72, cy - 35]].forEach(([ex, ey]) => {
+    c.fillStyle = '#166424';
+    c.beginPath(); c.ellipse(ex, ey + 5, 12, 8, 0, 0, Math.PI * 2); c.fill();
+    c.fillStyle = '#f0e040';
+    c.beginPath(); c.arc(ex, ey + 3, 7, 0, Math.PI * 2); c.fill();
+    // Vertical slit pupil — the alligator tell
+    c.fillStyle = '#0a0a0a';
+    c.beginPath(); c.ellipse(ex, ey + 3, 2.5, 6, 0, 0, Math.PI * 2); c.fill();
+    c.fillStyle = '#fff';
+    c.beginPath(); c.arc(ex + 2.5, ey + 1, 2, 0, Math.PI * 2); c.fill();
+  });
+
+  // ── Scale bumps along skull top ───────────────────────────
+  c.fillStyle = '#16662a';
+  [[tip+20,cy-26],[tip+32,cy-29],[tip+44,cy-32]].forEach(([bx,by]) => {
+    c.beginPath(); c.arc(bx, by, 4.5, 0, Math.PI * 2); c.fill();
+  });
+
+  // ── Bank / grass cover (hides body) ──────────────────────
+  c.fillStyle = '#1a5c2a';
+  c.fillRect(BX, 0, W - BX + 2, H);
+
+  c.restore();
+}
+
+function drawParticles() {
+  for (let i = particles.length - 1; i >= 0; i--) {
+    const p = particles[i];
+    p.x += p.vx; p.y += p.vy; p.vy += 0.12;
+    p.alpha -= p.decay;
+    if (p.alpha <= 0) { particles.splice(i, 1); continue; }
+    c.save();
+    c.globalAlpha = p.alpha;
+    c.fillStyle = p.color;
+    c.shadowBlur = 5; c.shadowColor = p.color;
+    c.beginPath(); c.arc(p.x, p.y, p.r, 0, Math.PI * 2); c.fill();
+    c.restore();
+  }
+}
+
+// ════════════════════════════════════════════
+// GAME LOOP
+// ════════════════════════════════════════════
+let lastTs = 0;
+
+function loop(ts) {
+  const dt = Math.min((ts - lastTs) / 1000, 0.1);
+  lastTs = ts;
+
+  c.clearRect(0, 0, W, H);
+  drawBanks();
+  drawRiver();
+  drawRiverArtifacts();
+  drawStaff();
+
+  if (gameActive) {
+    const spd = foodSpeed();
+    for (let i = foods.length - 1; i >= 0; i--) {
+      const f = foods[i];
+      if (!f.eaten && !f.missed) {
+        f.x += spd * dt;
+        if (f.x > BITE_X + FOOD_R * 2.5) f.missed = true;
+      }
+    }
+    // Prune settled fish (eaten or fully faded)
+    foods = foods.filter(f => !(f.eaten || (f.missed && f.alpha <= 0)));
+
+    // Level complete: all fish spawned and none left active
+    if (!levelEnding && spawned >= totalFish && foods.length === 0) {
+      levelEnding = true;
+      setTimeout(endLevel, 500); // brief pause so last splash fades
+    }
+  }
+
+  foods.forEach(drawFood);
+  drawParticles();
+  drawGator();
+
+  requestAnimationFrame(loop);
+}
+
+lastTs = performance.now();
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>

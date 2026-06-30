@@ -553,7 +553,57 @@
         </svg>
       `;
 
+      const GATOR_ICON = `
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <!-- Skull / top of head -->
+          <ellipse cx="50" cy="28" rx="40" ry="18" fill="#1e9234"/>
+          <!-- Left eye socket bump -->
+          <ellipse cx="28" cy="20" rx="14" ry="10" fill="#166424"/>
+          <!-- Left iris -->
+          <circle cx="28" cy="19" r="8" fill="#f0e040"/>
+          <!-- Left vertical slit pupil -->
+          <ellipse cx="29" cy="19" rx="3" ry="7" fill="#0a0a0a"/>
+          <circle cx="32" cy="15" r="2" fill="#fff"/>
+          <!-- Right eye socket bump -->
+          <ellipse cx="72" cy="20" rx="14" ry="10" fill="#166424"/>
+          <!-- Right iris -->
+          <circle cx="72" cy="19" r="8" fill="#f0e040"/>
+          <!-- Right vertical slit pupil -->
+          <ellipse cx="73" cy="19" rx="3" ry="7" fill="#0a0a0a"/>
+          <circle cx="76" cy="15" r="2" fill="#fff"/>
+          <!-- Main head body -->
+          <rect x="14" y="28" width="72" height="38" rx="6" fill="#1e9234"/>
+          <!-- Snout (lower center, slightly darker) -->
+          <ellipse cx="50" cy="58" rx="26" ry="14" fill="#187a2a"/>
+          <!-- Nostrils -->
+          <circle cx="41" cy="52" r="4" fill="#0e5018"/>
+          <circle cx="59" cy="52" r="4" fill="#0e5018"/>
+          <!-- Scale bumps on head -->
+          <circle cx="50" cy="38" r="3" fill="#166424" opacity="0.8"/>
+          <circle cx="36" cy="40" r="2.5" fill="#166424" opacity="0.7"/>
+          <circle cx="64" cy="40" r="2.5" fill="#166424" opacity="0.7"/>
+          <!-- Upper teeth row -->
+          <rect x="24" y="65" width="52" height="4" rx="2" fill="#145018"/>
+          <path d="M28,65 L31,75 L34,65" fill="#f5f0d8"/>
+          <path d="M40,65 L43,75 L46,65" fill="#f5f0d8"/>
+          <path d="M54,65 L57,75 L60,65" fill="#f5f0d8"/>
+          <path d="M66,65 L69,75 L72,65" fill="#f5f0d8"/>
+          <!-- Lower teeth (poke up between upper teeth) -->
+          <path d="M34,65 L37,56 L40,65" fill="#e8e4c8"/>
+          <path d="M46,65 L49,56 L52,65" fill="#e8e4c8"/>
+          <path d="M60,65 L63,56 L66,65" fill="#e8e4c8"/>
+        </svg>
+      `;
+
       const games = [
+        {
+          id: 'gator-bites',
+          title: 'Gator Bites',
+          icon: GATOR_ICON,
+          emoji: '🐊',
+          description: 'Read piano notes on the music staff and feed hungry Gator before the food floats past!',
+          src: './gator-bites/index.html'
+        },
         {
           id: 'flies-invasion',
           title: 'Flies Invasion',
