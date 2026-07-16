@@ -13,6 +13,7 @@ const HOST = process.env.HOST || '127.0.0.1';
 const MIME = {
   '.html': 'text/html; charset=utf-8',
   '.js': 'application/javascript; charset=utf-8',
+  '.jsx': 'application/javascript; charset=utf-8',
   '.mjs': 'application/javascript; charset=utf-8',
   '.cjs': 'application/javascript; charset=utf-8',
   '.css': 'text/css; charset=utf-8',

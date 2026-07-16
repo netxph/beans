@@ -595,7 +595,34 @@
         </svg>
       `;
 
+      const BUNNY_HOP_ICON = `
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <ellipse cx="50" cy="78" rx="28" ry="7" fill="#6b7280" opacity=".35" />
+          <ellipse cx="36" cy="24" rx="10" ry="25" fill="#f8fafc" stroke="#cbd5e1" stroke-width="3" transform="rotate(-12 36 24)" />
+          <ellipse cx="64" cy="24" rx="10" ry="25" fill="#f8fafc" stroke="#cbd5e1" stroke-width="3" transform="rotate(12 64 24)" />
+          <ellipse cx="36" cy="24" rx="4" ry="16" fill="#fda4af" transform="rotate(-12 36 24)" />
+          <ellipse cx="64" cy="24" rx="4" ry="16" fill="#fda4af" transform="rotate(12 64 24)" />
+          <circle cx="50" cy="58" r="27" fill="#ffffff" stroke="#cbd5e1" stroke-width="3" />
+          <circle cx="40" cy="54" r="4" fill="#1f2937" />
+          <circle cx="60" cy="54" r="4" fill="#1f2937" />
+          <circle cx="41.5" cy="52.5" r="1.5" fill="#ffffff" />
+          <circle cx="61.5" cy="52.5" r="1.5" fill="#ffffff" />
+          <ellipse cx="50" cy="63" rx="5" ry="4" fill="#fda4af" />
+          <path d="M45 68 Q50 73 55 68" fill="none" stroke="#374151" stroke-width="2.5" stroke-linecap="round" />
+          <circle cx="30" cy="63" r="4" fill="#fda4af" opacity=".65" />
+          <circle cx="70" cy="63" r="4" fill="#fda4af" opacity=".65" />
+        </svg>
+      `;
+
       const games = [
+        {
+          id: 'bunny-hop',
+          title: 'Bunny Hop',
+          icon: BUNNY_HOP_ICON,
+          emoji: '🐰',
+          description: 'Help the bunny cross the street by solving number patterns!',
+          src: './bunny-hop/index.html'
+        },
         {
           id: 'gator-bites',
           title: 'Gator Bites',

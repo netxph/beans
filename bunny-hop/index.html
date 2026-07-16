@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bunny Hop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #87CEEB; /* Sky blue */
+            overflow: hidden;
+            touch-action: manipulation;
+        }
+
+        .bg-grass {
+            background-color: #7CFC00;
+            background-image: radial-gradient(#6BDB00 15%, transparent 16%), radial-gradient(#6BDB00 15%, transparent 16%);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+        }
+
+        .bg-road {
+            background-color: #555;
+            position: relative;
+            box-shadow: inset 0px 10px 15px -3px rgba(0,0,0,0.3), inset 0px -10px 15px -3px rgba(0,0,0,0.3);
+        }
+
+        .dashed-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background-image: linear-gradient(to right, #FFD700 50%, transparent 50%);
+            background-size: 60px 100%;
+            transform: translateY(-50%);
+        }
+
+        /* Bunny Animation Styles */
+        #bunny-wrapper {
+            position: absolute;
+            bottom: 50%; /* Center vertically on the road items */
+            margin-bottom: -1.5rem; /* Adjust based on sprite size */
+            left: 0;
+            transition: transform 0.4s linear;
+            z-index: 50;
+        }
+
+        #bunny-sprite {
+            transform-origin: bottom center;
+            filter: drop-shadow(0px 5px 2px rgba(0,0,0,0.4));
+        }
+
+        @keyframes hop {
+            0% { transform: translateY(0) scale(1, 1); }
+            50% { transform: translateY(-40px) scale(0.9, 1.1); }
+            100% { transform: translateY(0) scale(1, 1); }
+        }
+
+        .animate-hop {
+            animation: hop 0.4s ease-out;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(60px) scale(0) rotate(180deg); opacity: 0; }
+        }
+
+        .animate-fall {
+            animation: fall 0.5s forwards ease-in;
+        }
+
+        /* Responsive Sequence Items */
+        .seq-item {
+            width: 14vw;
+            height: 14vw;
+            max-width: 75px;
+            max-height: 75px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .manhole-spot {
+            position: relative;
+            cursor: pointer;
+        }
+
+        /* Numpad Styles */
+        .numpad-btn {
+            background-color: white;
+            border-bottom: 4px solid #cbd5e1;
+            color: #1e293b;
+            font-weight: 900;
+            font-size: 1.25rem;
+            border-radius: 0.75rem;
+            width: 100%;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            transition: all 0.1s;
+        }
+        @media (max-width: 600px) {
+            /* Leave room for the bunny before the first cover on narrow screens. */
+            #sequence-container {
+                justify-content: flex-start !important;
+                padding-left: 48px !important;
+                gap: 0.5rem !important;
+            }
+
+            #bunny-sprite {
+                font-size: 2rem;
+            }
+
+            .seq-item {
+                width: 12vw;
+                height: 12vw;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .numpad-btn { height: 4rem; font-size: 1.5rem; }
+        }
+
+        .numpad-btn:active {
+            border-bottom-width: 0px;
+            transform: translateY(4px);
+            background-color: #f1f5f9;
+        }
+
+        /* Screen transitions */
+        .screen {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .screen.active {
+            display: flex;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="h-screen w-screen flex flex-col antialiased select-none">
+
+    <!-- START SCREEN -->
+    <div id="start-screen" class="screen active flex-col items-center justify-center w-full h-full absolute inset-0 z-50 bg-[#87CEEB]">
+        <div class="bg-white p-8 md:p-10 rounded-3xl shadow-[0_10px_0_#cbd5e1,0_20px_25px_-5px_rgba(0,0,0,0.3)] max-w-lg w-[90%] text-center border-4 border-slate-200">
+            <div class="text-6xl md:text-7xl mb-4">🐰</div>
+            <h1 class="text-4xl md:text-6xl font-black text-amber-500 mb-2 drop-shadow-md tracking-wide" style="-webkit-text-stroke: 2px #b45309;">BUNNY HOP</h1>
+            <p class="text-lg md:text-xl text-slate-600 mb-6 font-bold">Help the bunny cross the street!</p>
+            <div class="bg-amber-100 rounded-xl p-4 mb-8 text-left text-amber-800 border-2 border-amber-300 text-sm md:text-base">
+                <ul class="list-disc pl-5 space-y-2 font-semibold">
+                    <li>Find the pattern (by 1s, 10s, or 100s).</li>
+                    <li>Tap the missing covers and use the numpad to type the numbers.</li>
+                    <li>Press <b>HOP ACROSS!</b> when ready.</li>
+                    <li>Watch out! A wrong answer makes the bunny fall!</li>
+                </ul>
+            </div>
+            <button onclick="startGame()" class="bg-green-500 hover:bg-green-400 text-white font-black text-2xl md:text-3xl py-4 px-10 rounded-full w-full transition-all duration-200 shadow-[0_8px_0_#166534] active:shadow-[0_0px_0_#166534] active:translate-y-[8px]">
+                PLAY NOW!
+            </button>
+        </div>
+    </div>
+
+    <!-- GAME SCREEN -->
+    <div id="game-screen" class="screen flex-col w-full h-full relative">
+        <!-- Header: Stats -->
+        <div class="bg-white/90 backdrop-blur-sm shadow-md py-2 px-4 md:px-6 flex justify-between items-center z-20 border-b-4 border-slate-200">
+            <div class="bg-blue-100 border-2 border-blue-300 text-blue-800 px-3 py-1 md:px-4 md:py-2 rounded-xl md:rounded-2xl font-black text-sm md:text-xl shadow-sm flex items-center gap-2">
+                <span>🧩</span> <span id="progress-text">Level 1/5</span>
+            </div>
+            <div class="bg-rose-100 border-2 border-rose-300 text-rose-800 px-3 py-1 md:px-4 md:py-2 rounded-xl md:rounded-2xl font-black text-sm md:text-xl shadow-sm flex items-center gap-2">
+                <span>⏱️</span> <span id="timer-text">0s</span>
+            </div>
+        </div>
+
+        <!-- The Environment -->
+        <div class="flex-1 flex flex-col relative overflow-hidden">
+            <div class="h-1/5 bg-grass border-b-8 border-green-800"></div>
+            
+            <div class="flex-1 bg-road flex flex-col justify-center relative min-h-[120px]">
+                <div class="dashed-line"></div>
+                
+                <!-- Game Elements Container (9 Spots) -->
+                <div class="w-full max-w-4xl mx-auto px-2 sm:px-6 relative flex items-center justify-center gap-2 sm:gap-4 md:gap-6 z-10" id="sequence-container">
+                    <!-- Bunny Container inside sequence to easily track relative X position -->
+                    <div id="bunny-wrapper">
+                        <div id="bunny-sprite" class="text-5xl">🐰</div>
+                    </div>
+                    
+                    <!-- Spots injected via JS -->
+                </div>
+            </div>
+            
+            <div class="h-1/5 bg-grass border-t-8 border-green-800"></div>
+        </div>
+
+        <!-- Footer: Numpad & Controls -->
+        <div class="bg-slate-800 py-4 px-4 z-20 rounded-t-[30px] shadow-[0_-10px_20px_rgba(0,0,0,0.3)] border-t-8 border-slate-600 flex flex-col items-center">
+            
+            <div class="grid grid-cols-3 gap-2 md:gap-4 mb-3 w-full max-w-xs md:max-w-md">
+                <button onclick="appendNum(1)" class="numpad-btn">1</button>
+                <button onclick="appendNum(2)" class="numpad-btn">2</button>
+                <button onclick="appendNum(3)" class="numpad-btn">3</button>
+                <button onclick="appendNum(4)" class="numpad-btn">4</button>
+                <button onclick="appendNum(5)" class="numpad-btn">5</button>
+                <button onclick="appendNum(6)" class="numpad-btn">6</button>
+                <button onclick="appendNum(7)" class="numpad-btn">7</button>
+                <button onclick="appendNum(8)" class="numpad-btn">8</button>
+                <button onclick="appendNum(9)" class="numpad-btn">9</button>
+                <button onclick="delNum()" class="numpad-btn bg-red-400 text-white border-red-600 active:bg-red-500">DEL</button>
+                <button onclick="appendNum(0)" class="numpad-btn">0</button>
+                <button onclick="nextManhole()" class="numpad-btn bg-blue-400 text-white text-sm md:text-base border-blue-600 active:bg-blue-500">NEXT</button>
+            </div>
+
+            <button id="btn-hop" onclick="startHopping()" class="bg-green-500 text-white font-black text-xl md:text-2xl py-3 rounded-full w-full max-w-xs md:max-w-md transition-all shadow-[0_6px_0_#166534] opacity-50 cursor-not-allowed">
+                HOP ACROSS!
+            </button>
+        </div>
+    </div>
+
+    <!-- RESULT SCREEN -->
+    <div id="result-screen" class="screen flex-col items-center justify-center w-full h-full absolute inset-0 z-50 bg-black/80 backdrop-blur-sm">
+        <div class="bg-white p-6 md:p-8 rounded-3xl shadow-2xl max-w-md w-[90%] text-center border-8 border-white relative overflow-hidden">
+            <div id="result-icon" class="text-6xl md:text-7xl mb-4 relative z-10">🏆</div>
+            <h2 id="result-title" class="text-4xl md:text-5xl font-black mb-2 relative z-10">AWESOME!</h2>
+            <p id="result-message" class="text-lg md:text-xl text-slate-600 font-bold mb-6 relative z-10">You helped the bunny cross!</p>
+            
+            <div class="bg-slate-100 rounded-2xl p-4 md:p-6 mb-6 md:mb-8 border-2 border-slate-200 relative z-10">
+                <div class="flex justify-between items-center mb-3 border-b-2 border-slate-200 pb-2">
+                    <span class="text-slate-500 font-bold">Levels Passed:</span>
+                    <span id="score-correct" class="text-xl font-black text-blue-600">5 / 5</span>
+                </div>
+                <div class="flex justify-between items-center mb-3 border-b-2 border-slate-200 pb-2">
+                    <span class="text-slate-500 font-bold">Time Taken:</span>
+                    <span id="score-time" class="text-xl font-black text-rose-600">45s</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-slate-800 font-black text-lg">Final Score:</span>
+                    <span id="score-final" class="text-3xl font-black text-amber-500">9550</span>
+                </div>
+            </div>
+            
+            <button onclick="resetGameToStart()" class="bg-blue-500 hover:bg-blue-400 text-white font-black text-xl py-4 px-8 rounded-full w-full transition-all duration-200 shadow-[0_8px_0_#1e3a8a] active:shadow-[0_0px_0_#1e3a8a] active:translate-y-[8px] relative z-10">
+                PLAY AGAIN
+            </button>
+        </div>
+    </div>
+
+    <script src="./bunny-hop.jsx"></script>
+
+</body>
+</html>
