@@ -287,61 +287,55 @@
         </div>
 
         <!-- ==================== SCREEN 3: GAME OVER / RESULTS ==================== -->
-        <div id="resultsScreen" class="hidden w-full jungle-card rounded-3xl p-6 sm:p-8 backdrop-blur-md transition-all duration-300">
+        <div id="resultsScreen" class="hidden w-full jungle-card rounded-3xl p-4 sm:p-6 backdrop-blur-md transition-all duration-300">
             
-            <div class="text-center mb-6">
-                <div id="resultIcon" class="text-6xl mb-2">🏆</div>
-                <h2 id="resultTitle" class="text-3xl sm:text-4xl font-extrabold text-yellow-300 tracking-wide">Jungle King!</h2>
-                <p id="resultSubtitle" class="text-emerald-200 text-sm mt-1">You conquered the mental safari with lightning speed!</p>
-            </div>
-
-            <!-- Stat Cards Grid -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-                <div class="bg-emerald-900/60 border border-emerald-700 p-3 rounded-2xl text-center">
-                    <div class="text-2xl mb-1">🍌</div>
-                    <div class="text-xs text-emerald-300 uppercase font-bold">Total Score</div>
-                    <div id="resScore" class="text-xl font-extrabold text-yellow-300 font-outfit">0</div>
-                </div>
-                <div class="bg-emerald-900/60 border border-emerald-700 p-3 rounded-2xl text-center">
-                    <div class="text-2xl mb-1">🎯</div>
-                    <div class="text-xs text-emerald-300 uppercase font-bold">Accuracy</div>
-                    <div id="resAccuracy" class="text-xl font-extrabold text-emerald-300 font-outfit">0%</div>
-                </div>
-                <div class="bg-emerald-900/60 border border-emerald-700 p-3 rounded-2xl text-center">
-                    <div class="text-2xl mb-1">⚡</div>
-                    <div class="text-xs text-emerald-300 uppercase font-bold">Avg Speed</div>
-                    <div id="resAvgTime" class="text-xl font-extrabold text-amber-300 font-outfit">0.0s</div>
-                </div>
-                <div class="bg-emerald-900/60 border border-emerald-700 p-3 rounded-2xl text-center">
-                    <div class="text-2xl mb-1">🔥</div>
-                    <div class="text-xs text-emerald-300 uppercase font-bold">Max Streak</div>
-                    <div id="resMaxStreak" class="text-xl font-extrabold text-orange-400 font-outfit">0</div>
+            <div class="text-center mb-4">
+                <div id="resultIcon" class="text-5xl mb-1">🏆</div>
+                <h2 id="resultTitle" class="text-2xl sm:text-3xl font-extrabold text-yellow-300 tracking-wide">Jungle King!</h2>
+                <p id="resultSubtitle" class="text-emerald-200 text-xs mt-1">You conquered the mental safari with lightning speed!</p>
+                <div class="mt-2">
+                    <div class="text-[10px] text-yellow-300 uppercase tracking-widest font-bold">Earned Jungle Badge</div>
+                    <div id="badgeTitle" class="text-xl font-black text-yellow-300 mt-1">Cheetah speedster 🐆</div>
                 </div>
             </div>
 
-            <!-- Jungle Explorer Rank Badge -->
-            <div class="bg-gradient-to-r from-yellow-500/20 via-amber-500/20 to-yellow-500/20 border-2 border-yellow-400/50 rounded-2xl p-4 text-center mb-6">
-                <div class="text-xs text-yellow-300 uppercase tracking-widest font-bold">Earned Jungle Badge</div>
-                <div id="badgeTitle" class="text-2xl font-black text-yellow-300 mt-1">Cheetah speedster 🐆</div>
+            <!-- Statistics Summary -->
+            <div class="flex flex-col mb-4 bg-emerald-900/60 border border-emerald-700 px-3 rounded-2xl">
+                <div class="flex items-center justify-between py-1.5 border-b border-emerald-700/60">
+                    <div class="flex items-center gap-2 text-xs text-emerald-300 uppercase font-bold"><span>🍌</span> Total Score</div>
+                    <div id="resScore" class="text-lg font-extrabold text-yellow-300 font-outfit">0</div>
+                </div>
+                <div class="flex items-center justify-between py-1.5 border-b border-emerald-700/60">
+                    <div class="flex items-center gap-2 text-xs text-emerald-300 uppercase font-bold"><span>🎯</span> Accuracy</div>
+                    <div id="resAccuracy" class="text-lg font-extrabold text-emerald-300 font-outfit">0%</div>
+                </div>
+                <div class="flex items-center justify-between py-1.5 border-b border-emerald-700/60">
+                    <div class="flex items-center gap-2 text-xs text-emerald-300 uppercase font-bold"><span>⚡</span> Avg Speed</div>
+                    <div id="resAvgTime" class="text-lg font-extrabold text-amber-300 font-outfit">0.0s</div>
+                </div>
+                <div class="flex items-center justify-between py-1.5">
+                    <div class="flex items-center gap-2 text-xs text-emerald-300 uppercase font-bold"><span>🔥</span> Max Streak</div>
+                    <div id="resMaxStreak" class="text-lg font-extrabold text-orange-400 font-outfit">0</div>
+                </div>
             </div>
 
             <!-- Question Breakdown / Review Accordion -->
-            <div class="mb-6">
-                <h3 class="text-sm font-bold text-emerald-300 uppercase tracking-wider mb-2 flex items-center justify-between">
+            <div class="mb-3">
+                <h3 class="text-sm font-bold text-emerald-300 uppercase tracking-wider mb-1 flex items-center justify-between">
                     <span>📝 Question Expedition Log</span>
                     <span id="correctFraction" class="text-yellow-300">0/10</span>
                 </h3>
-                <div id="reviewContainer" class="max-h-48 overflow-y-auto space-y-2 pr-1">
+                <div id="reviewContainer" class="max-h-24 overflow-y-auto space-y-1 pr-1">
                     <!-- Dynamic review items generated via JavaScript -->
                 </div>
             </div>
 
             <!-- Action Buttons -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <button onclick="startGame()" class="leaf-btn py-3.5 rounded-2xl text-emerald-100 font-bold text-lg shadow-lg hover:brightness-110 active:scale-[0.99] transition flex items-center justify-center gap-2">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <button onclick="startGame()" class="leaf-btn py-2.5 rounded-2xl text-emerald-100 font-bold text-lg shadow-lg hover:brightness-110 active:scale-[0.99] transition flex items-center justify-center gap-2">
                     <span>🔄</span> Play Again
                 </button>
-                <button onclick="showConfigScreen()" class="wood-button py-3.5 rounded-2xl text-yellow-100 font-bold text-lg shadow-lg hover:brightness-110 active:scale-[0.99] transition flex items-center justify-center gap-2">
+                <button onclick="showConfigScreen()" class="wood-button py-2.5 rounded-2xl text-yellow-100 font-bold text-lg shadow-lg hover:brightness-110 active:scale-[0.99] transition flex items-center justify-center gap-2">
                     <span>⚙️</span> Change Settings
                 </button>
             </div>

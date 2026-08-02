@@ -1,4 +1,4 @@
-const CACHE_NAME = 'beans-kids-arcade-v11';
+const CACHE_NAME = 'beans-kids-arcade-v12';
 const APP_SHELL = [
   './',
   './index.html',
@@ -18,6 +18,10 @@ self.addEventListener('install', (event) => {
   );
 });
 
+self.addEventListener('message', (event) => {
+  if (event.data?.type === 'SKIP_WAITING') self.skipWaiting();
+});
+
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
@@ -34,17 +38,24 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  event.respondWith(
-    caches.match(req).then((cached) => {
-      if (cached) return cached;
+  const freshContent = req.destination === 'document'
+    || req.destination === 'script'
+    || req.destination === 'style';
 
-      return fetch(req)
-        .then((res) => {
+  event.respondWith(
+    (freshContent
+      ? fetch(req, { cache: 'no-store' })
+          .then((res) => {
+            const copy = res.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
+            return res;
+          })
+          .catch(() => caches.match(req))
+      : caches.match(req).then((cached) => cached || fetch(req).then((res) => {
           const copy = res.clone();
           caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
           return res;
-        })
-        .catch(() => caches.match('./index.html'));
-    })
+        }))
+    ).catch(() => caches.match('./index.html'))
   );
 });

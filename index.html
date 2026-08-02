@@ -174,6 +174,12 @@
         text-shadow: 0 1px 2px rgba(21, 53, 36, 0.45);
       }
 
+      .update-btn {
+        margin-left: auto;
+        font-size: .72rem;
+        padding: .35rem .55rem;
+      }
+
       .github-link {
         width: 28px;
         height: 28px;
@@ -444,6 +450,7 @@
 
         <div class="hero-top">
           <small class="hero-mini">🦁 Beans Kids Arcade</small>
+          <button id="updateBtn" class="ghost-btn update-btn" type="button">↻ Update</button>
           <a class="github-link" href="https://github.com/netxph/beans" target="_blank" rel="noopener noreferrer" aria-label="GitHub repository">
             <svg viewBox="0 0 16 16" aria-hidden="true">
               <path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.5 7.5 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
@@ -830,9 +837,47 @@
         showNav(1200);
       });
 
+      let serviceWorkerRegistration;
+      let reloadedForUpdate = false;
+
+      async function registerServiceWorker() {
+        if (!('serviceWorker' in navigator)) return null;
+
+        serviceWorkerRegistration = await navigator.serviceWorker.register('./sw.js');
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (!reloadedForUpdate) {
+            reloadedForUpdate = true;
+            window.location.reload();
+          }
+        });
+        return serviceWorkerRegistration;
+      }
+
+      async function updateApp() {
+        const button = document.getElementById('updateBtn');
+        button.disabled = true;
+        button.textContent = 'Updating…';
+
+        try {
+          const registration = serviceWorkerRegistration || await registerServiceWorker();
+          if (!registration) throw new Error('Service workers unavailable');
+          await registration.update();
+          registration.waiting?.postMessage({ type: 'SKIP_WAITING' });
+          if (!registration.installing && !registration.waiting) window.location.reload();
+        } catch (error) {
+          console.error(error);
+          button.disabled = false;
+          button.textContent = '↻ Update';
+        }
+      }
+
+      document.getElementById('updateBtn').addEventListener('click', updateApp);
+
       if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('./sw.js').catch(console.error);
+        window.addEventListener('load', () => registerServiceWorker().catch(console.error));
+        window.addEventListener('online', () => serviceWorkerRegistration?.update());
+        document.addEventListener('visibilitychange', () => {
+          if (document.visibilityState === 'visible') serviceWorkerRegistration?.update();
         });
       }
 
