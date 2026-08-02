@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jungle Math Rush - Rapid Mental Math</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Canvas Confetti for Celebration -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Fredoka', cursive, sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .font-outfit {
+            font-family: 'Outfit', sans-serif;
+        }
+        /* Custom Jungle Animations */
+        @keyframes pulse-glow {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 15px rgba(234, 179, 8, 0.4)); }
+            50% { transform: scale(1.03); filter: drop-shadow(0 0 25px rgba(234, 179, 8, 0.7)); }
+        }
+        .animate-pulse-glow {
+            animation: pulse-glow 2.5s infinite ease-in-out;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-10px); }
+            40%, 80% { transform: translateX(10px); }
+        }
+        .animate-shake {
+            animation: shake 0.4s ease-in-out;
+        }
+        @keyframes float-up {
+            0% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-50px) scale(1.2); }
+        }
+        .animate-float-score {
+            animation: float-up 0.8s ease-out forwards;
+        }
+        /* Wood & Jungle UI Textures */
+        .jungle-card {
+            background: linear-gradient(145deg, rgba(20, 53, 31, 0.92), rgba(9, 32, 17, 0.96));
+            border: 3px solid #34d399;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+        .wood-button {
+            background: linear-gradient(180deg, #d97706 0%, #b45309 100%);
+            border-bottom: 5px solid #78350f;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+            transition: all 0.1s ease;
+        }
+        .wood-button:active {
+            transform: translateY(3px);
+            border-bottom-width: 2px;
+        }
+        .leaf-btn {
+            background: linear-gradient(180deg, #10b981 0%, #047857 100%);
+            border-bottom: 5px solid #064e3b;
+        }
+        .leaf-btn:active {
+            transform: translateY(3px);
+            border-bottom-width: 2px;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #064e3b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #10b981;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="h-full bg-emerald-950 text-emerald-100 overflow-x-hidden flex flex-col justify-between select-none">
+
+    <!-- Background Canvas for Ambient Jungle Fireflies & Particles -->
+    <canvas id="bgCanvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+
+    <!-- Top Navigation Header -->
+    <header class="relative z-10 w-full max-w-4xl mx-auto p-4 flex justify-between items-center">
+        <div class="flex items-center gap-2">
+            <span class="text-3xl">🌴</span>
+            <div>
+                <h1 class="text-2xl font-bold text-yellow-400 tracking-wide drop-shadow-md">JUNGLE MATH RUSH</h1>
+                <p class="text-xs text-emerald-300 font-medium">Fast Mental Safari</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-3">
+            <button id="soundToggleBtn" onclick="toggleSound()" class="p-2.5 bg-emerald-900/80 hover:bg-emerald-800 border border-emerald-500/40 rounded-xl transition flex items-center gap-2 text-sm">
+                <span id="soundIcon">🔊</span>
+                <span id="soundText" class="hidden sm:inline text-xs font-semibold">Sound On</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="relative z-10 flex-1 flex items-center justify-center p-4 w-full max-w-4xl mx-auto">
+
+        <!-- ==================== SCREEN 1: NEW GAME CONFIGURATION ==================== -->
+        <div id="configScreen" class="w-full jungle-card rounded-3xl p-6 md:p-8 backdrop-blur-md transition-all duration-300">
+            
+            <div class="text-center mb-6">
+                <div class="inline-block p-3 bg-yellow-500/20 rounded-2xl mb-2">
+                    <span class="text-5xl">🦜</span>
+                </div>
+                <h2 class="text-3xl font-extrabold text-yellow-300 tracking-wide">Jungle Quest Setup</h2>
+                <p class="text-emerald-200 text-sm mt-1">Configure your rapid mental math expedition!</p>
+            </div>
+
+            <!-- Configuration Form -->
+            <div class="space-y-6 max-w-xl mx-auto">
+                
+                <!-- Operation Mode Selection -->
+                <div>
+                    <label class="block text-sm font-semibold text-emerald-300 uppercase tracking-wider mb-2 flex items-center gap-2">
+                        <span>🎯</span> Select Math Mode
+                    </label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button type="button" onclick="selectMode('add')" id="modeBtnAdd" class="mode-select-btn p-4 rounded-2xl border-2 border-yellow-400 bg-yellow-500/20 text-yellow-300 font-bold text-lg flex flex-col items-center gap-1 transition-all">
+                            <span class="text-3xl">➕</span>
+                            <span>Addition</span>
+                            <span class="text-xs font-normal text-yellow-200/80">Sum numbers fast!</span>
+                        </button>
+                        <button type="button" onclick="selectMode('sub')" id="modeBtnSub" class="mode-select-btn p-4 rounded-2xl border-2 border-emerald-700 bg-emerald-900/40 text-emerald-300 hover:border-emerald-500 font-bold text-lg flex flex-col items-center gap-1 transition-all">
+                            <span class="text-3xl">➖</span>
+                            <span>Subtraction</span>
+                            <span class="text-xs font-normal text-emerald-200/80">Subtract in a flash!</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Number of Questions Config (10, 20, 50 - Default 10) -->
+                <div>
+                    <label class="block text-sm font-semibold text-emerald-300 uppercase tracking-wider mb-2 flex items-center gap-2">
+                        <span>📜</span> Number of Questions
+                    </label>
+                    <div class="grid grid-cols-3 gap-3">
+                        <button type="button" onclick="selectQuestionCount(10)" id="qBtn10" class="q-count-btn p-3 rounded-xl border-2 border-yellow-400 bg-yellow-500/20 text-yellow-300 font-bold text-base transition-all">
+                            10 Questions
+                        </button>
+                        <button type="button" onclick="selectQuestionCount(20)" id="qBtn20" class="q-count-btn p-3 rounded-xl border-2 border-emerald-700 bg-emerald-900/40 text-emerald-300 hover:border-emerald-500 font-bold text-base transition-all">
+                            20 Questions
+                        </button>
+                        <button type="button" onclick="selectQuestionCount(50)" id="qBtn50" class="q-count-btn p-3 rounded-xl border-2 border-emerald-700 bg-emerald-900/40 text-emerald-300 hover:border-emerald-500 font-bold text-base transition-all">
+                            50 Questions
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Time per Question Config (10s, 5s, 3s - Default 5s) -->
+                <div>
+                    <label class="block text-sm font-semibold text-emerald-300 uppercase tracking-wider mb-2 flex items-center gap-2">
+                        <span>⏱️</span> Time Per Question
+                    </label>
+                    <div class="grid grid-cols-3 gap-3">
+                        <button type="button" onclick="selectTimeLimit(10)" id="tBtn10" class="time-limit-btn p-3 rounded-xl border-2 border-emerald-700 bg-emerald-900/40 text-emerald-300 hover:border-emerald-500 font-bold text-base transition-all">
+                            10 Seconds
+                        </button>
+                        <button type="button" onclick="selectTimeLimit(5)" id="tBtn5" class="time-limit-btn p-3 rounded-xl border-2 border-yellow-400 bg-yellow-500/20 text-yellow-300 font-bold text-base transition-all">
+                            5 Seconds ⭐
+                        </button>
+                        <button type="button" onclick="selectTimeLimit(3)" id="tBtn3" class="time-limit-btn p-3 rounded-xl border-2 border-emerald-700 bg-emerald-900/40 text-emerald-300 hover:border-emerald-500 font-bold text-base transition-all">
+                            3 Seconds ⚡
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Start Game Action Button -->
+                <button onclick="startGame()" class="w-full mt-4 wood-button py-4 rounded-2xl text-yellow-100 font-black text-2xl tracking-wider uppercase shadow-2xl hover:brightness-110 active:scale-[0.99] transition flex items-center justify-center gap-3">
+                    <span>🚀</span> START SAFARI RUSH <span>🍌</span>
+                </button>
+
+            </div>
+        </div>
+
+        <!-- ==================== SCREEN 2: ACTIVE GAME SCREEN ==================== -->
+        <div id="gameScreen" class="hidden w-full jungle-card rounded-3xl p-4 sm:p-8 backdrop-blur-md transition-all duration-300 relative overflow-hidden">
+            
+            <!-- Floating Score Indicator Popups -->
+            <div id="scoreFloatingContainer" class="absolute inset-0 pointer-events-none overflow-hidden z-30"></div>
+
+            <!-- Top HUD Bar: Question Count, Streak, Score -->
+            <div class="flex items-center justify-between mb-4 pb-3 border-b border-emerald-800/80">
+                <div class="flex items-center gap-2 bg-emerald-900/80 px-3 py-1.5 rounded-xl border border-emerald-700/50">
+                    <span class="text-xl">📊</span>
+                    <div>
+                        <div class="text-[10px] uppercase tracking-wider text-emerald-400 font-bold">Progress</div>
+                        <div class="text-sm font-extrabold text-yellow-300">
+                            Q: <span id="currentQNum">1</span> / <span id="totalQNum">10</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2 bg-emerald-900/80 px-3 py-1.5 rounded-xl border border-emerald-700/50">
+                    <span class="text-xl">🔥</span>
+                    <div>
+                        <div class="text-[10px] uppercase tracking-wider text-emerald-400 font-bold">Streak</div>
+                        <div id="streakCount" class="text-sm font-extrabold text-amber-400">0x</div>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2 bg-emerald-900/80 px-3 py-1.5 rounded-xl border border-emerald-700/50">
+                    <span class="text-xl">🍌</span>
+                    <div>
+                        <div class="text-[10px] uppercase tracking-wider text-emerald-400 font-bold">Bananas</div>
+                        <div id="scoreDisplay" class="text-sm font-extrabold text-yellow-300">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Jungle Map Vine Tracker -->
+            <div class="mb-6 px-1">
+                <div class="flex justify-between items-center mb-1 text-xs font-bold text-emerald-300">
+                    <span>Base Camp ⛺</span>
+                    <span>Golden Temple 🛕</span>
+                </div>
+                <div class="w-full bg-emerald-950/80 h-3.5 rounded-full p-0.5 border border-emerald-700 relative overflow-hidden">
+                    <div id="progressBar" class="bg-gradient-to-r from-emerald-500 to-yellow-400 h-full rounded-full transition-all duration-300 w-0"></div>
+                </div>
+            </div>
+
+            <!-- Timer Progress Bar -->
+            <div class="mb-6">
+                <div class="flex justify-between items-center mb-1">
+                    <span class="text-xs font-bold text-amber-300 flex items-center gap-1">
+                        <span>⏳</span> TIME REMAINING
+                    </span>
+                    <span id="timerText" class="text-sm font-black text-yellow-300 font-outfit">5.0s</span>
+                </div>
+                <div class="w-full bg-emerald-950/90 h-4 rounded-full p-0.5 border border-emerald-600/60 overflow-hidden">
+                    <div id="timerBar" class="bg-yellow-400 h-full rounded-full transition-all duration-75 w-full"></div>
+                </div>
+            </div>
+
+            <!-- Main Math Expression Flashcard -->
+            <div id="flashcard" class="bg-gradient-to-b from-emerald-900/90 to-emerald-950/90 border-2 border-yellow-400/60 rounded-3xl p-6 sm:p-8 text-center my-4 shadow-inner relative">
+                <div class="text-xs text-emerald-400 uppercase tracking-widest font-semibold mb-2" id="mathModeBadge">
+                    ADDITION SAFARI
+                </div>
+                <div id="mathProblem" class="text-4xl sm:text-6xl font-black text-yellow-300 tracking-wider font-outfit my-2 drop-shadow-lg">
+                    12 + 8 = ?
+                </div>
+
+                <!-- Answer Display Box -->
+                <div class="mt-4 inline-flex items-center justify-center bg-emerald-950 border-2 border-emerald-500 rounded-2xl px-6 py-2 min-w-[160px] min-h-[56px]">
+                    <span id="userAnswerText" class="text-3xl sm:text-4xl font-extrabold text-white tracking-widest font-outfit">
+                        <span class="text-emerald-600 animate-pulse">?</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Touch / Virtual Keypad for Mobile and Quick Clicks -->
+            <div class="max-w-md mx-auto grid grid-cols-3 gap-2 mt-4">
+                <button type="button" onclick="pressKey('1')" class="wood-button py-3 text-xl font-black text-yellow-100 rounded-xl">1</button>
+                <button type="button" onclick="pressKey('2')" class="wood-button py-3 text-xl font-black text-yellow-100 rounded-xl">2</button>
+                <button type="button" onclick="pressKey('3')" class="wood-button py-3 text-xl font-black text-yellow-100 rounded-xl">3</button>
+
+                <button type="button" onclick="pressKey('4')" class="wood-button py-3 text-xl font-black text-yellow-100 rounded-xl">4</button>
+                <button type="button" onclick="pressKey('5')" class="wood-button py-3 text-xl font-black text-yellow-100 rounded-xl">5</button>
+                <button type="button" onclick="pressKey('6')" class="wood-button py-3 text-xl font-black text-yellow-100 rounded-xl">6</button>
+
+                <button type="button" onclick="pressKey('7')" class="wood-button py-3 text-xl font-black text-yellow-100 rounded-xl">7</button>
+                <button type="button" onclick="pressKey('8')" class="wood-button py-3 text-xl font-black text-yellow-100 rounded-xl">8</button>
+                <button type="button" onclick="pressKey('9')" class="wood-button py-3 text-xl font-black text-yellow-100 rounded-xl">9</button>
+
+                <button type="button" onclick="pressKey('CLEAR')" class="bg-red-800 hover:bg-red-700 border-b-4 border-red-950 active:border-b-0 active:translate-y-1 text-red-100 py-3 text-lg font-extrabold rounded-xl transition">C</button>
+                <button type="button" onclick="pressKey('0')" class="wood-button py-3 text-xl font-black text-yellow-100 rounded-xl">0</button>
+                <button type="button" onclick="pressKey('SUBMIT')" class="leaf-btn py-3 text-xl font-black text-emerald-100 rounded-xl flex items-center justify-center">
+                    <span>↵</span>
+                </button>
+            </div>
+
+            <!-- Keyboard Hint -->
+            <p class="text-center text-xs text-emerald-400/80 mt-3 font-medium">
+                💡 Tip: You can also use your physical Numpad / Keyboard numbers and Enter key!
+            </p>
+
+        </div>
+
+        <!-- ==================== SCREEN 3: GAME OVER / RESULTS ==================== -->
+        <div id="resultsScreen" class="hidden w-full jungle-card rounded-3xl p-6 sm:p-8 backdrop-blur-md transition-all duration-300">
+            
+            <div class="text-center mb-6">
+                <div id="resultIcon" class="text-6xl mb-2">🏆</div>
+                <h2 id="resultTitle" class="text-3xl sm:text-4xl font-extrabold text-yellow-300 tracking-wide">Jungle King!</h2>
+                <p id="resultSubtitle" class="text-emerald-200 text-sm mt-1">You conquered the mental safari with lightning speed!</p>
+            </div>
+
+            <!-- Stat Cards Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+                <div class="bg-emerald-900/60 border border-emerald-700 p-3 rounded-2xl text-center">
+                    <div class="text-2xl mb-1">🍌</div>
+                    <div class="text-xs text-emerald-300 uppercase font-bold">Total Score</div>
+                    <div id="resScore" class="text-xl font-extrabold text-yellow-300 font-outfit">0</div>
+                </div>
+                <div class="bg-emerald-900/60 border border-emerald-700 p-3 rounded-2xl text-center">
+                    <div class="text-2xl mb-1">🎯</div>
+                    <div class="text-xs text-emerald-300 uppercase font-bold">Accuracy</div>
+                    <div id="resAccuracy" class="text-xl font-extrabold text-emerald-300 font-outfit">0%</div>
+                </div>
+                <div class="bg-emerald-900/60 border border-emerald-700 p-3 rounded-2xl text-center">
+                    <div class="text-2xl mb-1">⚡</div>
+                    <div class="text-xs text-emerald-300 uppercase font-bold">Avg Speed</div>
+                    <div id="resAvgTime" class="text-xl font-extrabold text-amber-300 font-outfit">0.0s</div>
+                </div>
+                <div class="bg-emerald-900/60 border border-emerald-700 p-3 rounded-2xl text-center">
+                    <div class="text-2xl mb-1">🔥</div>
+                    <div class="text-xs text-emerald-300 uppercase font-bold">Max Streak</div>
+                    <div id="resMaxStreak" class="text-xl font-extrabold text-orange-400 font-outfit">0</div>
+                </div>
+            </div>
+
+            <!-- Jungle Explorer Rank Badge -->
+            <div class="bg-gradient-to-r from-yellow-500/20 via-amber-500/20 to-yellow-500/20 border-2 border-yellow-400/50 rounded-2xl p-4 text-center mb-6">
+                <div class="text-xs text-yellow-300 uppercase tracking-widest font-bold">Earned Jungle Badge</div>
+                <div id="badgeTitle" class="text-2xl font-black text-yellow-300 mt-1">Cheetah speedster 🐆</div>
+            </div>
+
+            <!-- Question Breakdown / Review Accordion -->
+            <div class="mb-6">
+                <h3 class="text-sm font-bold text-emerald-300 uppercase tracking-wider mb-2 flex items-center justify-between">
+                    <span>📝 Question Expedition Log</span>
+                    <span id="correctFraction" class="text-yellow-300">0/10</span>
+                </h3>
+                <div id="reviewContainer" class="max-h-48 overflow-y-auto space-y-2 pr-1">
+                    <!-- Dynamic review items generated via JavaScript -->
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <button onclick="startGame()" class="leaf-btn py-3.5 rounded-2xl text-emerald-100 font-bold text-lg shadow-lg hover:brightness-110 active:scale-[0.99] transition flex items-center justify-center gap-2">
+                    <span>🔄</span> Play Again
+                </button>
+                <button onclick="showConfigScreen()" class="wood-button py-3.5 rounded-2xl text-yellow-100 font-bold text-lg shadow-lg hover:brightness-110 active:scale-[0.99] transition flex items-center justify-center gap-2">
+                    <span>⚙️</span> Change Settings
+                </button>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="relative z-10 text-center py-3 text-xs text-emerald-400/60 font-medium">
+        Jungle Mental Math Rush • Built for Fast Brain Training
+    </footer>
+
+    <script>
+        /* ==================== GAME STATE & CONFIGURATION ==================== */
+        const gameState = {
+            mode: 'add',            // 'add' | 'sub'
+            totalQuestions: 10,     // 10 | 20 | 50
+            timePerQuestion: 5,     // 10 | 5 | 3
+            difficulty: 'grade2',   // Grade 2 standard
+            
+            // Runtime tracking
+            currentQuestionIndex: 0,
+            questions: [],
+            score: 0,
+            streak: 0,
+            maxStreak: 0,
+            currentInput: '',
+            
+            // Timer handles
+            timerInterval: null,
+            timeRemainingMs: 0,
+            questionStartTime: 0,
+            
+            // Audio toggle
+            soundEnabled: true
+        };
+
+        /* ==================== WEB AUDIO API SYNTHESIZER ==================== */
+        let audioCtx = null;
+
+        function getAudioContext() {
+            if (!audioCtx) {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (AudioContext) {
+                    audioCtx = new AudioContext();
+                }
+            }
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            return audioCtx;
+        }
+
+        function playSound(type) {
+            if (!gameState.soundEnabled) return;
+            try {
+                const ctx = getAudioContext();
+                if (!ctx) return;
+
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                const now = ctx.currentTime;
+
+                if (type === 'click') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(400, now);
+                    osc.frequency.exponentialRampToValueAtTime(800, now + 0.05);
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
+                    osc.start(now);
+                    osc.stop(now + 0.05);
+                } else if (type === 'correct') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(523.25, now); // C5
+                    osc.frequency.setValueAtTime(659.25, now + 0.08); // E5
+                    osc.frequency.setValueAtTime(783.99, now + 0.16); // G5
+                    osc.frequency.setValueAtTime(1046.50, now + 0.24); // C6
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+                    osc.start(now);
+                    osc.stop(now + 0.35);
+                } else if (type === 'wrong') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(220, now);
+                    osc.frequency.linearRampToValueAtTime(110, now + 0.25);
+                    gain.gain.setValueAtTime(0.25, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+                    osc.start(now);
+                    osc.stop(now + 0.25);
+                } else if (type === 'tick') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(880, now);
+                    gain.gain.setValueAtTime(0.05, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.03);
+                    osc.start(now);
+                    osc.stop(now + 0.03);
+                } else if (type === 'victory') {
+                    const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51];
+                    notes.forEach((freq, idx) => {
+                        const noteOsc = ctx.createOscillator();
+                        const noteGain = ctx.createGain();
+                        noteOsc.connect(noteGain);
+                        noteGain.connect(ctx.destination);
+                        
+                        noteOsc.type = 'triangle';
+                        noteOsc.frequency.setValueAtTime(freq, now + idx * 0.1);
+                        noteGain.gain.setValueAtTime(0.2, now + idx * 0.1);
+                        noteGain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.1 + 0.3);
+                        noteOsc.start(now + idx * 0.1);
+                        noteOsc.stop(now + idx * 0.1 + 0.3);
+                    });
+                }
+            } catch (e) {
+                console.warn('Audio playback restricted', e);
+            }
+        }
+
+        function toggleSound() {
+            gameState.soundEnabled = !gameState.soundEnabled;
+            document.getElementById('soundIcon').textContent = gameState.soundEnabled ? '🔊' : '🔇';
+            document.getElementById('soundText').textContent = gameState.soundEnabled ? 'Sound On' : 'Muted';
+            if (gameState.soundEnabled) playSound('click');
+        }
+
+        /* ==================== SELECTION HANDLERS ==================== */
+        function selectMode(mode) {
+            playSound('click');
+            gameState.mode = mode;
+            
+            const btnAdd = document.getElementById('modeBtnAdd');
+            const btnSub = document.getElementById('modeBtnSub');
+
+            const activeClass = ['border-yellow-400', 'bg-yellow-500/20', 'text-yellow-300'];
+            const inactiveClass = ['border-emerald-700', 'bg-emerald-900/40', 'text-emerald-300'];
+
+            if (mode === 'add') {
+                btnAdd.classList.add(...activeClass);
+                btnAdd.classList.remove(...inactiveClass);
+                btnSub.classList.add(...inactiveClass);
+                btnSub.classList.remove(...activeClass);
+            } else {
+                btnSub.classList.add(...activeClass);
+                btnSub.classList.remove(...inactiveClass);
+                btnAdd.classList.add(...inactiveClass);
+                btnAdd.classList.remove(...activeClass);
+            }
+        }
+
+        function selectQuestionCount(count) {
+            playSound('click');
+            gameState.totalQuestions = count;
+            [10, 20, 50].forEach(num => {
+                const btn = document.getElementById(`qBtn${num}`);
+                if (num === count) {
+                    btn.className = "q-count-btn p-3 rounded-xl border-2 border-yellow-400 bg-yellow-500/20 text-yellow-300 font-bold text-base transition-all";
+                } else {
+                    btn.className = "q-count-btn p-3 rounded-xl border-2 border-emerald-700 bg-emerald-900/40 text-emerald-300 hover:border-emerald-500 font-bold text-base transition-all";
+                }
+            });
+        }
+
+        function selectTimeLimit(seconds) {
+            playSound('click');
+            gameState.timePerQuestion = seconds;
+            [10, 5, 3].forEach(sec => {
+                const btn = document.getElementById(`tBtn${sec}`);
+                if (sec === seconds) {
+                    btn.className = "time-limit-btn p-3 rounded-xl border-2 border-yellow-400 bg-yellow-500/20 text-yellow-300 font-bold text-base transition-all";
+                } else {
+                    btn.className = "time-limit-btn p-3 rounded-xl border-2 border-emerald-700 bg-emerald-900/40 text-emerald-300 hover:border-emerald-500 font-bold text-base transition-all";
+                }
+            });
+        }
+
+        /* ==================== MATH QUESTION GENERATOR ==================== */
+        function generateQuestions() {
+            const list = [];
+            const isAdd = gameState.mode === 'add';
+
+            for (let i = 0; i < gameState.totalQuestions; i++) {
+                let num1, num2, answer;
+
+                if (isAdd) {
+                    // Grade 2 Addition: Numbers 1 to 10 (sums within 10)
+                    num1 = Math.floor(Math.random() * 9) + 1; // 1 to 9
+                    num2 = Math.floor(Math.random() * (10 - num1)) + 1; // 1 to (10 - num1)
+                    answer = num1 + num2;
+                } else {
+                    // Subtraction: Numbers 1 to 10
+                    num1 = Math.floor(Math.random() * 10) + 1; // 1 to 10
+                    num2 = Math.floor(Math.random() * num1) + 1; // 1 to num1 (non-negative result)
+                    answer = num1 - num2;
+                }
+
+                list.push({
+                    num1,
+                    num2,
+                    operator: isAdd ? '+' : '-',
+                    correctAnswer: answer,
+                    userAnswer: null,
+                    timeTakenSec: 0,
+                    status: 'pending' // 'correct', 'wrong', 'timeout'
+                });
+            }
+
+            return list;
+        }
+
+        /* ==================== SCREEN NAVIGATION & GAME FLOW ==================== */
+        function showConfigScreen() {
+            playSound('click');
+            clearInterval(gameState.timerInterval);
+            document.getElementById('configScreen').classList.remove('hidden');
+            document.getElementById('gameScreen').classList.add('hidden');
+            document.getElementById('resultsScreen').classList.add('hidden');
+        }
+
+        function startGame() {
+            playSound('click');
+            
+            // Reset state variables
+            gameState.currentQuestionIndex = 0;
+            gameState.questions = generateQuestions();
+            gameState.score = 0;
+            gameState.streak = 0;
+            gameState.maxStreak = 0;
+            gameState.currentInput = '';
+
+            // Update UI elements
+            document.getElementById('totalQNum').textContent = gameState.totalQuestions;
+            document.getElementById('scoreDisplay').textContent = '0';
+            document.getElementById('streakCount').textContent = '0x';
+            document.getElementById('mathModeBadge').textContent = gameState.mode === 'add' ? 'ADDITION SAFARI' : 'SUBTRACTION SAFARI';
+
+            // Show Game Screen
+            document.getElementById('configScreen').classList.add('hidden');
+            document.getElementById('resultsScreen').classList.add('hidden');
+            document.getElementById('gameScreen').classList.remove('hidden');
+
+            loadQuestion(0);
+        }
+
+        function loadQuestion(index) {
+            if (index >= gameState.totalQuestions) {
+                endGame();
+                return;
+            }
+
+            gameState.currentQuestionIndex = index;
+            gameState.currentInput = '';
+            updateAnswerTextDisplay();
+
+            const q = gameState.questions[index];
+            document.getElementById('currentQNum').textContent = index + 1;
+            document.getElementById('mathProblem').textContent = `${q.num1} ${q.operator} ${q.num2} = ?`;
+
+            // Progress bar update
+            const progressPercent = (index / gameState.totalQuestions) * 100;
+            document.getElementById('progressBar').style.width = `${progressPercent}%`;
+
+            // Start Question Countdown Timer
+            startTimer();
+        }
+
+        /* ==================== TIMER ENGINE ==================== */
+        function startTimer() {
+            clearInterval(gameState.timerInterval);
+            
+            const totalMs = gameState.timePerQuestion * 1000;
+            gameState.timeRemainingMs = totalMs;
+            gameState.questionStartTime = Date.now();
+
+            updateTimerUI(totalMs, totalMs);
+
+            const intervalStep = 50; // Update every 50ms for smooth progress bar animation
+            let lastTickSecond = Math.ceil(gameState.timePerQuestion);
+
+            gameState.timerInterval = setInterval(() => {
+                gameState.timeRemainingMs -= intervalStep;
+
+                if (gameState.timeRemainingMs <= 0) {
+                    gameState.timeRemainingMs = 0;
+                    updateTimerUI(0, totalMs);
+                    clearInterval(gameState.timerInterval);
+                    handleAnswerSubmit(true); // Timed out
+                } else {
+                    updateTimerUI(gameState.timeRemainingMs, totalMs);
+
+                    // Audio Tick when < 3s remaining
+                    const currentSec = Math.ceil(gameState.timeRemainingMs / 1000);
+                    if (currentSec <= 3 && currentSec < lastTickSecond) {
+                        playSound('tick');
+                        lastTickSecond = currentSec;
+                    }
+                }
+            }, intervalStep);
+        }
+
+        function updateTimerUI(remainingMs, totalMs) {
+            const percentage = (remainingMs / totalMs) * 100;
+            const timerBar = document.getElementById('timerBar');
+            const timerText = document.getElementById('timerText');
+
+            timerBar.style.width = `${percentage}%`;
+            timerText.textContent = `${(remainingMs / 1000).toFixed(1)}s`;
+
+            // Color shift from yellow -> orange -> red
+            if (percentage > 50) {
+                timerBar.className = "bg-yellow-400 h-full rounded-full transition-all duration-75";
+            } else if (percentage > 25) {
+                timerBar.className = "bg-orange-400 h-full rounded-full transition-all duration-75";
+            } else {
+                timerBar.className = "bg-red-500 h-full rounded-full transition-all duration-75";
+            }
+        }
+
+        /* ==================== INPUT HANDLING ==================== */
+        function pressKey(key) {
+            playSound('click');
+
+            if (key === 'CLEAR') {
+                gameState.currentInput = '';
+            } else if (key === 'SUBMIT') {
+                if (gameState.currentInput.length > 0) {
+                    handleAnswerSubmit(false);
+                }
+                return;
+            } else {
+                // Prevent excessively long numbers
+                if (gameState.currentInput.length < 4) {
+                    gameState.currentInput += key;
+                }
+            }
+
+            updateAnswerTextDisplay();
+        }
+
+        function updateAnswerTextDisplay() {
+            const display = document.getElementById('userAnswerText');
+            if (gameState.currentInput === '') {
+                display.innerHTML = '<span class="text-emerald-600 animate-pulse">?</span>';
+            } else {
+                display.textContent = gameState.currentInput;
+            }
+        }
+
+        // Global Physical Keyboard Listener
+        document.addEventListener('keydown', (e) => {
+            const gameScreen = document.getElementById('gameScreen');
+            if (gameScreen.classList.contains('hidden')) return;
+
+            if (e.key >= '0' && e.key <= '9') {
+                pressKey(e.key);
+            } else if (e.key === 'Backspace') {
+                if (gameState.currentInput.length > 0) {
+                    gameState.currentInput = gameState.currentInput.slice(0, -1);
+                    updateAnswerTextDisplay();
+                    playSound('click');
+                }
+            } else if (e.key === 'Enter') {
+                if (gameState.currentInput.length > 0) {
+                    handleAnswerSubmit(false);
+                }
+            } else if (e.key === 'c' || e.key === 'C') {
+                pressKey('CLEAR');
+            }
+        });
+
+        /* ==================== ANSWER EVALUATION ==================== */
+        function handleAnswerSubmit(isTimeout) {
+            clearInterval(gameState.timerInterval);
+
+            const q = gameState.questions[gameState.currentQuestionIndex];
+            const timeTaken = (Date.now() - gameState.questionStartTime) / 1000;
+            q.timeTakenSec = Math.min(timeTaken, gameState.timePerQuestion);
+
+            const flashcard = document.getElementById('flashcard');
+
+            if (isTimeout) {
+                q.status = 'timeout';
+                q.userAnswer = 'Time Out';
+                gameState.streak = 0;
+                playSound('wrong');
+
+                flashcard.classList.add('animate-shake', 'border-red-500');
+                showFloatingText('⌛ TIMED OUT!', 'text-red-400');
+            } else {
+                const userVal = parseInt(gameState.currentInput, 10);
+                q.userAnswer = userVal;
+
+                if (userVal === q.correctAnswer) {
+                    q.status = 'correct';
+                    gameState.streak++;
+                    if (gameState.streak > gameState.maxStreak) {
+                        gameState.maxStreak = gameState.streak;
+                    }
+
+                    // Score calculation: Base 100 pts + Speed Bonus + Streak Bonus
+                    const timeBonus = Math.round((1 - (q.timeTakenSec / gameState.timePerQuestion)) * 100);
+                    const streakBonus = (gameState.streak - 1) * 20;
+                    const pointsGained = 100 + Math.max(0, timeBonus) + streakBonus;
+
+                    gameState.score += pointsGained;
+                    playSound('correct');
+
+                    flashcard.classList.add('border-emerald-400');
+                    showFloatingText(`+${pointsGained} 🍌`, 'text-yellow-300');
+                } else {
+                    q.status = 'wrong';
+                    gameState.streak = 0;
+                    playSound('wrong');
+
+                    flashcard.classList.add('animate-shake', 'border-red-500');
+                    showFloatingText('❌ WRONG!', 'text-red-400');
+                }
+            }
+
+            // Update Score and Streak HUD
+            document.getElementById('scoreDisplay').textContent = gameState.score;
+            document.getElementById('streakCount').textContent = `${gameState.streak}x`;
+
+            // Transition to Next Question
+            setTimeout(() => {
+                flashcard.classList.remove('animate-shake', 'border-red-500', 'border-emerald-400');
+                loadQuestion(gameState.currentQuestionIndex + 1);
+            }, 600);
+        }
+
+        function showFloatingText(text, colorClass) {
+            const container = document.getElementById('scoreFloatingContainer');
+            const el = document.createElement('div');
+            el.className = `absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-2xl sm:text-4xl font-black ${colorClass} animate-float-score pointer-events-none drop-shadow-lg`;
+            el.textContent = text;
+            container.appendChild(el);
+
+            setTimeout(() => {
+                el.remove();
+            }, 800);
+        }
+
+        /* ==================== END GAME RESULTS ==================== */
+        function endGame() {
+            clearInterval(gameState.timerInterval);
+
+            // Calculate Statistics
+            const total = gameState.totalQuestions;
+            const correctCount = gameState.questions.filter(q => q.status === 'correct').length;
+            const accuracyPercent = Math.round((correctCount / total) * 100);
+
+            const totalTimeSec = gameState.questions.reduce((acc, q) => acc + q.timeTakenSec, 0);
+            const avgTimeSec = (totalTimeSec / total).toFixed(1);
+
+            // UI Stats Display
+            document.getElementById('resScore').textContent = gameState.score;
+            document.getElementById('resAccuracy').textContent = `${accuracyPercent}%`;
+            document.getElementById('resAvgTime').textContent = `${avgTimeSec}s`;
+            document.getElementById('resMaxStreak').textContent = gameState.maxStreak;
+            document.getElementById('correctFraction').textContent = `${correctCount}/${total}`;
+
+            // Badge & Title Rank
+            const badgeElem = document.getElementById('badgeTitle');
+            const resultIcon = document.getElementById('resultIcon');
+            const resultTitle = document.getElementById('resultTitle');
+
+            if (accuracyPercent >= 90) {
+                badgeElem.textContent = 'King of the Jungle 🦁👑';
+                resultIcon.textContent = '👑';
+                resultTitle.textContent = 'Legendary Safari!';
+                playSound('victory');
+                if (typeof confetti === 'function') {
+                    confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
+                }
+            } else if (accuracyPercent >= 70) {
+                badgeElem.textContent = 'Speedy Cheetah 🐆';
+                resultIcon.textContent = '🐆';
+                resultTitle.textContent = 'Great Job Explorer!';
+                playSound('victory');
+            } else if (accuracyPercent >= 50) {
+                badgeElem.textContent = 'Clever Capuchin 🐒';
+                resultIcon.textContent = '🐒';
+                resultTitle.textContent = 'Nice Effort!';
+            } else {
+                badgeElem.textContent = 'Jungle Scout 🌿';
+                resultIcon.textContent = '🦜';
+                resultTitle.textContent = 'Keep Practicing!';
+            }
+
+            // Populate Detailed Review Log
+            const reviewContainer = document.getElementById('reviewContainer');
+            reviewContainer.innerHTML = '';
+
+            gameState.questions.forEach((q, idx) => {
+                const item = document.createElement('div');
+                let badgeBg, icon;
+
+                if (q.status === 'correct') {
+                    badgeBg = 'bg-emerald-950/80 border-emerald-600/60 text-emerald-300';
+                    icon = '✅';
+                } else if (q.status === 'wrong') {
+                    badgeBg = 'bg-red-950/80 border-red-600/60 text-red-300';
+                    icon = '❌';
+                } else {
+                    badgeBg = 'bg-amber-950/80 border-amber-600/60 text-amber-300';
+                    icon = '⌛';
+                }
+
+                item.className = `p-3 rounded-xl border flex items-center justify-between text-xs sm:text-sm font-semibold ${badgeBg}`;
+                item.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <span>${icon}</span>
+                        <span>#${idx + 1}: ${q.num1} ${q.operator} ${q.num2} = <strong class="text-white font-outfit text-base">${q.correctAnswer}</strong></span>
+                    </div>
+                    <div class="text-right">
+                        <div>Your Answer: <span class="font-bold">${q.userAnswer}</span></div>
+                        <div class="text-[10px] opacity-75">${q.timeTakenSec.toFixed(1)}s</div>
+                    </div>
+                `;
+                reviewContainer.appendChild(item);
+            });
+
+            // Switch Screen
+            document.getElementById('gameScreen').classList.add('hidden');
+            document.getElementById('resultsScreen').classList.remove('hidden');
+        }
+
+        /* ==================== BACKGROUND ANIMATED CANVAS ==================== */
+        function initBgCanvas() {
+            const canvas = document.getElementById('bgCanvas');
+            const ctx = canvas.getContext('2d');
+
+            let width = (canvas.width = window.innerWidth);
+            let height = (canvas.height = window.innerHeight);
+
+            window.addEventListener('resize', () => {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            });
+
+            // Firefly & Leaf Particles
+            const particles = Array.from({ length: 35 }, () => ({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                radius: Math.random() * 2.5 + 1,
+                alpha: Math.random() * 0.8 + 0.2,
+                vx: (Math.random() - 0.5) * 0.4,
+                vy: -Math.random() * 0.6 - 0.2,
+                color: Math.random() > 0.4 ? '#facc15' : '#34d399'
+            }));
+
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+
+                particles.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+
+                    if (p.y < -10) p.y = height + 10;
+                    if (p.x < -10) p.x = width + 10;
+                    if (p.x > width + 10) p.x = -10;
+
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color;
+                    ctx.globalAlpha = p.alpha;
+                    ctx.shadowBlur = 10;
+                    ctx.shadowColor = p.color;
+                    ctx.fill();
+                });
+
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+        }
+
+        // Initialize on window load
+        window.onload = function () {
+            initBgCanvas();
+        };
+    </script>
+</body>
+</html>

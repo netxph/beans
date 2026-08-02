@@ -614,7 +614,30 @@
         </svg>
       `;
 
+      const PARROT_ICON = `
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <ellipse cx="50" cy="82" rx="26" ry="7" fill="#166534" opacity=".28" />
+          <path d="M54 26 Q30 19 24 43 Q20 64 43 72 Q65 78 76 57 Q84 42 68 31 Z" fill="#22c55e" stroke="#15803d" stroke-width="3" />
+          <path d="M51 27 Q62 20 76 27 Q65 39 55 47 Z" fill="#facc15" />
+          <path d="M43 48 Q22 43 20 57 Q34 64 48 61 Z" fill="#2563eb" />
+          <path d="M72 42 L91 48 L72 54 Z" fill="#f97316" stroke="#c2410c" stroke-width="2" />
+          <circle cx="60" cy="38" r="9" fill="#fff" />
+          <circle cx="62" cy="38" r="4" fill="#172554" />
+          <circle cx="63" cy="36.5" r="1.4" fill="#fff" />
+          <path d="M48 67 Q59 73 67 64" stroke="#14532d" stroke-width="3" stroke-linecap="round" fill="none" />
+          <path d="M43 72 L39 84 M61 71 L66 84" stroke="#f97316" stroke-width="4" stroke-linecap="round" />
+        </svg>
+      `;
+
       const games = [
+        {
+          id: 'jungle-rush',
+          title: 'Jungle Math Rush',
+          icon: PARROT_ICON,
+          emoji: '🦜',
+          description: 'Race through quick addition and subtraction questions on a jungle safari!',
+          src: './jungle-rush/index.html'
+        },
         {
           id: 'bunny-hop',
           title: 'Bunny Hop',
