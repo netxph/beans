@@ -103,21 +103,21 @@
         </div>
     </header>
 
-    <main class="relative z-10 flex-1 flex items-center justify-center p-4 w-full max-w-4xl mx-auto">
+    <main class="relative z-10 flex-1 flex items-start sm:items-center justify-center overflow-y-auto p-3 sm:p-4 w-full max-w-4xl mx-auto">
 
         <!-- ==================== SCREEN 1: NEW GAME CONFIGURATION ==================== -->
-        <div id="configScreen" class="w-full jungle-card rounded-3xl p-6 md:p-8 backdrop-blur-md transition-all duration-300">
+        <div id="configScreen" class="w-full jungle-card rounded-3xl p-4 sm:p-6 md:p-8 backdrop-blur-md transition-all duration-300">
             
             <div class="text-center mb-6">
                 <div class="inline-block p-3 bg-yellow-500/20 rounded-2xl mb-2">
                     <span class="text-5xl">🦜</span>
                 </div>
-                <h2 class="text-3xl font-extrabold text-yellow-300 tracking-wide">Jungle Quest Setup</h2>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-yellow-300 tracking-wide">Jungle Quest Setup</h2>
                 <p class="text-emerald-200 text-sm mt-1">Configure your rapid mental math expedition!</p>
             </div>
 
             <!-- Configuration Form -->
-            <div class="space-y-6 max-w-xl mx-auto">
+            <div class="space-y-4 sm:space-y-6 max-w-xl mx-auto">
                 
                 <!-- Operation Mode Selection -->
                 <div>
@@ -138,20 +138,37 @@
                     </div>
                 </div>
 
+                <!-- Difficulty Config -->
+                <div>
+                    <label class="block text-sm font-semibold text-emerald-300 uppercase tracking-wider mb-2 flex items-center gap-2">
+                        <span>🌿</span> Select Difficulty
+                    </label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button type="button" onclick="selectDifficulty('beginner')" id="difficultyBtnBeginner" class="difficulty-btn p-3 rounded-2xl border-2 border-yellow-400 bg-yellow-500/20 text-yellow-300 font-bold text-base sm:text-lg flex flex-col items-center gap-1 transition-all">
+                            <span>🐒 Beginner</span>
+                            <span class="text-xs font-normal text-yellow-200/80">Numbers 1–10</span>
+                        </button>
+                        <button type="button" onclick="selectDifficulty('expert')" id="difficultyBtnExpert" class="difficulty-btn p-3 rounded-2xl border-2 border-emerald-700 bg-emerald-900/40 text-emerald-300 hover:border-emerald-500 font-bold text-base sm:text-lg flex flex-col items-center gap-1 transition-all">
+                            <span>🐆 Expert</span>
+                            <span class="text-xs font-normal text-emerald-200/80">Numbers 1–20</span>
+                        </button>
+                    </div>
+                </div>
+
                 <!-- Number of Questions Config (10, 20, 50 - Default 10) -->
                 <div>
                     <label class="block text-sm font-semibold text-emerald-300 uppercase tracking-wider mb-2 flex items-center gap-2">
                         <span>📜</span> Number of Questions
                     </label>
                     <div class="grid grid-cols-3 gap-3">
-                        <button type="button" onclick="selectQuestionCount(10)" id="qBtn10" class="q-count-btn p-3 rounded-xl border-2 border-yellow-400 bg-yellow-500/20 text-yellow-300 font-bold text-base transition-all">
-                            10 Questions
+                        <button type="button" onclick="selectQuestionCount(10)" id="qBtn10" class="q-count-btn p-2 rounded-xl border-2 border-yellow-400 bg-yellow-500/20 text-yellow-300 font-bold text-sm transition-all">
+                            10
                         </button>
-                        <button type="button" onclick="selectQuestionCount(20)" id="qBtn20" class="q-count-btn p-3 rounded-xl border-2 border-emerald-700 bg-emerald-900/40 text-emerald-300 hover:border-emerald-500 font-bold text-base transition-all">
-                            20 Questions
+                        <button type="button" onclick="selectQuestionCount(20)" id="qBtn20" class="q-count-btn p-2 rounded-xl border-2 border-emerald-700 bg-emerald-900/40 text-emerald-300 hover:border-emerald-500 font-bold text-sm transition-all">
+                            20
                         </button>
-                        <button type="button" onclick="selectQuestionCount(50)" id="qBtn50" class="q-count-btn p-3 rounded-xl border-2 border-emerald-700 bg-emerald-900/40 text-emerald-300 hover:border-emerald-500 font-bold text-base transition-all">
-                            50 Questions
+                        <button type="button" onclick="selectQuestionCount(50)" id="qBtn50" class="q-count-btn p-2 rounded-xl border-2 border-emerald-700 bg-emerald-900/40 text-emerald-300 hover:border-emerald-500 font-bold text-sm transition-all">
+                            50
                         </button>
                     </div>
                 </div>
@@ -162,14 +179,14 @@
                         <span>⏱️</span> Time Per Question
                     </label>
                     <div class="grid grid-cols-3 gap-3">
-                        <button type="button" onclick="selectTimeLimit(10)" id="tBtn10" class="time-limit-btn p-3 rounded-xl border-2 border-emerald-700 bg-emerald-900/40 text-emerald-300 hover:border-emerald-500 font-bold text-base transition-all">
-                            10 Seconds
+                        <button type="button" onclick="selectTimeLimit(10)" id="tBtn10" class="time-limit-btn p-2 rounded-xl border-2 border-emerald-700 bg-emerald-900/40 text-emerald-300 hover:border-emerald-500 font-bold text-sm transition-all">
+                            10
                         </button>
-                        <button type="button" onclick="selectTimeLimit(5)" id="tBtn5" class="time-limit-btn p-3 rounded-xl border-2 border-yellow-400 bg-yellow-500/20 text-yellow-300 font-bold text-base transition-all">
-                            5 Seconds ⭐
+                        <button type="button" onclick="selectTimeLimit(5)" id="tBtn5" class="time-limit-btn p-2 rounded-xl border-2 border-yellow-400 bg-yellow-500/20 text-yellow-300 font-bold text-sm transition-all">
+                            5 ⭐
                         </button>
-                        <button type="button" onclick="selectTimeLimit(3)" id="tBtn3" class="time-limit-btn p-3 rounded-xl border-2 border-emerald-700 bg-emerald-900/40 text-emerald-300 hover:border-emerald-500 font-bold text-base transition-all">
-                            3 Seconds ⚡
+                        <button type="button" onclick="selectTimeLimit(3)" id="tBtn3" class="time-limit-btn p-2 rounded-xl border-2 border-emerald-700 bg-emerald-900/40 text-emerald-300 hover:border-emerald-500 font-bold text-sm transition-all">
+                            3 ⚡
                         </button>
                     </div>
                 </div>
@@ -355,7 +372,7 @@
             mode: 'add',            // 'add' | 'sub'
             totalQuestions: 10,     // 10 | 20 | 50
             timePerQuestion: 5,     // 10 | 5 | 3
-            difficulty: 'grade2',   // Grade 2 standard
+            difficulty: 'beginner', // 'beginner' | 'expert'
             
             // Runtime tracking
             currentQuestionIndex: 0,
@@ -488,15 +505,31 @@
             }
         }
 
+        function selectDifficulty(difficulty) {
+            playSound('click');
+            gameState.difficulty = difficulty;
+
+            ['beginner', 'expert'].forEach(option => {
+                const btn = document.getElementById(`difficultyBtn${option[0].toUpperCase()}${option.slice(1)}`);
+                const isActive = option === difficulty;
+                btn.classList.toggle('border-yellow-400', isActive);
+                btn.classList.toggle('bg-yellow-500/20', isActive);
+                btn.classList.toggle('text-yellow-300', isActive);
+                btn.classList.toggle('border-emerald-700', !isActive);
+                btn.classList.toggle('bg-emerald-900/40', !isActive);
+                btn.classList.toggle('text-emerald-300', !isActive);
+            });
+        }
+
         function selectQuestionCount(count) {
             playSound('click');
             gameState.totalQuestions = count;
             [10, 20, 50].forEach(num => {
                 const btn = document.getElementById(`qBtn${num}`);
                 if (num === count) {
-                    btn.className = "q-count-btn p-3 rounded-xl border-2 border-yellow-400 bg-yellow-500/20 text-yellow-300 font-bold text-base transition-all";
+                    btn.className = "q-count-btn p-2 rounded-xl border-2 border-yellow-400 bg-yellow-500/20 text-yellow-300 font-bold text-sm transition-all";
                 } else {
-                    btn.className = "q-count-btn p-3 rounded-xl border-2 border-emerald-700 bg-emerald-900/40 text-emerald-300 hover:border-emerald-500 font-bold text-base transition-all";
+                    btn.className = "q-count-btn p-2 rounded-xl border-2 border-emerald-700 bg-emerald-900/40 text-emerald-300 hover:border-emerald-500 font-bold text-sm transition-all";
                 }
             });
         }
@@ -507,9 +540,9 @@
             [10, 5, 3].forEach(sec => {
                 const btn = document.getElementById(`tBtn${sec}`);
                 if (sec === seconds) {
-                    btn.className = "time-limit-btn p-3 rounded-xl border-2 border-yellow-400 bg-yellow-500/20 text-yellow-300 font-bold text-base transition-all";
+                    btn.className = "time-limit-btn p-2 rounded-xl border-2 border-yellow-400 bg-yellow-500/20 text-yellow-300 font-bold text-sm transition-all";
                 } else {
-                    btn.className = "time-limit-btn p-3 rounded-xl border-2 border-emerald-700 bg-emerald-900/40 text-emerald-300 hover:border-emerald-500 font-bold text-base transition-all";
+                    btn.className = "time-limit-btn p-2 rounded-xl border-2 border-emerald-700 bg-emerald-900/40 text-emerald-300 hover:border-emerald-500 font-bold text-sm transition-all";
                 }
             });
         }
@@ -518,19 +551,20 @@
         function generateQuestions() {
             const list = [];
             const isAdd = gameState.mode === 'add';
+            const maxNumber = gameState.difficulty === 'expert' ? 20 : 10;
 
             for (let i = 0; i < gameState.totalQuestions; i++) {
                 let num1, num2, answer;
 
                 if (isAdd) {
-                    // Grade 2 Addition: Numbers 1 to 10 (sums within 10)
-                    num1 = Math.floor(Math.random() * 9) + 1; // 1 to 9
-                    num2 = Math.floor(Math.random() * (10 - num1)) + 1; // 1 to (10 - num1)
+                    // Keep the complete addition within the selected maximum sum.
+                    num1 = Math.floor(Math.random() * (maxNumber - 1)) + 1;
+                    num2 = Math.floor(Math.random() * (maxNumber - num1)) + 1;
                     answer = num1 + num2;
                 } else {
-                    // Subtraction: Numbers 1 to 10
-                    num1 = Math.floor(Math.random() * 10) + 1; // 1 to 10
-                    num2 = Math.floor(Math.random() * num1) + 1; // 1 to num1 (non-negative result)
+                    // Both subtraction numbers stay within the selected range.
+                    num1 = Math.floor(Math.random() * maxNumber) + 1;
+                    num2 = Math.floor(Math.random() * num1) + 1;
                     answer = num1 - num2;
                 }
 
