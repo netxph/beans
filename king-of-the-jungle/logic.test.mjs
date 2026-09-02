@@ -1,11 +1,25 @@
 import { describe, expect, test } from 'bun:test';
-import { applyAnswer, shuffledQuestion } from './logic.mjs';
+import { applyAnswer, parseQuestionsYaml, shuffledQuestion } from './logic.mjs';
 
 const question = {
   question: 'Which planet is our home?',
   choices: ['Earth', 'Mars', 'Venus', 'Jupiter'],
   answer: 'Earth',
 };
+
+describe('question database', () => {
+  test('parses the YAML question format', () => {
+    expect(parseQuestionsYaml(`easy:
+  - question: "Which planet is our home?"
+    choices:
+      - "Earth"
+      - "Mars"
+      - "Venus"
+      - "Jupiter"
+    answer: "Earth"
+`)).toEqual({ easy: [question] });
+  });
+});
 
 describe('battle logic', () => {
   test('correct answers hurt only the enemy', () => {

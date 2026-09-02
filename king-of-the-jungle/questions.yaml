@@ -1,2508 +1,1753 @@
-{
-  "easy": [
-    {
-      "question": "Which animal has feathers?",
-      "choices": [
-        "Parrot",
-        "Frog",
-        "Lizard",
-        "Rabbit"
-      ],
-      "answer": "Parrot"
-    },
-    {
-      "question": "Which animal breathes through gills?",
-      "choices": [
-        "Fish",
-        "Lion",
-        "Eagle",
-        "Butterfly"
-      ],
-      "answer": "Fish"
-    },
-    {
-      "question": "What do caterpillars become after metamorphosis?",
-      "choices": [
-        "Butterflies",
-        "Spiders",
-        "Worms",
-        "Beetles"
-      ],
-      "answer": "Butterflies"
-    },
-    {
-      "question": "Which animal is a mammal?",
-      "choices": [
-        "Dolphin",
-        "Shark",
-        "Trout",
-        "Octopus"
-      ],
-      "answer": "Dolphin"
-    },
-    {
-      "question": "Which body covering helps a polar bear stay warm?",
-      "choices": [
-        "Thick fur",
-        "Wet scales",
-        "Thin feathers",
-        "A hard shell"
-      ],
-      "answer": "Thick fur"
-    },
-    {
-      "question": "What do most birds use to fly?",
-      "choices": [
-        "Wings",
-        "Fins",
-        "Paws",
-        "Antennae"
-      ],
-      "answer": "Wings"
-    },
-    {
-      "question": "Which animal lays eggs?",
-      "choices": [
-        "Chicken",
-        "Cat",
-        "Dog",
-        "Horse"
-      ],
-      "answer": "Chicken"
-    },
-    {
-      "question": "What is a young frog called?",
-      "choices": [
-        "Tadpole",
-        "Cub",
-        "Calf",
-        "Chick"
-      ],
-      "answer": "Tadpole"
-    },
-    {
-      "question": "Which animal is an insect?",
-      "choices": [
-        "Ant",
-        "Spider",
-        "Snail",
-        "Earthworm"
-      ],
-      "answer": "Ant"
-    },
-    {
-      "question": "How many legs does an adult insect have?",
-      "choices": [
-        "Six",
-        "Four",
-        "Eight",
-        "Ten"
-      ],
-      "answer": "Six"
-    },
-    {
-      "question": "Which animal is active mostly at night?",
-      "choices": [
-        "Owl",
-        "Butterfly",
-        "Squirrel",
-        "Honeybee"
-      ],
-      "answer": "Owl"
-    },
-    {
-      "question": "What do herbivores mainly eat?",
-      "choices": [
-        "Plants",
-        "Rocks",
-        "Other animals",
-        "Plastic"
-      ],
-      "answer": "Plants"
-    },
-    {
-      "question": "Which animal carries its baby in a pouch?",
-      "choices": [
-        "Kangaroo",
-        "Elephant",
-        "Penguin",
-        "Crocodile"
-      ],
-      "answer": "Kangaroo"
-    },
-    {
-      "question": "Which animal has a hard outer shell?",
-      "choices": [
-        "Turtle",
-        "Rabbit",
-        "Whale",
-        "Monkey"
-      ],
-      "answer": "Turtle"
-    },
-    {
-      "question": "What do bees collect from flowers?",
-      "choices": [
-        "Nectar",
-        "Sand",
-        "Pebbles",
-        "Salt"
-      ],
-      "answer": "Nectar"
-    },
-    {
-      "question": "Which animal uses echolocation to find its way?",
-      "choices": [
-        "Bat",
-        "Zebra",
-        "Giraffe",
-        "Tortoise"
-      ],
-      "answer": "Bat"
-    },
-    {
-      "question": "Which animal can live both in water and on land?",
-      "choices": [
-        "Frog",
-        "Eagle",
-        "Camel",
-        "Tiger"
-      ],
-      "answer": "Frog"
-    },
-    {
-      "question": "What helps a fish steer and swim?",
-      "choices": [
-        "Fins",
-        "Fur",
-        "Claws",
-        "Hooves"
-      ],
-      "answer": "Fins"
-    },
-    {
-      "question": "Which animal has eight legs?",
-      "choices": [
-        "Spider",
-        "Ant",
-        "Crabapple",
-        "Centipede"
-      ],
-      "answer": "Spider"
-    },
-    {
-      "question": "Why do many animals use camouflage?",
-      "choices": [
-        "To blend into their surroundings",
-        "To make food sweeter",
-        "To grow extra legs",
-        "To change the weather"
-      ],
-      "answer": "To blend into their surroundings"
-    },
-    {
-      "question": "Which part of a plant usually absorbs water from soil?",
-      "choices": [
-        "Roots",
-        "Flowers",
-        "Fruit",
-        "Seeds"
-      ],
-      "answer": "Roots"
-    },
-    {
-      "question": "Which part of a plant usually makes food using sunlight?",
-      "choices": [
-        "Leaves",
-        "Roots",
-        "Petals",
-        "Bark"
-      ],
-      "answer": "Leaves"
-    },
-    {
-      "question": "What do plants need from the Sun to make food?",
-      "choices": [
-        "Light",
-        "Moon dust",
-        "Sound",
-        "Metal"
-      ],
-      "answer": "Light"
-    },
-    {
-      "question": "Which gas do plants take in during photosynthesis?",
-      "choices": [
-        "Carbon dioxide",
-        "Helium",
-        "Hydrogen",
-        "Neon"
-      ],
-      "answer": "Carbon dioxide"
-    },
-    {
-      "question": "What can a seed grow into?",
-      "choices": [
-        "A new plant",
-        "A rock",
-        "A cloud",
-        "A metal"
-      ],
-      "answer": "A new plant"
-    },
-    {
-      "question": "Which flower part is often colorful and attracts pollinators?",
-      "choices": [
-        "Petal",
-        "Root",
-        "Stem",
-        "Seed coat"
-      ],
-      "answer": "Petal"
-    },
-    {
-      "question": "What does a stem help carry around a plant?",
-      "choices": [
-        "Water and nutrients",
-        "Sand and stones",
-        "Smoke and ash",
-        "Plastic and glass"
-      ],
-      "answer": "Water and nutrients"
-    },
-    {
-      "question": "Which of these is a fruit that contains seeds?",
-      "choices": [
-        "Apple",
-        "Carrot",
-        "Celery",
-        "Lettuce"
-      ],
-      "answer": "Apple"
-    },
-    {
-      "question": "What is pollen moved from one flower to another called?",
-      "choices": [
-        "Pollination",
-        "Evaporation",
-        "Hibernation",
-        "Erosion"
-      ],
-      "answer": "Pollination"
-    },
-    {
-      "question": "Which part protects the tiny plant inside a seed?",
-      "choices": [
-        "Seed coat",
-        "Petal",
-        "Leaf vein",
-        "Flower scent"
-      ],
-      "answer": "Seed coat"
-    },
-    {
-      "question": "What do roots also help a plant do?",
-      "choices": [
-        "Stay anchored in the soil",
-        "Fly through the air",
-        "Glow in the dark",
-        "Make thunder"
-      ],
-      "answer": "Stay anchored in the soil"
-    },
-    {
-      "question": "Which living thing is a producer?",
-      "choices": [
-        "Grass",
-        "Lion",
-        "Mushroom",
-        "Earthworm"
-      ],
-      "answer": "Grass"
-    },
-    {
-      "question": "What usually happens first when a seed germinates?",
-      "choices": [
-        "A root begins to grow",
-        "Flowers appear",
-        "Fruit ripens",
-        "Leaves fall"
-      ],
-      "answer": "A root begins to grow"
-    },
-    {
-      "question": "Which resource do plants absorb from soil?",
-      "choices": [
-        "Water",
-        "Sunlight",
-        "Wind",
-        "Starlight"
-      ],
-      "answer": "Water"
-    },
-    {
-      "question": "Why are many flowers brightly colored?",
-      "choices": [
-        "To attract pollinators",
-        "To scare away sunlight",
-        "To freeze the soil",
-        "To stop all growth"
-      ],
-      "answer": "To attract pollinators"
-    },
-    {
-      "question": "Which organ pumps blood around your body?",
-      "choices": [
-        "Heart",
-        "Lung",
-        "Stomach",
-        "Brain"
-      ],
-      "answer": "Heart"
-    },
-    {
-      "question": "Which organs help you breathe?",
-      "choices": [
-        "Lungs",
-        "Kidneys",
-        "Bones",
-        "Teeth"
-      ],
-      "answer": "Lungs"
-    },
-    {
-      "question": "Which body part controls thinking and memory?",
-      "choices": [
-        "Brain",
-        "Elbow",
-        "Skin",
-        "Ankle"
-      ],
-      "answer": "Brain"
-    },
-    {
-      "question": "What protects the brain?",
-      "choices": [
-        "Skull",
-        "Ribs",
-        "Pelvis",
-        "Fingernails"
-      ],
-      "answer": "Skull"
-    },
-    {
-      "question": "What protects the heart and lungs?",
-      "choices": [
-        "Rib cage",
-        "Jaw",
-        "Kneecap",
-        "Wrist"
-      ],
-      "answer": "Rib cage"
-    },
-    {
-      "question": "Which sense organ detects light?",
-      "choices": [
-        "Eyes",
-        "Ears",
-        "Tongue",
-        "Nose"
-      ],
-      "answer": "Eyes"
-    },
-    {
-      "question": "Which sense organ detects sound?",
-      "choices": [
-        "Ears",
-        "Eyes",
-        "Skin",
-        "Tongue"
-      ],
-      "answer": "Ears"
-    },
-    {
-      "question": "Which body system includes bones?",
-      "choices": [
-        "Skeletal system",
-        "Digestive system",
-        "Respiratory system",
-        "Nervous system"
-      ],
-      "answer": "Skeletal system"
-    },
-    {
-      "question": "What connects muscles to bones?",
-      "choices": [
-        "Tendons",
-        "Hair",
-        "Teeth",
-        "Nails"
-      ],
-      "answer": "Tendons"
-    },
-    {
-      "question": "Where does digestion begin?",
-      "choices": [
-        "Mouth",
-        "Heart",
-        "Lungs",
-        "Bladder"
-      ],
-      "answer": "Mouth"
-    },
-    {
-      "question": "What do red blood cells carry around the body?",
-      "choices": [
-        "Oxygen",
-        "Sunlight",
-        "Sound",
-        "Soil"
-      ],
-      "answer": "Oxygen"
-    },
-    {
-      "question": "Which nutrient helps build and repair muscles?",
-      "choices": [
-        "Protein",
-        "Water vapor",
-        "Oxygen",
-        "Saltwater"
-      ],
-      "answer": "Protein"
-    },
-    {
-      "question": "Why does your body sweat?",
-      "choices": [
-        "To help cool down",
-        "To make bones longer",
-        "To hear better",
-        "To digest food faster"
-      ],
-      "answer": "To help cool down"
-    },
-    {
-      "question": "Which joint lets your arm bend in the middle?",
-      "choices": [
-        "Elbow",
-        "Shoulder blade",
-        "Skull",
-        "Rib"
-      ],
-      "answer": "Elbow"
-    },
-    {
-      "question": "Why is sleep important?",
-      "choices": [
-        "It helps the body and brain recover",
-        "It replaces the need for water",
-        "It stops the heart",
-        "It makes bones disappear"
-      ],
-      "answer": "It helps the body and brain recover"
-    },
-    {
-      "question": "Which instrument measures temperature?",
-      "choices": [
-        "Thermometer",
-        "Rain gauge",
-        "Compass",
-        "Telescope"
-      ],
-      "answer": "Thermometer"
-    },
-    {
-      "question": "Which instrument measures rainfall?",
-      "choices": [
-        "Rain gauge",
-        "Thermometer",
-        "Balance",
-        "Microscope"
-      ],
-      "answer": "Rain gauge"
-    },
-    {
-      "question": "What do we call moving air?",
-      "choices": [
-        "Wind",
-        "Fog",
-        "Rain",
-        "Snow"
-      ],
-      "answer": "Wind"
-    },
-    {
-      "question": "Which cloud is most often linked with thunderstorms?",
-      "choices": [
-        "Cumulonimbus",
-        "Cirrus",
-        "Stratus",
-        "Fog"
-      ],
-      "answer": "Cumulonimbus"
-    },
-    {
-      "question": "What form of water falls as flakes of ice crystals?",
-      "choices": [
-        "Snow",
-        "Rain",
-        "Dew",
-        "Mist"
-      ],
-      "answer": "Snow"
-    },
-    {
-      "question": "What happens when liquid water freezes?",
-      "choices": [
-        "It becomes solid ice",
-        "It becomes a gas",
-        "It disappears",
-        "It becomes metal"
-      ],
-      "answer": "It becomes solid ice"
-    },
-    {
-      "question": "What happens when ice melts?",
-      "choices": [
-        "It becomes liquid water",
-        "It becomes rock",
-        "It becomes fire",
-        "It becomes soil"
-      ],
-      "answer": "It becomes liquid water"
-    },
-    {
-      "question": "What is water vapor cooling into liquid drops called?",
-      "choices": [
-        "Condensation",
-        "Evaporation",
-        "Freezing",
-        "Erosion"
-      ],
-      "answer": "Condensation"
-    },
-    {
-      "question": "What is liquid water changing into water vapor called?",
-      "choices": [
-        "Evaporation",
-        "Condensation",
-        "Melting",
-        "Precipitation"
-      ],
-      "answer": "Evaporation"
-    },
-    {
-      "question": "Which kind of weather includes lightning and thunder?",
-      "choices": [
-        "Thunderstorm",
-        "Clear sky",
-        "Light breeze",
-        "Dew"
-      ],
-      "answer": "Thunderstorm"
-    },
-    {
-      "question": "What is a rainbow made by?",
-      "choices": [
-        "Sunlight passing through water droplets",
-        "Moonlight hitting rocks",
-        "Wind crossing sand",
-        "Clouds making smoke"
-      ],
-      "answer": "Sunlight passing through water droplets"
-    },
-    {
-      "question": "Which weather condition makes it hard to see near the ground?",
-      "choices": [
-        "Fog",
-        "Sunshine",
-        "A light breeze",
-        "Dry air"
-      ],
-      "answer": "Fog"
-    },
-    {
-      "question": "What should you do when you hear thunder outdoors?",
-      "choices": [
-        "Go inside a sturdy building",
-        "Stand under the tallest tree",
-        "Hold a metal pole",
-        "Stay in open water"
-      ],
-      "answer": "Go inside a sturdy building"
-    },
-    {
-      "question": "Which season usually follows spring?",
-      "choices": [
-        "Summer",
-        "Winter",
-        "Autumn",
-        "The wet season everywhere"
-      ],
-      "answer": "Summer"
-    },
-    {
-      "question": "What is precipitation?",
-      "choices": [
-        "Water falling from clouds",
-        "Water soaking into roots",
-        "Sunlight warming land",
-        "Wind moving leaves"
-      ],
-      "answer": "Water falling from clouds"
-    },
-    {
-      "question": "What is the solid outer layer of Earth called?",
-      "choices": [
-        "Crust",
-        "Core",
-        "Cloud",
-        "Ocean"
-      ],
-      "answer": "Crust"
-    },
-    {
-      "question": "Which natural event can shake the ground?",
-      "choices": [
-        "Earthquake",
-        "Rainbow",
-        "Dew",
-        "Tide pool"
-      ],
-      "answer": "Earthquake"
-    },
-    {
-      "question": "What is melted rock beneath Earth's surface called?",
-      "choices": [
-        "Magma",
-        "Lava",
-        "Soil",
-        "Fossil"
-      ],
-      "answer": "Magma"
-    },
-    {
-      "question": "What is melted rock called after it reaches Earth's surface?",
-      "choices": [
-        "Lava",
-        "Magma",
-        "Clay",
-        "Mineral"
-      ],
-      "answer": "Lava"
-    },
-    {
-      "question": "Which process breaks rock into smaller pieces?",
-      "choices": [
-        "Weathering",
-        "Pollination",
-        "Condensation",
-        "Germination"
-      ],
-      "answer": "Weathering"
-    },
-    {
-      "question": "What is soil made from?",
-      "choices": [
-        "Rock particles and decayed material",
-        "Only liquid water",
-        "Only fresh leaves",
-        "Metal and glass"
-      ],
-      "answer": "Rock particles and decayed material"
-    },
-    {
-      "question": "Which is a large body of salt water?",
-      "choices": [
-        "Ocean",
-        "Pond",
-        "River",
-        "Stream"
-      ],
-      "answer": "Ocean"
-    },
-    {
-      "question": "What do we call preserved remains or traces of ancient life?",
-      "choices": [
-        "Fossils",
-        "Crystals",
-        "Clouds",
-        "Shadows"
-      ],
-      "answer": "Fossils"
-    },
-    {
-      "question": "Which Earth material is usually hardest?",
-      "choices": [
-        "Rock",
-        "Mud",
-        "Water",
-        "Air"
-      ],
-      "answer": "Rock"
-    },
-    {
-      "question": "What pulls objects toward Earth?",
-      "choices": [
-        "Gravity",
-        "Magnetism alone",
-        "Sunlight",
-        "Sound"
-      ],
-      "answer": "Gravity"
-    },
-    {
-      "question": "Which direction does a compass needle point toward?",
-      "choices": [
-        "North",
-        "Straight up",
-        "The nearest river",
-        "The Sun at all times"
-      ],
-      "answer": "North"
-    },
-    {
-      "question": "What is a volcano?",
-      "choices": [
-        "An opening where hot material can reach Earth's surface",
-        "A type of storm cloud",
-        "A frozen river",
-        "A deep-sea animal"
-      ],
-      "answer": "An opening where hot material can reach Earth's surface"
-    },
-    {
-      "question": "Which landform is higher than the land around it and often has steep sides?",
-      "choices": [
-        "Mountain",
-        "Valley",
-        "Plain",
-        "Beach"
-      ],
-      "answer": "Mountain"
-    },
-    {
-      "question": "What is a valley?",
-      "choices": [
-        "Low land between hills or mountains",
-        "A tall column of cloud",
-        "A deep part of space",
-        "A kind of mineral"
-      ],
-      "answer": "Low land between hills or mountains"
-    },
-    {
-      "question": "Which action can help prevent soil erosion?",
-      "choices": [
-        "Growing plant roots",
-        "Removing all plants",
-        "Pouring oil on soil",
-        "Covering soil with plastic trash"
-      ],
-      "answer": "Growing plant roots"
-    },
-    {
-      "question": "Which star is closest to Earth?",
-      "choices": [
-        "The Sun",
-        "Sirius",
-        "Polaris",
-        "Betelgeuse"
-      ],
-      "answer": "The Sun"
-    },
-    {
-      "question": "What does Earth orbit?",
-      "choices": [
-        "The Sun",
-        "The Moon",
-        "Mars",
-        "Polaris"
-      ],
-      "answer": "The Sun"
-    },
-    {
-      "question": "What does the Moon orbit?",
-      "choices": [
-        "Earth",
-        "Jupiter",
-        "The Sun only",
-        "Venus"
-      ],
-      "answer": "Earth"
-    },
-    {
-      "question": "Which planet is known for its large rings?",
-      "choices": [
-        "Saturn",
-        "Mercury",
-        "Earth",
-        "Mars"
-      ],
-      "answer": "Saturn"
-    },
-    {
-      "question": "Which planet do we live on?",
-      "choices": [
-        "Earth",
-        "Venus",
-        "Neptune",
-        "Jupiter"
-      ],
-      "answer": "Earth"
-    },
-    {
-      "question": "Why does the Moon appear to shine?",
-      "choices": [
-        "It reflects sunlight",
-        "It is made of fire",
-        "It stores lightning",
-        "It reflects city lights"
-      ],
-      "answer": "It reflects sunlight"
-    },
-    {
-      "question": "What causes day and night?",
-      "choices": [
-        "Earth rotating",
-        "The Moon rotating",
-        "Clouds covering the Sun",
-        "The Sun turning off"
-      ],
-      "answer": "Earth rotating"
-    },
-    {
-      "question": "Which planet is closest to the Sun?",
-      "choices": [
-        "Mercury",
-        "Earth",
-        "Mars",
-        "Neptune"
-      ],
-      "answer": "Mercury"
-    },
-    {
-      "question": "What is an astronaut?",
-      "choices": [
-        "A person trained to travel and work in space",
-        "A scientist who studies only plants",
-        "A sailor who maps oceans",
-        "A machine that measures rain"
-      ],
-      "answer": "A person trained to travel and work in space"
-    },
-    {
-      "question": "What is a telescope used for?",
-      "choices": [
-        "Viewing faraway objects",
-        "Measuring body temperature",
-        "Digging through soil",
-        "Weighing food"
-      ],
-      "answer": "Viewing faraway objects"
-    },
-    {
-      "question": "Which material is attracted to a magnet?",
-      "choices": [
-        "Iron",
-        "Wood",
-        "Glass",
-        "Rubber"
-      ],
-      "answer": "Iron"
-    },
-    {
-      "question": "Which material is transparent?",
-      "choices": [
-        "Clear glass",
-        "Brick",
-        "Cardboard",
-        "Steel"
-      ],
-      "answer": "Clear glass"
-    },
-    {
-      "question": "Which state of matter keeps its own shape?",
-      "choices": [
-        "Solid",
-        "Liquid",
-        "Gas",
-        "Steam only"
-      ],
-      "answer": "Solid"
-    },
-    {
-      "question": "Which state of matter takes the shape of its container but keeps its volume?",
-      "choices": [
-        "Liquid",
-        "Solid",
-        "Light",
-        "Sound"
-      ],
-      "answer": "Liquid"
-    },
-    {
-      "question": "Which simple machine is a ramp?",
-      "choices": [
-        "Inclined plane",
-        "Pulley",
-        "Wheel and axle",
-        "Lever"
-      ],
-      "answer": "Inclined plane"
-    },
-    {
-      "question": "What force slows a sliding object when surfaces rub?",
-      "choices": [
-        "Friction",
-        "Gravity",
-        "Electricity",
-        "Light"
-      ],
-      "answer": "Friction"
-    },
-    {
-      "question": "Which material is a good electrical conductor?",
-      "choices": [
-        "Copper",
-        "Rubber",
-        "Dry wood",
-        "Plastic"
-      ],
-      "answer": "Copper"
-    },
-    {
-      "question": "What happens when you push a toy car harder?",
-      "choices": [
-        "It usually speeds up more",
-        "It loses all mass",
-        "It becomes a magnet",
-        "It changes into a liquid"
-      ],
-      "answer": "It usually speeds up more"
-    },
-    {
-      "question": "Which change can be reversed by cooling?",
-      "choices": [
-        "Melting ice",
-        "Burning paper",
-        "Cooking an egg",
-        "Rusting iron"
-      ],
-      "answer": "Melting ice"
-    },
-    {
-      "question": "Which object gives off its own light?",
-      "choices": [
-        "Lit flashlight",
-        "Mirror",
-        "Moon",
-        "White paper"
-      ],
-      "answer": "Lit flashlight"
-    }
-  ],
-  "average": [
-    {
-      "question": "A rabbit population loses most of its grass. What will most likely happen first?",
-      "choices": [
-        "The rabbits will have less food",
-        "The rabbits will grow wings",
-        "The soil will become the Moon",
-        "All predators will become plants"
-      ],
-      "answer": "The rabbits will have less food"
-    },
-    {
-      "question": "Why are decomposers important in an ecosystem?",
-      "choices": [
-        "They return nutrients from dead matter to the environment",
-        "They create sunlight",
-        "They stop all plants from growing",
-        "They turn water into metal"
-      ],
-      "answer": "They return nutrients from dead matter to the environment"
-    },
-    {
-      "question": "In the chain grass → grasshopper → frog, what does the frog eat?",
-      "choices": [
-        "Grasshopper",
-        "Grass",
-        "Sunlight",
-        "Soil"
-      ],
-      "answer": "Grasshopper"
-    },
-    {
-      "question": "What is the main source of energy for most food chains?",
-      "choices": [
-        "The Sun",
-        "The Moon",
-        "Rocks",
-        "Wind alone"
-      ],
-      "answer": "The Sun"
-    },
-    {
-      "question": "Why might a cactus have a thick stem?",
-      "choices": [
-        "To store water",
-        "To attract snow",
-        "To breathe underwater",
-        "To make extra sunlight"
-      ],
-      "answer": "To store water"
-    },
-    {
-      "question": "How do webbed feet help a duck?",
-      "choices": [
-        "They push against water while swimming",
-        "They help it chew food",
-        "They keep its feathers dry by themselves",
-        "They let it breathe underwater"
-      ],
-      "answer": "They push against water while swimming"
-    },
-    {
-      "question": "Why do some birds migrate?",
-      "choices": [
-        "To find food or suitable weather",
-        "To become mammals",
-        "To avoid using wings",
-        "To make oceans salty"
-      ],
-      "answer": "To find food or suitable weather"
-    },
-    {
-      "question": "A plant is kept in darkness but receives water. What will it lack most for making food?",
-      "choices": [
-        "Light energy",
-        "Soil color",
-        "Wind",
-        "Sound"
-      ],
-      "answer": "Light energy"
-    },
-    {
-      "question": "Why are earthworms helpful to many soils?",
-      "choices": [
-        "Their tunnels let air and water enter",
-        "They turn soil into plastic",
-        "They remove every nutrient",
-        "They stop roots from growing"
-      ],
-      "answer": "Their tunnels let air and water enter"
-    },
-    {
-      "question": "What would most likely happen if pollinators disappeared from an area?",
-      "choices": [
-        "Many flowering plants would make fewer seeds",
-        "All rocks would melt",
-        "Rain would stop everywhere",
-        "Mammals would grow feathers"
-      ],
-      "answer": "Many flowering plants would make fewer seeds"
-    },
-    {
-      "question": "Which trait best helps a snowshoe hare hide in winter?",
-      "choices": [
-        "White fur",
-        "Long ears",
-        "Sharp teeth",
-        "Strong legs"
-      ],
-      "answer": "White fur"
-    },
-    {
-      "question": "Why do some desert animals rest during the hottest part of the day?",
-      "choices": [
-        "To avoid overheating and save water",
-        "To gather more sunlight",
-        "To freeze their food",
-        "To grow thicker shells instantly"
-      ],
-      "answer": "To avoid overheating and save water"
-    },
-    {
-      "question": "A predator population increases greatly. What may happen to its prey population?",
-      "choices": [
-        "It may decrease",
-        "It must double",
-        "It becomes nonliving",
-        "It changes into plants"
-      ],
-      "answer": "It may decrease"
-    },
-    {
-      "question": "How does a seed's wing-like shape help it spread?",
-      "choices": [
-        "Wind can carry it farther",
-        "It can swim like a fish",
-        "It makes the seed heavier",
-        "It produces its own rain"
-      ],
-      "answer": "Wind can carry it farther"
-    },
-    {
-      "question": "Why do young mammals drink milk from their mothers?",
-      "choices": [
-        "It provides nutrients for growth",
-        "It gives them feathers",
-        "It replaces all need for oxygen",
-        "It makes them cold-blooded"
-      ],
-      "answer": "It provides nutrients for growth"
-    },
-    {
-      "question": "Which example is an inherited trait?",
-      "choices": [
-        "A tiger's stripe pattern",
-        "A learned circus trick",
-        "A scar from a cut",
-        "A nest built this morning"
-      ],
-      "answer": "A tiger's stripe pattern"
-    },
-    {
-      "question": "Which example is a learned behavior?",
-      "choices": [
-        "A dog sitting after a command",
-        "A spider having eight legs",
-        "A bird having feathers",
-        "A fish having gills"
-      ],
-      "answer": "A dog sitting after a command"
-    },
-    {
-      "question": "Why do leaves have tiny openings called stomata?",
-      "choices": [
-        "To exchange gases",
-        "To catch large rocks",
-        "To make roots shorter",
-        "To produce sound"
-      ],
-      "answer": "To exchange gases"
-    },
-    {
-      "question": "A plant bends toward a window. What is it responding to?",
-      "choices": [
-        "Light",
-        "Magnetism",
-        "Sound",
-        "Salt"
-      ],
-      "answer": "Light"
-    },
-    {
-      "question": "Why is biodiversity useful in an ecosystem?",
-      "choices": [
-        "Different species can fill different roles",
-        "It guarantees no organism ever dies",
-        "It removes the need for water",
-        "It prevents all weather changes"
-      ],
-      "answer": "Different species can fill different roles"
-    },
-    {
-      "question": "What role does a mushroom usually have in a forest food web?",
-      "choices": [
-        "Decomposer",
-        "Producer",
-        "Top predator",
-        "Pollinator only"
-      ],
-      "answer": "Decomposer"
-    },
-    {
-      "question": "Why do reptiles often bask in sunlight?",
-      "choices": [
-        "To warm their bodies",
-        "To make chlorophyll",
-        "To grow fur",
-        "To breathe through leaves"
-      ],
-      "answer": "To warm their bodies"
-    },
-    {
-      "question": "What is one way a beaver changes its habitat?",
-      "choices": [
-        "It builds dams that create ponds",
-        "It stops gravity",
-        "It turns trees into minerals",
-        "It makes tides"
-      ],
-      "answer": "It builds dams that create ponds"
-    },
-    {
-      "question": "Which body structure lets whales breathe air?",
-      "choices": [
-        "Lungs",
-        "Gills",
-        "Scales",
-        "Fins"
-      ],
-      "answer": "Lungs"
-    },
-    {
-      "question": "Why can a food web show more information than one food chain?",
-      "choices": [
-        "It shows several connected feeding paths",
-        "It measures rainfall",
-        "It lists only producers",
-        "It shows the age of rocks"
-      ],
-      "answer": "It shows several connected feeding paths"
-    },
-    {
-      "question": "If a plant's roots are damaged, which job becomes harder?",
-      "choices": [
-        "Taking in water",
-        "Catching sunlight with leaves",
-        "Making pollen in flowers",
-        "Releasing scent from petals"
-      ],
-      "answer": "Taking in water"
-    },
-    {
-      "question": "Why do deciduous trees lose leaves before winter?",
-      "choices": [
-        "To reduce water loss when conditions are cold",
-        "To stop using roots forever",
-        "To become nonliving",
-        "To collect more snow in leaves"
-      ],
-      "answer": "To reduce water loss when conditions are cold"
-    },
-    {
-      "question": "Which adaptation helps an otter stay warm in cold water?",
-      "choices": [
-        "Dense fur that traps air",
-        "Thin dry scales",
-        "Large bare ears",
-        "Hollow teeth"
-      ],
-      "answer": "Dense fur that traps air"
-    },
-    {
-      "question": "A lion eats a zebra. In this interaction, the lion is the what?",
-      "choices": [
-        "Predator",
-        "Producer",
-        "Decomposer",
-        "Pollinator"
-      ],
-      "answer": "Predator"
-    },
-    {
-      "question": "Why are green plants called producers?",
-      "choices": [
-        "They make food from light energy",
-        "They hunt other organisms",
-        "They produce rocks",
-        "They create water from nothing"
-      ],
-      "answer": "They make food from light energy"
-    },
-    {
-      "question": "Why does breathing rate increase during exercise?",
-      "choices": [
-        "Muscles need more oxygen",
-        "Bones need less support",
-        "The stomach stops working forever",
-        "Blood turns into water"
-      ],
-      "answer": "Muscles need more oxygen"
-    },
-    {
-      "question": "What happens when a muscle contracts?",
-      "choices": [
-        "It becomes shorter and pulls",
-        "It turns into bone",
-        "It fills with air",
-        "It stops receiving blood"
-      ],
-      "answer": "It becomes shorter and pulls"
-    },
-    {
-      "question": "How do the lungs and heart work together?",
-      "choices": [
-        "Lungs add oxygen to blood, and the heart pumps it",
-        "Lungs digest food for the heart",
-        "The heart makes air for the lungs",
-        "Both only control movement"
-      ],
-      "answer": "Lungs add oxygen to blood, and the heart pumps it"
-    },
-    {
-      "question": "Why are joints needed in the skeleton?",
-      "choices": [
-        "They allow bones to move relative to one another",
-        "They make all bones soft",
-        "They replace muscles",
-        "They produce oxygen"
-      ],
-      "answer": "They allow bones to move relative to one another"
-    },
-    {
-      "question": "What is one main job of the small intestine?",
-      "choices": [
-        "Absorbing nutrients from digested food",
-        "Pumping blood",
-        "Controlling thoughts",
-        "Filtering light"
-      ],
-      "answer": "Absorbing nutrients from digested food"
-    },
-    {
-      "question": "Why does a scab form over a small cut?",
-      "choices": [
-        "It helps protect the wound while it heals",
-        "It cools the whole body",
-        "It digests germs as food",
-        "It turns skin into bone"
-      ],
-      "answer": "It helps protect the wound while it heals"
-    },
-    {
-      "question": "Which body systems work together to move your arm?",
-      "choices": [
-        "Muscular and skeletal systems",
-        "Digestive and respiratory systems only",
-        "Circulatory and digestive systems only",
-        "Nervous and urinary systems only"
-      ],
-      "answer": "Muscular and skeletal systems"
-    },
-    {
-      "question": "Why is the spinal cord important?",
-      "choices": [
-        "It carries messages between the brain and much of the body",
-        "It stores all digested food",
-        "It pumps blood",
-        "It makes bones"
-      ],
-      "answer": "It carries messages between the brain and much of the body"
-    },
-    {
-      "question": "What does the stomach do during digestion?",
-      "choices": [
-        "Mixes food with digestive juices",
-        "Adds oxygen to blood",
-        "Makes thoughts",
-        "Filters sound"
-      ],
-      "answer": "Mixes food with digestive juices"
-    },
-    {
-      "question": "Why should people drink water after active exercise?",
-      "choices": [
-        "To replace water lost in sweat",
-        "To replace all oxygen",
-        "To stop muscles from using energy",
-        "To harden the lungs"
-      ],
-      "answer": "To replace water lost in sweat"
-    },
-    {
-      "question": "Which change is a normal response to being cold?",
-      "choices": [
-        "Shivering",
-        "Stopping the heartbeat",
-        "Losing all feeling permanently",
-        "Making chlorophyll"
-      ],
-      "answer": "Shivering"
-    },
-    {
-      "question": "How does skin help protect the body?",
-      "choices": [
-        "It forms a barrier against many germs and injuries",
-        "It replaces the skeleton",
-        "It pumps blood",
-        "It makes food from sunlight"
-      ],
-      "answer": "It forms a barrier against many germs and injuries"
-    },
-    {
-      "question": "Why is a balanced diet useful?",
-      "choices": [
-        "Different foods provide different needed nutrients",
-        "One food contains every nutrient in perfect amounts",
-        "It removes the need for sleep",
-        "It prevents all illness"
-      ],
-      "answer": "Different foods provide different needed nutrients"
-    },
-    {
-      "question": "What carries messages from sense organs to the brain?",
-      "choices": [
-        "Nerves",
-        "Tendons",
-        "Red blood cells",
-        "Teeth"
-      ],
-      "answer": "Nerves"
-    },
-    {
-      "question": "Why does the heart beat faster during running?",
-      "choices": [
-        "To deliver oxygen and nutrients more quickly",
-        "To cool food in the stomach",
-        "To make the lungs smaller",
-        "To stop muscles moving"
-      ],
-      "answer": "To deliver oxygen and nutrients more quickly"
-    },
-    {
-      "question": "Why does a metal spoon in hot soup become warm?",
-      "choices": [
-        "Thermal energy moves from the soup into the spoon",
-        "Cold moves out of the spoon as a substance",
-        "The spoon creates fire",
-        "Gravity makes metal warm"
-      ],
-      "answer": "Thermal energy moves from the soup into the spoon"
-    },
-    {
-      "question": "Why does a shadow form?",
-      "choices": [
-        "An opaque object blocks light",
-        "Sound bends around an object",
-        "Air turns black",
-        "The object produces darkness"
-      ],
-      "answer": "An opaque object blocks light"
-    },
-    {
-      "question": "Which surface creates the most friction for a sliding box?",
-      "choices": [
-        "Rough carpet",
-        "Smooth ice",
-        "Polished tile",
-        "Oiled metal"
-      ],
-      "answer": "Rough carpet"
-    },
-    {
-      "question": "A ball is resting on a hill. What force pulls it downhill?",
-      "choices": [
-        "Gravity",
-        "Light",
-        "Sound",
-        "Electric charge only"
-      ],
-      "answer": "Gravity"
-    },
-    {
-      "question": "Why can you see yourself in a smooth mirror?",
-      "choices": [
-        "It reflects light in an orderly way",
-        "It absorbs all light",
-        "It creates a second person",
-        "It produces sunlight"
-      ],
-      "answer": "It reflects light in an orderly way"
-    },
-    {
-      "question": "What happens to particles when most substances are heated?",
-      "choices": [
-        "They move faster",
-        "They stop moving",
-        "They lose all mass",
-        "They become alive"
-      ],
-      "answer": "They move faster"
-    },
-    {
-      "question": "Why does a puddle dry faster on a warm day?",
-      "choices": [
-        "Warmer water evaporates faster",
-        "Warm air freezes it",
-        "Sunlight turns it into soil",
-        "Gravity removes it"
-      ],
-      "answer": "Warmer water evaporates faster"
-    },
-    {
-      "question": "A closed circuit has a battery, wires, and bulb. Why does the bulb light?",
-      "choices": [
-        "Electric current has a complete path",
-        "The wire creates sunlight",
-        "The glass becomes magnetic",
-        "The battery blocks charges"
-      ],
-      "answer": "Electric current has a complete path"
-    },
-    {
-      "question": "What happens if a switch opens a simple electrical circuit?",
-      "choices": [
-        "Current stops flowing through the circuit",
-        "The battery doubles in size",
-        "The bulb becomes a magnet",
-        "The wires melt immediately"
-      ],
-      "answer": "Current stops flowing through the circuit"
-    },
-    {
-      "question": "Why are pan handles often covered with plastic?",
-      "choices": [
-        "Plastic is a poor conductor of heat",
-        "Plastic creates cold",
-        "Plastic is always stronger than metal",
-        "Plastic attracts flames"
-      ],
-      "answer": "Plastic is a poor conductor of heat"
-    },
-    {
-      "question": "Which change forms a new substance?",
-      "choices": [
-        "Iron rusting",
-        "Ice melting",
-        "Paper being cut",
-        "Water freezing"
-      ],
-      "answer": "Iron rusting"
-    },
-    {
-      "question": "Which change is caused by cooling water vapor?",
-      "choices": [
-        "Condensation",
-        "Evaporation",
-        "Melting",
-        "Sublimation of ice"
-      ],
-      "answer": "Condensation"
-    },
-    {
-      "question": "Why does a stretched rubber band move when released?",
-      "choices": [
-        "Stored elastic energy changes to motion",
-        "Gravity disappears",
-        "It gains new matter",
-        "Light pushes it"
-      ],
-      "answer": "Stored elastic energy changes to motion"
-    },
-    {
-      "question": "A louder sound usually comes from what kind of vibration?",
-      "choices": [
-        "A larger vibration",
-        "No vibration",
-        "A slower light wave",
-        "A colder object"
-      ],
-      "answer": "A larger vibration"
-    },
-    {
-      "question": "Why can sound not travel through empty space?",
-      "choices": [
-        "There are no particles to carry the vibration",
-        "Space is too dark",
-        "Gravity blocks every sound",
-        "Sound only travels downward"
-      ],
-      "answer": "There are no particles to carry the vibration"
-    },
-    {
-      "question": "What happens when equal pushes act on opposite sides of a box?",
-      "choices": [
-        "The forces are balanced and motion need not change",
-        "The box must move left",
-        "The box must move right",
-        "The box loses mass"
-      ],
-      "answer": "The forces are balanced and motion need not change"
-    },
-    {
-      "question": "How can a lever make work easier?",
-      "choices": [
-        "It can reduce the force needed by increasing the distance moved",
-        "It removes gravity",
-        "It creates energy",
-        "It changes solids into liquids"
-      ],
-      "answer": "It can reduce the force needed by increasing the distance moved"
-    },
-    {
-      "question": "Why does a magnet attract an iron nail through paper?",
-      "choices": [
-        "Magnetic force can act through the paper",
-        "Paper becomes iron",
-        "The nail becomes electrically charged by light",
-        "Gravity reverses"
-      ],
-      "answer": "Magnetic force can act through the paper"
-    },
-    {
-      "question": "What makes a compass useful for finding direction?",
-      "choices": [
-        "Its magnetized needle aligns with Earth's magnetic field",
-        "Its needle always points to the Sun",
-        "Wind pushes its needle north",
-        "It measures distance traveled"
-      ],
-      "answer": "Its magnetized needle aligns with Earth's magnetic field"
-    },
-    {
-      "question": "Which setup will make a bulb brightest, if identical batteries are used correctly?",
-      "choices": [
-        "A complete circuit with fresh batteries",
-        "An open circuit",
-        "A circuit with no battery",
-        "A circuit with a broken wire"
-      ],
-      "answer": "A complete circuit with fresh batteries"
-    },
-    {
-      "question": "Why does ice float in liquid water?",
-      "choices": [
-        "Ice is less dense than liquid water",
-        "Ice has no mass",
-        "Gravity does not act on ice",
-        "Water pushes only cold objects up"
-      ],
-      "answer": "Ice is less dense than liquid water"
-    },
-    {
-      "question": "Which object has the greatest kinetic energy?",
-      "choices": [
-        "A fast-moving bowling ball",
-        "A still bowling ball",
-        "A slowly rolling marble",
-        "A feather resting on a table"
-      ],
-      "answer": "A fast-moving bowling ball"
-    },
-    {
-      "question": "What energy change occurs in a battery-powered flashlight?",
-      "choices": [
-        "Chemical energy changes to electrical and light energy",
-        "Light changes only to chemical energy",
-        "Sound changes to gravity",
-        "Heat changes to mass"
-      ],
-      "answer": "Chemical energy changes to electrical and light energy"
-    },
-    {
-      "question": "Why are dark clothes often warmer in sunlight?",
-      "choices": [
-        "They absorb more light energy",
-        "They make extra sunlight",
-        "They stop all heat transfer",
-        "They reduce air pressure"
-      ],
-      "answer": "They absorb more light energy"
-    },
-    {
-      "question": "A cork and a coin are placed in water. Why does the cork float while the coin sinks?",
-      "choices": [
-        "They have different densities compared with water",
-        "Only the cork experiences gravity",
-        "The coin has no volume",
-        "Water is magnetic only to coins"
-      ],
-      "answer": "They have different densities compared with water"
-    },
-    {
-      "question": "Which action increases the pitch of a stretched string?",
-      "choices": [
-        "Tightening the string",
-        "Loosening the string",
-        "Making it vibrate more widely only",
-        "Covering it with paper"
-      ],
-      "answer": "Tightening the string"
-    },
-    {
-      "question": "Why does a bicycle slow down when the brakes are pressed?",
-      "choices": [
-        "Friction opposes the wheel's motion",
-        "Gravity turns off",
-        "The wheels lose all mass",
-        "The brakes absorb air"
-      ],
-      "answer": "Friction opposes the wheel's motion"
-    },
-    {
-      "question": "What happens to light when it passes from air into water at an angle?",
-      "choices": [
-        "It changes direction",
-        "It stops forever",
-        "It becomes sound",
-        "It loses all energy instantly"
-      ],
-      "answer": "It changes direction"
-    },
-    {
-      "question": "Which mixture can be separated with a magnet?",
-      "choices": [
-        "Iron filings and sand",
-        "Sugar and water",
-        "Salt and water",
-        "Flour and water"
-      ],
-      "answer": "Iron filings and sand"
-    },
-    {
-      "question": "Why does sugar seem to disappear when stirred into water?",
-      "choices": [
-        "Its particles spread through the water",
-        "It stops existing",
-        "It becomes air",
-        "It changes into water molecules"
-      ],
-      "answer": "Its particles spread through the water"
-    },
-    {
-      "question": "Why are coastal areas often cooler during a hot day than inland areas?",
-      "choices": [
-        "Water warms more slowly than land",
-        "Oceans block sunlight",
-        "Sand creates cold air",
-        "Tides turn off heat"
-      ],
-      "answer": "Water warms more slowly than land"
-    },
-    {
-      "question": "What causes wind?",
-      "choices": [
-        "Uneven heating creates differences in air pressure",
-        "The Moon pulls air in circles only",
-        "Trees wave and create moving air",
-        "Clouds push Earth"
-      ],
-      "answer": "Uneven heating creates differences in air pressure"
-    },
-    {
-      "question": "Why does warm air tend to rise?",
-      "choices": [
-        "It is less dense than cooler air",
-        "Gravity pushes it upward",
-        "It contains no particles",
-        "The Sun attracts it magnetically"
-      ],
-      "answer": "It is less dense than cooler air"
-    },
-    {
-      "question": "How does rain become groundwater?",
-      "choices": [
-        "It soaks into soil and rock",
-        "It changes directly into metal",
-        "It rises above clouds",
-        "It freezes in the Sun"
-      ],
-      "answer": "It soaks into soil and rock"
-    },
-    {
-      "question": "Why can planting grass reduce erosion?",
-      "choices": [
-        "Roots hold soil in place",
-        "Leaves make soil heavier",
-        "Grass stops gravity",
-        "Roots turn soil into rock instantly"
-      ],
-      "answer": "Roots hold soil in place"
-    },
-    {
-      "question": "Which process carries sediment from one place to another?",
-      "choices": [
-        "Erosion",
-        "Weathering",
-        "Germination",
-        "Condensation"
-      ],
-      "answer": "Erosion"
-    },
-    {
-      "question": "How do sedimentary rocks often form?",
-      "choices": [
-        "Layers of sediment are pressed and cemented together",
-        "Lava always cools underground",
-        "Old rocks melt completely",
-        "Water freezes into stone"
-      ],
-      "answer": "Layers of sediment are pressed and cemented together"
-    },
-    {
-      "question": "Why are fossils most often found in sedimentary rock?",
-      "choices": [
-        "Sediment can bury remains without melting them",
-        "Sedimentary rock is always oldest",
-        "Animals only lived in sand",
-        "Magma preserves bones unchanged"
-      ],
-      "answer": "Sediment can bury remains without melting them"
-    },
-    {
-      "question": "What causes ocean tides most strongly?",
-      "choices": [
-        "The Moon's gravity",
-        "Cloud shadows",
-        "Underwater plants",
-        "Earth's magnetic field"
-      ],
-      "answer": "The Moon's gravity"
-    },
-    {
-      "question": "Why do we see different Moon phases?",
-      "choices": [
-        "We see different portions of its sunlit half",
-        "Earth's shadow covers it every week",
-        "The Moon changes shape",
-        "Clouds carve pieces away"
-      ],
-      "answer": "We see different portions of its sunlit half"
-    },
-    {
-      "question": "Why is a year about 365 days long?",
-      "choices": [
-        "That is about how long Earth takes to orbit the Sun",
-        "That is how long the Moon takes to rotate",
-        "The Sun orbits Earth in that time",
-        "Earth takes that long to rotate once"
-      ],
-      "answer": "That is about how long Earth takes to orbit the Sun"
-    },
-    {
-      "question": "What causes the seasons in many places?",
-      "choices": [
-        "Earth's tilted axis as it orbits the Sun",
-        "Earth moving much closer to the Sun each summer",
-        "The Moon blocking cold air",
-        "Clouds changing Earth's speed"
-      ],
-      "answer": "Earth's tilted axis as it orbits the Sun"
-    },
-    {
-      "question": "Why is it daytime on only part of Earth at once?",
-      "choices": [
-        "Only the side facing the Sun is lit",
-        "The Sun shines only twelve hours",
-        "The Moon turns off daylight",
-        "Clouds cover exactly half of Earth"
-      ],
-      "answer": "Only the side facing the Sun is lit"
-    },
-    {
-      "question": "Why do stars appear to move across the night sky?",
-      "choices": [
-        "Earth rotates",
-        "All stars orbit Earth daily",
-        "The Moon pushes them",
-        "Wind moves them"
-      ],
-      "answer": "Earth rotates"
-    },
-    {
-      "question": "Which planet has the shortest year?",
-      "choices": [
-        "Mercury",
-        "Earth",
-        "Jupiter",
-        "Neptune"
-      ],
-      "answer": "Mercury"
-    },
-    {
-      "question": "Why do astronauts appear to float in an orbiting spacecraft?",
-      "choices": [
-        "They and the spacecraft are falling around Earth together",
-        "There is no gravity anywhere in space",
-        "Their suits contain balloons",
-        "The Moon pushes them upward"
-      ],
-      "answer": "They and the spacecraft are falling around Earth together"
-    },
-    {
-      "question": "What is the main difference between weather and climate?",
-      "choices": [
-        "Weather is short-term; climate is the usual pattern over many years",
-        "Weather happens outdoors; climate happens indoors",
-        "Climate changes hourly",
-        "They mean exactly the same thing"
-      ],
-      "answer": "Weather is short-term; climate is the usual pattern over many years"
-    },
-    {
-      "question": "What happens when moist air rises and cools?",
-      "choices": [
-        "Water vapor may condense into clouds",
-        "Air turns into soil",
-        "Clouds always disappear",
-        "Oxygen freezes first"
-      ],
-      "answer": "Water vapor may condense into clouds"
-    },
-    {
-      "question": "Why is lightning seen before thunder is heard?",
-      "choices": [
-        "Light travels faster than sound",
-        "Lightning always happens first",
-        "Thunder waits inside clouds",
-        "Sound only travels at night"
-      ],
-      "answer": "Light travels faster than sound"
-    },
-    {
-      "question": "How can a rain shadow form behind a mountain?",
-      "choices": [
-        "Air loses moisture as it rises over the mountain",
-        "The mountain blocks Earth's rotation",
-        "Trees absorb every cloud",
-        "Rocks repel water magnetically"
-      ],
-      "answer": "Air loses moisture as it rises over the mountain"
-    },
-    {
-      "question": "What evidence shows that a volcano may have erupted long ago?",
-      "choices": [
-        "Layers of cooled lava and ash",
-        "Fresh flower petals",
-        "A daily sea breeze",
-        "A rainbow"
-      ],
-      "answer": "Layers of cooled lava and ash"
-    },
-    {
-      "question": "What happens at the focus of an earthquake?",
-      "choices": [
-        "Rock suddenly moves underground",
-        "A cloud forms",
-        "Lava always reaches the surface",
-        "The ocean tide reverses"
-      ],
-      "answer": "Rock suddenly moves underground"
-    },
-    {
-      "question": "Why do river deltas often form where rivers meet oceans?",
-      "choices": [
-        "Slower water drops carried sediment",
-        "Salt turns water into rock",
-        "Ocean waves create river water",
-        "Fish build the land"
-      ],
-      "answer": "Slower water drops carried sediment"
-    },
-    {
-      "question": "What is one reason the Sun looks larger than other stars?",
-      "choices": [
-        "It is much closer to Earth",
-        "It is the only large star",
-        "Earth magnifies it",
-        "It is inside Earth's atmosphere"
-      ],
-      "answer": "It is much closer to Earth"
-    },
-    {
-      "question": "How does the atmosphere help life on Earth?",
-      "choices": [
-        "It provides gases and helps control temperature",
-        "It blocks all sunlight",
-        "It removes gravity",
-        "It makes Earth stop rotating"
-      ],
-      "answer": "It provides gases and helps control temperature"
-    }
-  ],
-  "difficult": [
-    {
-      "question": "If hawks decrease in a food web, what may happen first to the mice they eat?",
-      "choices": [
-        "The mouse population may increase",
-        "The mice become producers",
-        "All grass disappears immediately",
-        "The mice stop needing food"
-      ],
-      "answer": "The mouse population may increase"
-    },
-    {
-      "question": "Why does energy decrease at higher levels of a food chain?",
-      "choices": [
-        "Organisms use much of the energy for life processes",
-        "Predators destroy energy",
-        "Plants keep all sunlight forever",
-        "Energy changes into matter"
-      ],
-      "answer": "Organisms use much of the energy for life processes"
-    },
-    {
-      "question": "A plant has yellow leaves and weak growth despite enough light. Which missing resource could explain both?",
-      "choices": [
-        "Mineral nutrients",
-        "Sound waves",
-        "Moonlight",
-        "Magnetism"
-      ],
-      "answer": "Mineral nutrients"
-    },
-    {
-      "question": "Why can an invasive species harm an ecosystem?",
-      "choices": [
-        "It may outcompete native species for resources",
-        "It always adds unlimited food",
-        "It cannot reproduce",
-        "It changes all animals into one species"
-      ],
-      "answer": "It may outcompete native species for resources"
-    },
-    {
-      "question": "What makes a trait an adaptation?",
-      "choices": [
-        "It helps organisms survive or reproduce in their environment",
-        "It appears during one animal's lifetime by choice",
-        "It is always visible",
-        "It must make an organism larger"
-      ],
-      "answer": "It helps organisms survive or reproduce in their environment"
-    },
-    {
-      "question": "Why do antibiotics not cure illnesses caused by viruses?",
-      "choices": [
-        "Antibiotics target bacteria, not viruses",
-        "Viruses are too large",
-        "Antibiotics only work at night",
-        "Viruses are a type of plant"
-      ],
-      "answer": "Antibiotics target bacteria, not viruses"
-    },
-    {
-      "question": "Which change would most directly reduce photosynthesis in a healthy plant?",
-      "choices": [
-        "Covering most leaves with opaque paper",
-        "Adding support beside the stem",
-        "Moving soil around the pot",
-        "Placing a label on the pot"
-      ],
-      "answer": "Covering most leaves with opaque paper"
-    },
-    {
-      "question": "How do guard cells help a plant conserve water?",
-      "choices": [
-        "They can close stomata",
-        "They stop roots absorbing minerals",
-        "They remove chlorophyll",
-        "They turn water into sugar without light"
-      ],
-      "answer": "They can close stomata"
-    },
-    {
-      "question": "Why is a whale classified as a mammal rather than a fish?",
-      "choices": [
-        "It breathes air and nurses its young",
-        "It lives in salt water",
-        "It has a streamlined body",
-        "It can swim long distances"
-      ],
-      "answer": "It breathes air and nurses its young"
-    },
-    {
-      "question": "In a food web, why can removing one species affect many others?",
-      "choices": [
-        "Species are connected through feeding relationships",
-        "Every species eats the same food",
-        "Only predators use energy",
-        "Habitats contain no nonliving parts"
-      ],
-      "answer": "Species are connected through feeding relationships"
-    },
-    {
-      "question": "Why can selective breeding change a population over generations?",
-      "choices": [
-        "Organisms with chosen inherited traits produce more offspring",
-        "Each organism changes its genes when trained",
-        "Learned behaviors become DNA immediately",
-        "Food directly chooses every trait"
-      ],
-      "answer": "Organisms with chosen inherited traits produce more offspring"
-    },
-    {
-      "question": "A pond becomes covered with algae, then fish die. What is a likely reason?",
-      "choices": [
-        "Decomposition of algae used much of the dissolved oxygen",
-        "The algae made gravity stronger",
-        "Fish cannot live near plants",
-        "Water became solid"
-      ],
-      "answer": "Decomposition of algae used much of the dissolved oxygen"
-    },
-    {
-      "question": "Why are lichens able to grow where many plants cannot?",
-      "choices": [
-        "Their fungus and alga partners help each other obtain resources",
-        "They need no water or energy",
-        "They are made of rock",
-        "They create soil instantly"
-      ],
-      "answer": "Their fungus and alga partners help each other obtain resources"
-    },
-    {
-      "question": "Which evidence best shows that two animals are the same species?",
-      "choices": [
-        "They can reproduce and have fertile offspring",
-        "They are the same color",
-        "They live on the same continent",
-        "They eat the same food"
-      ],
-      "answer": "They can reproduce and have fertile offspring"
-    },
-    {
-      "question": "Why does a fever sometimes occur during an infection?",
-      "choices": [
-        "The body's temperature control changes as part of an immune response",
-        "Blood stops moving",
-        "The body runs out of water instantly",
-        "Bones produce fire"
-      ],
-      "answer": "The body's temperature control changes as part of an immune response"
-    },
-    {
-      "question": "Two identical carts are pushed with equal force, but one carries more mass. Which accelerates more?",
-      "choices": [
-        "The cart with less mass",
-        "The cart with more mass",
-        "Both must accelerate equally",
-        "Neither can move"
-      ],
-      "answer": "The cart with less mass"
-    },
-    {
-      "question": "Why does increasing a ramp's length reduce the force needed to raise a box to the same height?",
-      "choices": [
-        "The work is spread over a greater distance",
-        "The box loses mass",
-        "Gravity becomes weaker",
-        "The ramp creates energy"
-      ],
-      "answer": "The work is spread over a greater distance"
-    },
-    {
-      "question": "A metal ball sinks in water but floats in mercury. What does this show?",
-      "choices": [
-        "Its density is between the densities of water and mercury",
-        "Mercury has no gravity",
-        "The ball changes mass",
-        "Water is always heavier than metal"
-      ],
-      "answer": "Its density is between the densities of water and mercury"
-    },
-    {
-      "question": "Why does a prism separate white light into colors?",
-      "choices": [
-        "Different colors bend by different amounts",
-        "The prism adds paint to light",
-        "White light has no colors until it hits glass",
-        "The glass creates rainbows from heat"
-      ],
-      "answer": "Different colors bend by different amounts"
-    },
-    {
-      "question": "A circuit has two bulbs in series. What usually happens if one bulb is removed?",
-      "choices": [
-        "Both bulbs go out because the path is broken",
-        "The other bulb gets a complete separate path",
-        "The battery becomes a bulb",
-        "Current jumps through the air safely"
-      ],
-      "answer": "Both bulbs go out because the path is broken"
-    },
-    {
-      "question": "Why can parallel circuits keep one lamp lit when another is removed?",
-      "choices": [
-        "Each lamp has its own complete branch",
-        "They have no wires",
-        "Current does not need a battery",
-        "The removed lamp stores light"
-      ],
-      "answer": "Each lamp has its own complete branch"
-    },
-    {
-      "question": "What happens to gravitational potential energy as a book is lifted higher?",
-      "choices": [
-        "It increases",
-        "It decreases to zero",
-        "It becomes mass",
-        "It stays unchanged at every height"
-      ],
-      "answer": "It increases"
-    },
-    {
-      "question": "Why does a rolling ball eventually stop on a level floor?",
-      "choices": [
-        "Friction and air resistance transfer its motion energy",
-        "Its mass disappears",
-        "Gravity stops acting",
-        "The floor pulls all matter from it"
-      ],
-      "answer": "Friction and air resistance transfer its motion energy"
-    },
-    {
-      "question": "Which change would make an electromagnet stronger?",
-      "choices": [
-        "Adding more wire coils around its iron core",
-        "Removing the battery",
-        "Replacing the wire with string",
-        "Opening the circuit"
-      ],
-      "answer": "Adding more wire coils around its iron core"
-    },
-    {
-      "question": "Why does a metal bridge need expansion gaps?",
-      "choices": [
-        "Metal expands when its temperature rises",
-        "Metal grows by making new cells",
-        "Wind always shortens metal",
-        "Gaps increase gravity"
-      ],
-      "answer": "Metal expands when its temperature rises"
-    },
-    {
-      "question": "Why does warm water often dissolve sugar faster than cold water?",
-      "choices": [
-        "Faster-moving particles mix and separate sugar particles more quickly",
-        "Warm water has no molecules",
-        "Sugar melts into a new element",
-        "Cold water repels all solids"
-      ],
-      "answer": "Faster-moving particles mix and separate sugar particles more quickly"
-    },
-    {
-      "question": "A sound becomes higher in pitch. What happened to its vibration?",
-      "choices": [
-        "Its frequency increased",
-        "Its amplitude always increased",
-        "Its speed became zero",
-        "Its energy changed into light"
-      ],
-      "answer": "Its frequency increased"
-    },
-    {
-      "question": "Why can astronauts communicate by radio in space but not by shouting?",
-      "choices": [
-        "Radio waves travel through empty space, but sound needs matter",
-        "Radio is a kind of loud sound",
-        "Helmets block only shouting",
-        "Gravity carries radio waves"
-      ],
-      "answer": "Radio waves travel through empty space, but sound needs matter"
-    },
-    {
-      "question": "A magnet is cut in half. What does each half have?",
-      "choices": [
-        "A north pole and a south pole",
-        "Only a north pole",
-        "Only a south pole",
-        "No magnetic poles"
-      ],
-      "answer": "A north pole and a south pole"
-    },
-    {
-      "question": "What is conserved when liquid water freezes in a sealed container?",
-      "choices": [
-        "Mass",
-        "Temperature",
-        "Shape",
-        "Particle speed"
-      ],
-      "answer": "Mass"
-    },
-    {
-      "question": "Why does convection occur in a pot of heating water?",
-      "choices": [
-        "Warmer, less-dense water rises while cooler water sinks",
-        "Hot water is pulled up by magnets",
-        "Water at the top gains mass",
-        "Cold water stops moving"
-      ],
-      "answer": "Warmer, less-dense water rises while cooler water sinks"
-    },
-    {
-      "question": "A pencil looks bent where it enters water. Which process causes this?",
-      "choices": [
-        "Refraction",
-        "Reflection only",
-        "Evaporation",
-        "Magnetism"
-      ],
-      "answer": "Refraction"
-    },
-    {
-      "question": "Which statement best explains static electricity after rubbing a balloon on hair?",
-      "choices": [
-        "Electrons move from one material to the other",
-        "Protons jump out of atoms",
-        "Friction creates new electrons",
-        "Gravity charges the balloon"
-      ],
-      "answer": "Electrons move from one material to the other"
-    },
-    {
-      "question": "Why does doubling the speed of an object greatly increase its kinetic energy?",
-      "choices": [
-        "Kinetic energy depends on speed multiplied by itself",
-        "Its mass doubles automatically",
-        "Gravity becomes twice as strong",
-        "Speed creates new matter"
-      ],
-      "answer": "Kinetic energy depends on speed multiplied by itself"
-    },
-    {
-      "question": "A seesaw balances with a heavier child closer to the center. Why?",
-      "choices": [
-        "The turning effect depends on force and distance from the pivot",
-        "The heavier child loses mass",
-        "The center removes gravity",
-        "The lighter child pushes down with no force"
-      ],
-      "answer": "The turning effect depends on force and distance from the pivot"
-    },
-    {
-      "question": "Why are most earthquakes found near tectonic plate boundaries?",
-      "choices": [
-        "Plates interact and stress builds in rocks there",
-        "The Sun heats only plate edges",
-        "Oceans pull all rocks apart",
-        "Mountains attract earthquakes"
-      ],
-      "answer": "Plates interact and stress builds in rocks there"
-    },
-    {
-      "question": "How can matching fossils on continents now far apart support continental drift?",
-      "choices": [
-        "The continents were once connected",
-        "The organisms swam across every ocean",
-        "Fossils form identical patterns everywhere",
-        "Continents have never moved"
-      ],
-      "answer": "The continents were once connected"
-    },
-    {
-      "question": "What drives the movement of water through the water cycle?",
-      "choices": [
-        "Energy from the Sun and gravity",
-        "Magnetism and moonlight only",
-        "Earthquakes and fossils",
-        "Plant roots alone"
-      ],
-      "answer": "Energy from the Sun and gravity"
-    },
-    {
-      "question": "Why can volcanic ash from a major eruption cool climate for a short time?",
-      "choices": [
-        "Particles can reflect some sunlight back to space",
-        "Ash turns the Sun off",
-        "Volcanoes remove Earth's atmosphere",
-        "Lava freezes the oceans"
-      ],
-      "answer": "Particles can reflect some sunlight back to space"
-    },
-    {
-      "question": "What evidence helps scientists infer Earth's inner core is solid?",
-      "choices": [
-        "Patterns in how earthquake waves travel",
-        "Photographs taken inside the core",
-        "Weather maps",
-        "Ocean tides alone"
-      ],
-      "answer": "Patterns in how earthquake waves travel"
-    },
-    {
-      "question": "Why is the ozone layer important to life?",
-      "choices": [
-        "It absorbs much of the Sun's harmful ultraviolet radiation",
-        "It produces all atmospheric oxygen each day",
-        "It blocks every kind of sunlight",
-        "It controls Earth's gravity"
-      ],
-      "answer": "It absorbs much of the Sun's harmful ultraviolet radiation"
-    },
-    {
-      "question": "What causes a solar eclipse?",
-      "choices": [
-        "The Moon passes between Earth and the Sun",
-        "Earth passes between the Moon and Sun",
-        "The Sun passes behind Mars",
-        "Clouds cover the entire Sun worldwide"
-      ],
-      "answer": "The Moon passes between Earth and the Sun"
-    },
-    {
-      "question": "What causes a lunar eclipse?",
-      "choices": [
-        "Earth's shadow falls on the Moon",
-        "The Moon's shadow falls on Earth",
-        "The Sun stops shining",
-        "Venus blocks the Moon"
-      ],
-      "answer": "Earth's shadow falls on the Moon"
-    },
-    {
-      "question": "Why does Mars have a longer year than Earth?",
-      "choices": [
-        "It travels along a larger orbit farther from the Sun",
-        "It rotates faster",
-        "It has two small moons",
-        "It is smaller than Earth"
-      ],
-      "answer": "It travels along a larger orbit farther from the Sun"
-    },
-    {
-      "question": "Why are impact craters better preserved on the Moon than on Earth?",
-      "choices": [
-        "The Moon has little weather, erosion, or plate activity",
-        "The Moon has stronger wind",
-        "Earth receives no impacts",
-        "Moon rocks never break"
-      ],
-      "answer": "The Moon has little weather, erosion, or plate activity"
-    },
-    {
-      "question": "What mainly causes a meteoroid to glow as a meteor in Earth's atmosphere?",
-      "choices": [
-        "Collisions with air heat it and the surrounding gas",
-        "Moonlight reflects from it",
-        "It begins nuclear fusion",
-        "Earth's magnetic field paints it"
-      ],
-      "answer": "Collisions with air heat it and the surrounding gas"
-    },
-    {
-      "question": "Why are there no seasons caused simply by Earth being nearer or farther from the Sun?",
-      "choices": [
-        "The hemispheres have opposite seasons at the same time",
-        "Earth stays exactly the same distance all year",
-        "Distance never affects heating",
-        "The Sun changes size each month"
-      ],
-      "answer": "The hemispheres have opposite seasons at the same time"
-    },
-    {
-      "question": "What would happen to your weight on the Moon compared with Earth?",
-      "choices": [
-        "It would be less because the Moon's gravity is weaker",
-        "It would be greater because the Moon is smaller",
-        "It would be zero because the Moon has no gravity",
-        "It would be unchanged because mass and weight are identical"
-      ],
-      "answer": "It would be less because the Moon's gravity is weaker"
-    },
-    {
-      "question": "How does a satellite remain in orbit around Earth?",
-      "choices": [
-        "It moves forward while gravity continually pulls it toward Earth",
-        "It is beyond all gravity",
-        "Air holds it up",
-        "Magnets in space support it"
-      ],
-      "answer": "It moves forward while gravity continually pulls it toward Earth"
-    },
-    {
-      "question": "Why do astronomers place some telescopes in space?",
-      "choices": [
-        "They avoid blurring and blocking by Earth's atmosphere",
-        "Stars only shine above satellites",
-        "Space telescopes need no energy",
-        "Gravity prevents ground telescopes from turning"
-      ],
-      "answer": "They avoid blurring and blocking by Earth's atmosphere"
-    }
-  ]
-}
+easy:
+  - question: "Which state of matter has a definite shape and volume?"
+    choices:
+      - "Solid"
+      - "Liquid"
+      - "Gas"
+      - "Plasma"
+    answer: "Solid"
+  - question: "Which state of matter takes the shape of its container but keeps its volume?"
+    choices:
+      - "Liquid"
+      - "Solid"
+      - "Gas"
+      - "Smoke"
+    answer: "Liquid"
+  - question: "Which state of matter spreads out to fill any space completely?"
+    choices:
+      - "Gas"
+      - "Solid"
+      - "Liquid"
+      - "Ice"
+    answer: "Gas"
+  - question: "What process turns liquid water into ice?"
+    choices:
+      - "Freezing"
+      - "Melting"
+      - "Evaporation"
+      - "Condensation"
+    answer: "Freezing"
+  - question: "What process turns solid ice into liquid water?"
+    choices:
+      - "Melting"
+      - "Freezing"
+      - "Boiling"
+      - "Evaporation"
+    answer: "Melting"
+  - question: "What process turns liquid water into steam or water vapor when heated?"
+    choices:
+      - "Evaporation"
+      - "Freezing"
+      - "Melting"
+      - "Precipitation"
+    answer: "Evaporation"
+  - question: "Which material allows water to pass through easily because it is porous?"
+    choices:
+      - "Cotton towel"
+      - "Glass bottle"
+      - "Plastic cup"
+      - "Ceramic plate"
+    answer: "Cotton towel"
+  - question: "Which object will float on water?"
+    choices:
+      - "Plastic ball"
+      - "Metal coin"
+      - "Glass marble"
+      - "Iron nail"
+    answer: "Plastic ball"
+  - question: "Which object will sink in a bucket of water?"
+    choices:
+      - "Iron nail"
+      - "Dry leaf"
+      - "Cork stopper"
+      - "Empty plastic bottle"
+    answer: "Iron nail"
+  - question: "Which material is flexible and bends easily without breaking?"
+    choices:
+      - "Rubber strip"
+      - "Glass rod"
+      - "Dry stick"
+      - "Clay brick"
+    answer: "Rubber strip"
+  - question: "Which property describes how rough or smooth an object feels?"
+    choices:
+      - "Texture"
+      - "Color"
+      - "Volume"
+      - "Weight"
+    answer: "Texture"
+  - question: "Which material is transparent and allows clear light to pass through?"
+    choices:
+      - "Clear glass window"
+      - "Wood board"
+      - "Cardboard box"
+      - "Aluminum sheet"
+    answer: "Clear glass window"
+  - question: "Which material is opaque and blocks all light?"
+    choices:
+      - "Wooden door"
+      - "Clear eyeglasses"
+      - "Clean plastic wrap"
+      - "Pure water"
+    answer: "Wooden door"
+  - question: "Which metal is strongly attracted to a magnet?"
+    choices:
+      - "Iron"
+      - "Wood"
+      - "Gold"
+      - "Rubber"
+    answer: "Iron"
+  - question: "What will happen to butter when it is left under direct sunlight?"
+    choices:
+      - "It will melt into liquid"
+      - "It will freeze into ice"
+      - "It will turn into iron"
+      - "It will disappear completely"
+    answer: "It will melt into liquid"
+  - question: "Which tool is used to measure how hot or cold an object is?"
+    choices:
+      - "Thermometer"
+      - "Ruler"
+      - "Barometer"
+      - "Compass"
+    answer: "Thermometer"
+  - question: "What unit of measurement is commonly used for temperature in the Philippines?"
+    choices:
+      - "Degree Celsius"
+      - "Meter"
+      - "Liter"
+      - "Kilogram"
+    answer: "Degree Celsius"
+  - question: "Which material absorbs water best?"
+    choices:
+      - "Kitchen sponge"
+      - "Plastic wrap"
+      - "Glass plate"
+      - "Rubber boot"
+    answer: "Kitchen sponge"
+  - question: "Which material decays or decomposes naturally over time?"
+    choices:
+      - "Banana peel"
+      - "Plastic straw"
+      - "Glass bottle"
+      - "Styrofoam cup"
+    answer: "Banana peel"
+  - question: "What is non-biodegradable waste?"
+    choices:
+      - "Waste that cannot easily decay"
+      - "Fruit scraps"
+      - "Dry leaves"
+      - "Leftover rice"
+    answer: "Waste that cannot easily decay"
+  - question: "Which sense organ is used to detect light and see colors?"
+    choices:
+      - "Eyes"
+      - "Ears"
+      - "Nose"
+      - "Tongue"
+    answer: "Eyes"
+  - question: "Which sense organ detects vibrations and allows us to hear sounds?"
+    choices:
+      - "Ears"
+      - "Eyes"
+      - "Skin"
+      - "Tongue"
+    answer: "Ears"
+  - question: "Which sense organ detects odors and scents in the air?"
+    choices:
+      - "Nose"
+      - "Eyes"
+      - "Ears"
+      - "Skin"
+    answer: "Nose"
+  - question: "Which sense organ has taste buds to detect sweet, sour, salty, and bitter flavors?"
+    choices:
+      - "Tongue"
+      - "Skin"
+      - "Nose"
+      - "Lips"
+    answer: "Tongue"
+  - question: "What is the largest organ of the human body that provides the sense of touch?"
+    choices:
+      - "Skin"
+      - "Heart"
+      - "Liver"
+      - "Lungs"
+    answer: "Skin"
+  - question: "Which main internal organ pumps blood to all parts of the body?"
+    choices:
+      - "Heart"
+      - "Lungs"
+      - "Stomach"
+      - "Brain"
+    answer: "Heart"
+  - question: "Which pair of organs takes in oxygen when you breathe in and removes carbon dioxide?"
+    choices:
+      - "Lungs"
+      - "Kidneys"
+      - "Stomach"
+      - "Intestines"
+    answer: "Lungs"
+  - question: "Which organ controls our thoughts, memories, movements, and body functions?"
+    choices:
+      - "Brain"
+      - "Heart"
+      - "Stomach"
+      - "Liver"
+    answer: "Brain"
+  - question: "Which organ churns food and mixes it with acid during digestion?"
+    choices:
+      - "Stomach"
+      - "Lungs"
+      - "Brain"
+      - "Heart"
+    answer: "Stomach"
+  - question: "What hard internal framework protects vital organs and gives our body shape?"
+    choices:
+      - "Skeleton"
+      - "Skin"
+      - "Muscles"
+      - "Hair"
+    answer: "Skeleton"
+  - question: "Which bony structure protects your brain from injury?"
+    choices:
+      - "Skull"
+      - "Rib cage"
+      - "Pelvis"
+      - "Backbone"
+    answer: "Skull"
+  - question: "Which set of curved bones protects the heart and lungs?"
+    choices:
+      - "Rib cage"
+      - "Skull"
+      - "Collarbone"
+      - "Femur"
+    answer: "Rib cage"
+  - question: "What tough tissues connect muscles to bones to help us move?"
+    choices:
+      - "Tendons"
+      - "Ligaments"
+      - "Nerves"
+      - "Blood vessels"
+    answer: "Tendons"
+  - question: "What is the place where two bones meet and bend called?"
+    choices:
+      - "Joint"
+      - "Muscle"
+      - "Nail"
+      - "Tendon"
+    answer: "Joint"
+  - question: "How many permanent teeth does a typical adult human have?"
+    choices:
+      - "32"
+      - "20"
+      - "28"
+      - "36"
+    answer: "32"
+  - question: "How many primary (milk) teeth do young children typically develop?"
+    choices:
+      - "20"
+      - "32"
+      - "12"
+      - "16"
+    answer: "20"
+  - question: "Which front teeth are shaped for biting and cutting food?"
+    choices:
+      - "Incisors"
+      - "Molars"
+      - "Canines"
+      - "Premolars"
+    answer: "Incisors"
+  - question: "Which pointed teeth are adapted for tearing food apart?"
+    choices:
+      - "Canines"
+      - "Incisors"
+      - "Molars"
+      - "Wisdom teeth"
+    answer: "Canines"
+  - question: "Which broad, flat back teeth are used for grinding and crushing food?"
+    choices:
+      - "Molars"
+      - "Incisors"
+      - "Canines"
+      - "Eye teeth"
+    answer: "Molars"
+  - question: "What is the main gas our body takes in during inhalation?"
+    choices:
+      - "Oxygen"
+      - "Carbon dioxide"
+      - "Helium"
+      - "Nitrogen only"
+    answer: "Oxygen"
+  - question: "Which group of animals has feathers, two wings, and lays eggs?"
+    choices:
+      - "Birds"
+      - "Mammals"
+      - "Reptiles"
+      - "Amphibians"
+    answer: "Birds"
+  - question: "Which group of animals gives birth to live young and nurses them with milk?"
+    choices:
+      - "Mammals"
+      - "Fish"
+      - "Reptiles"
+      - "Insects"
+    answer: "Mammals"
+  - question: "Which group of animals lives part of its life in water and part on land?"
+    choices:
+      - "Amphibians"
+      - "Birds"
+      - "Mammals"
+      - "Reptiles"
+    answer: "Amphibians"
+  - question: "Which body parts do fish use to breathe dissolved oxygen in water?"
+    choices:
+      - "Gills"
+      - "Lungs"
+      - "Spiracles"
+      - "Skin pores"
+    answer: "Gills"
+  - question: "Which body covering helps polar bears and dogs stay warm in cool weather?"
+    choices:
+      - "Fur"
+      - "Scales"
+      - "Shell"
+      - "Moist skin"
+    answer: "Fur"
+  - question: "How many legs does an adult insect have?"
+    choices:
+      - "Six"
+      - "Eight"
+      - "Four"
+      - "Ten"
+    answer: "Six"
+  - question: "How many legs does a spider (arachnid) have?"
+    choices:
+      - "Eight"
+      - "Six"
+      - "Ten"
+      - "Twelve"
+    answer: "Eight"
+  - question: "What are the three main body parts of an insect?"
+    choices:
+      - "Head, thorax, and abdomen"
+      - "Head, chest, and tail"
+      - "Head, torso, and legs"
+      - "Beak, wings, and legs"
+    answer: "Head, thorax, and abdomen"
+  - question: "What is a young, aquatic frog called before it develops legs and lungs?"
+    choices:
+      - "Tadpole"
+      - "Pupa"
+      - "Cub"
+      - "Nymph"
+    answer: "Tadpole"
+  - question: "What do we call the four-stage life cycle: egg, larva, pupa, and adult?"
+    choices:
+      - "Complete metamorphosis"
+      - "Incomplete metamorphosis"
+      - "Germination"
+      - "Pollination"
+    answer: "Complete metamorphosis"
+  - question: "What is the feeding stage of a butterfly called?"
+    choices:
+      - "Caterpillar (larva)"
+      - "Chrysalis (pupa)"
+      - "Egg"
+      - "Nymph"
+    answer: "Caterpillar (larva)"
+  - question: "What is the resting stage of a butterfly inside a chrysalis called?"
+    choices:
+      - "Pupa"
+      - "Larva"
+      - "Adult"
+      - "Tadpole"
+    answer: "Pupa"
+  - question: "What do we call animals that eat only plants?"
+    choices:
+      - "Herbivores"
+      - "Carnivores"
+      - "Omnivores"
+      - "Scavengers"
+    answer: "Herbivores"
+  - question: "What do we call animals that eat only meat or other animals?"
+    choices:
+      - "Carnivores"
+      - "Herbivores"
+      - "Producers"
+      - "Decomposers"
+    answer: "Carnivores"
+  - question: "What do we call animals, like humans and bears, that eat both plants and meat?"
+    choices:
+      - "Omnivores"
+      - "Herbivores"
+      - "Carnivores"
+      - "Detritivores"
+    answer: "Omnivores"
+  - question: "Which animal is the national bird of the Philippines?"
+    choices:
+      - "Philippine Eagle"
+      - "Maya"
+      - "Parrot"
+      - "Hornbill"
+    answer: "Philippine Eagle"
+  - question: "Which Philippine animal is known as one of the smallest primates in the world?"
+    choices:
+      - "Tarsier"
+      - "Tamaraw"
+      - "Pangolin"
+      - "Spotted deer"
+    answer: "Tarsier"
+  - question: "Which wild dwarf buffalo is native and endemic to the island of Mindoro?"
+    choices:
+      - "Tamaraw"
+      - "Carabao"
+      - "Water buffalo"
+      - "Anoa"
+    answer: "Tamaraw"
+  - question: "Which animal uses echolocation (sound echoes) to navigate and hunt in total darkness?"
+    choices:
+      - "Bat"
+      - "Eagle"
+      - "Owl"
+      - "Cat"
+    answer: "Bat"
+  - question: "Which animal carries and protects its developing baby inside an external pouch?"
+    choices:
+      - "Kangaroo"
+      - "Lion"
+      - "Elephant"
+      - "Zebra"
+    answer: "Kangaroo"
+  - question: "Which plant part absorbs water and dissolved minerals from the soil?"
+    choices:
+      - "Roots"
+      - "Leaves"
+      - "Flowers"
+      - "Stems"
+    answer: "Roots"
+  - question: "Which plant part holds the plant upright and transports water up to the leaves?"
+    choices:
+      - "Stem"
+      - "Root"
+      - "Petal"
+      - "Seed"
+    answer: "Stem"
+  - question: "Which plant part is known as the food factory because it performs photosynthesis?"
+    choices:
+      - "Leaves"
+      - "Roots"
+      - "Bark"
+      - "Flowers"
+    answer: "Leaves"
+  - question: "What is the green pigment in plant leaves that traps sunlight for making food?"
+    choices:
+      - "Chlorophyll"
+      - "Hemoglobin"
+      - "Melanin"
+      - "Carotene"
+    answer: "Chlorophyll"
+  - question: "What process do green plants use to manufacture food using light, water, and air?"
+    choices:
+      - "Photosynthesis"
+      - "Respiration"
+      - "Germination"
+      - "Transpiration"
+    answer: "Photosynthesis"
+  - question: "Which gas do plants absorb from the air during photosynthesis?"
+    choices:
+      - "Carbon dioxide"
+      - "Oxygen"
+      - "Nitrogen"
+      - "Argon"
+    answer: "Carbon dioxide"
+  - question: "Which gas do green plants release into the air as a byproduct of photosynthesis?"
+    choices:
+      - "Oxygen"
+      - "Carbon dioxide"
+      - "Helium"
+      - "Hydrogen"
+    answer: "Oxygen"
+  - question: "Which plant part contains reproductive organs and attracts pollinators?"
+    choices:
+      - "Flower"
+      - "Leaf"
+      - "Root cap"
+      - "Bark"
+    answer: "Flower"
+  - question: "What are the colorful parts of a flower that attract bees and butterflies?"
+    choices:
+      - "Petals"
+      - "Sepals"
+      - "Roots"
+      - "Stems"
+    answer: "Petals"
+  - question: "What is the transfer of pollen from the male anther to the female stigma called?"
+    choices:
+      - "Pollination"
+      - "Germination"
+      - "Fertilization"
+      - "Metamorphosis"
+    answer: "Pollination"
+  - question: "What is the sprouting and early growth of a seed into a seedling called?"
+    choices:
+      - "Germination"
+      - "Pollination"
+      - "Evaporation"
+      - "Photosynthesis"
+    answer: "Germination"
+  - question: "Which external layer protects the embryo inside a seed?"
+    choices:
+      - "Seed coat (testa)"
+      - "Petal"
+      - "Stem"
+      - "Cotyledon"
+    answer: "Seed coat (testa)"
+  - question: "What are the three essential conditions most seeds need to germinate?"
+    choices:
+      - "Water, oxygen, and warmth"
+      - "Darkness, salt, and ice"
+      - "Wind, rocks, and fertilizer"
+      - "Honey, oil, and sand"
+    answer: "Water, oxygen, and warmth"
+  - question: "What is the primary food substance produced by plants during photosynthesis?"
+    choices:
+      - "Glucose (sugar)"
+      - "Protein"
+      - "Mineral salt"
+      - "Fat"
+    answer: "Glucose (sugar)"
+  - question: "Which national flower of the Philippines has sweet-smelling white star-like blossoms?"
+    choices:
+      - "Sampaguita"
+      - "Gumamela"
+      - "Waling-waling"
+      - "Rose"
+    answer: "Sampaguita"
+  - question: "What is a push or a pull applied to an object called?"
+    choices:
+      - "Force"
+      - "Speed"
+      - "Friction"
+      - "Gravity"
+    answer: "Force"
+  - question: "Which force pulls all objects down toward the center of Earth?"
+    choices:
+      - "Gravity"
+      - "Friction"
+      - "Magnetism"
+      - "Air resistance"
+    answer: "Gravity"
+  - question: "Which force opposes sliding motion between two surfaces in contact?"
+    choices:
+      - "Friction"
+      - "Gravity"
+      - "Tension"
+      - "Magnetism"
+    answer: "Friction"
+  - question: "What happens when you apply lubricant like oil to a squeaky bicycle chain?"
+    choices:
+      - "It reduces friction"
+      - "It increases friction"
+      - "It stops motion completely"
+      - "It increases gravity"
+    answer: "It reduces friction"
+  - question: "What is the primary natural source of heat and light energy on Earth?"
+    choices:
+      - "The Sun"
+      - "The Moon"
+      - "Lightning"
+      - "Campfire"
+    answer: "The Sun"
+  - question: "How does light travel in a uniform medium?"
+    choices:
+      - "In straight lines"
+      - "In zigzag loops"
+      - "In circular waves only"
+      - "In spiral coils"
+    answer: "In straight lines"
+  - question: "What dark area forms behind an opaque object when light is blocked?"
+    choices:
+      - "Shadow"
+      - "Rainbow"
+      - "Reflection"
+      - "Mirage"
+    answer: "Shadow"
+  - question: "What is sound produced by?"
+    choices:
+      - "Vibrating objects"
+      - "Stationary particles"
+      - "Electric lights"
+      - "Pure shadows"
+    answer: "Vibrating objects"
+  - question: "Which state of matter transmits sound waves fastest?"
+    choices:
+      - "Solids"
+      - "Liquids"
+      - "Gases"
+      - "Vacuum"
+    answer: "Solids"
+  - question: "Which simple machine consists of a slanted ramp used to lift heavy loads easily?"
+    choices:
+      - "Inclined plane"
+      - "Pulley"
+      - "Wheel and axle"
+      - "Lever"
+    answer: "Inclined plane"
+  - question: "Which simple machine uses a grooved wheel and rope to lift loads?"
+    choices:
+      - "Pulley"
+      - "Wedge"
+      - "Screw"
+      - "Inclined plane"
+    answer: "Pulley"
+  - question: "Which two poles do all permanent magnets possess?"
+    choices:
+      - "North and South poles"
+      - "East and West poles"
+      - "Positive and Neutral poles"
+      - "Up and Down poles"
+    answer: "North and South poles"
+  - question: "What happens when two like magnetic poles (such as North and North) face each other?"
+    choices:
+      - "They repel (push apart)"
+      - "They attract (pull together)"
+      - "They heat up instantly"
+      - "They lose magnetism"
+    answer: "They repel (push apart)"
+  - question: "What happens when two opposite magnetic poles (North and South) face each other?"
+    choices:
+      - "They attract (pull together)"
+      - "They repel"
+      - "They spark"
+      - "They cancel out"
+    answer: "They attract (pull together)"
+  - question: "Which material allows electric current to flow through it easily?"
+    choices:
+      - "Copper wire"
+      - "Plastic straw"
+      - "Dry rubber band"
+      - "Glass rod"
+    answer: "Copper wire"
+  - question: "What is the name of the planet we live on?"
+    choices:
+      - "Earth"
+      - "Mars"
+      - "Venus"
+      - "Jupiter"
+    answer: "Earth"
+  - question: "What is the hot, bright star located at the center of our Solar System?"
+    choices:
+      - "The Sun"
+      - "Polaris"
+      - "Sirius"
+      - "Proxima Centauri"
+    answer: "The Sun"
+  - question: "What is the only natural satellite orbiting the planet Earth?"
+    choices:
+      - "The Moon"
+      - "Phobos"
+      - "Europa"
+      - "Titan"
+    answer: "The Moon"
+  - question: "What causes the regular cycle of day and night on Earth?"
+    choices:
+      - "Earth rotating on its axis"
+      - "Earth revolving around the Sun"
+      - "The Moon orbiting Earth"
+      - "Clouds blocking sunlight"
+    answer: "Earth rotating on its axis"
+  - question: "How many hours does it take for Earth to complete one full rotation on its axis?"
+    choices:
+      - "24 hours (1 day)"
+      - "12 hours"
+      - "48 hours"
+      - "365 days"
+    answer: "24 hours (1 day)"
+  - question: "How many days does it take for Earth to complete one full revolution around the Sun?"
+    choices:
+      - "About 365 1/4 days (1 year)"
+      - "30 days"
+      - "24 hours"
+      - "100 days"
+    answer: "About 365 1/4 days (1 year)"
+  - question: "What instrument is used to determine geographic cardinal directions using a magnetic needle?"
+    choices:
+      - "Compass"
+      - "Thermometer"
+      - "Barometer"
+      - "Speedometer"
+    answer: "Compass"
+  - question: "What weather instrument is used to measure the amount of rainfall?"
+    choices:
+      - "Rain gauge"
+      - "Anemometer"
+      - "Wind vane"
+      - "Barometer"
+    answer: "Rain gauge"
+  - question: "What weather instrument indicates the direction from which the wind is blowing?"
+    choices:
+      - "Wind vane"
+      - "Anemometer"
+      - "Thermometer"
+      - "Hygrometer"
+    answer: "Wind vane"
+  - question: "What weather instrument measures the speed of moving wind?"
+    choices:
+      - "Anemometer"
+      - "Wind vane"
+      - "Barometer"
+      - "Rain gauge"
+    answer: "Anemometer"
+average:
+  - question: "Which of the following represents a chemical change where a new substance is formed?"
+    choices:
+      - "Rusting of an iron nail"
+      - "Melting of an ice cube"
+      - "Tearing a sheet of paper"
+      - "Dissolving salt in water"
+    answer: "Rusting of an iron nail"
+  - question: "Why is boiling water classified as a physical change rather than a chemical change?"
+    choices:
+      - "Water vapor is still chemically water"
+      - "A new gas substance is created"
+      - "Heat is completely destroyed"
+      - "The mass of water turns into air"
+    answer: "Water vapor is still chemically water"
+  - question: "What process occurs when water vapor cools down and turns back into liquid water droplets?"
+    choices:
+      - "Condensation"
+      - "Evaporation"
+      - "Sublimation"
+      - "Freezing"
+    answer: "Condensation"
+  - question: "What do we call the direct change of a solid into a gas without turning into a liquid first?"
+    choices:
+      - "Sublimation"
+      - "Condensation"
+      - "Melting"
+      - "Deposition"
+    answer: "Sublimation"
+  - question: "Why do naphthalene balls (mothballs) shrink in a closet over time?"
+    choices:
+      - "They undergo sublimation directly into gas"
+      - "They melt into liquid puddles"
+      - "They dissolve into wood"
+      - "They are eaten by water"
+    answer: "They undergo sublimation directly into gas"
+  - question: "Which mixture can be easily separated using a bar magnet?"
+    choices:
+      - "Iron filings and sand"
+      - "Sugar and table salt"
+      - "Sand and gravel"
+      - "Oil and water"
+    answer: "Iron filings and sand"
+  - question: "Which technique is best used to separate clean water from a solution of dissolved salt?"
+    choices:
+      - "Evaporation / Distillation"
+      - "Filtration with paper"
+      - "Decantation"
+      - "Using a magnet"
+    answer: "Evaporation / Distillation"
+  - question: "What happens to the rate of dissolving of sugar when stirred in hot water compared to cold water?"
+    choices:
+      - "It dissolves faster because molecules move quicker"
+      - "It dissolves much slower"
+      - "It stops dissolving completely"
+      - "It turns into an insoluble rock"
+    answer: "It dissolves faster because molecules move quicker"
+  - question: "Why does an ice cube float on top of liquid water?"
+    choices:
+      - "Ice is less dense than liquid water"
+      - "Ice has no gravitational mass"
+      - "Cold objects are naturally repelled by water"
+      - "Water pushes all solids upward"
+    answer: "Ice is less dense than liquid water"
+  - question: "Which of these materials is water-resistant and non-porous?"
+    choices:
+      - "Plastic raincoat"
+      - "Cotton shirt"
+      - "Cardboard box"
+      - "Facial tissue"
+    answer: "Plastic raincoat"
+  - question: "Where in the human digestive system does the absorption of most digested nutrients occur?"
+    choices:
+      - "Small intestine"
+      - "Stomach"
+      - "Large intestine"
+      - "Esophagus"
+    answer: "Small intestine"
+  - question: "What is the primary function of the human large intestine?"
+    choices:
+      - "Reabsorbs water and forms solid waste"
+      - "Breaks down protein with acid"
+      - "Pumps oxygen into the bloodstream"
+      - "Produces bile juice"
+    answer: "Reabsorbs water and forms solid waste"
+  - question: "Which blood vessels carry oxygen-rich blood away from the heart to the rest of the body?"
+    choices:
+      - "Arteries"
+      - "Veins"
+      - "Capillaries"
+      - "Nerves"
+    answer: "Arteries"
+  - question: "Which blood vessels carry deoxygenated blood back toward the heart?"
+    choices:
+      - "Veins"
+      - "Arteries"
+      - "Bronchi"
+      - "Tendons"
+    answer: "Veins"
+  - question: "What component of blood is responsible for fighting infections and destroying harmful germs?"
+    choices:
+      - "White blood cells"
+      - "Red blood cells"
+      - "Platelets"
+      - "Plasma"
+    answer: "White blood cells"
+  - question: "What is the main function of blood platelets (thrombocytes)?"
+    choices:
+      - "To help blood clot and stop bleeding"
+      - "To carry oxygen gas"
+      - "To digest carbohydrates"
+      - "To produce hormones"
+    answer: "To help blood clot and stop bleeding"
+  - question: "What red, iron-rich protein inside red blood cells binds and transports oxygen?"
+    choices:
+      - "Hemoglobin"
+      - "Chlorophyll"
+      - "Melanin"
+      - "Keratin"
+    answer: "Hemoglobin"
+  - question: "Which muscle located below the lungs contracts and moves downward during inhalation?"
+    choices:
+      - "Diaphragm"
+      - "Biceps"
+      - "Deltoid"
+      - "Hamstring"
+    answer: "Diaphragm"
+  - question: "What are the tiny balloon-like air sacs in the lungs where gas exchange takes place called?"
+    choices:
+      - "Alveoli"
+      - "Bronchioles"
+      - "Trachea"
+      - "Capillaries"
+    answer: "Alveoli"
+  - question: "Why does your heart beat faster and your breathing speed up during vigorous running?"
+    choices:
+      - "Muscles demand more oxygen and energy rapidly"
+      - "The body needs to store carbon dioxide"
+      - "Lungs shrink during running"
+      - "Bones require rapid cooling"
+    answer: "Muscles demand more oxygen and energy rapidly"
+  - question: "What type of joint allows full 360-degree rotational movement, as found in the shoulder and hip?"
+    choices:
+      - "Ball-and-socket joint"
+      - "Hinge joint"
+      - "Pivot joint"
+      - "Fixed joint"
+    answer: "Ball-and-socket joint"
+  - question: "What type of joint works like a door allowing back-and-forth movement, like the knee and elbow?"
+    choices:
+      - "Hinge joint"
+      - "Ball-and-socket joint"
+      - "Gliding joint"
+      - "Suture joint"
+    answer: "Hinge joint"
+  - question: "What tough elastic connective tissue connects bone to another bone at a joint?"
+    choices:
+      - "Ligaments"
+      - "Tendons"
+      - "Cartilage"
+      - "Epithelium"
+    answer: "Ligaments"
+  - question: "What smooth, slippery tissue cushions the ends of bones to prevent friction in joints?"
+    choices:
+      - "Cartilage"
+      - "Tendon"
+      - "Bone marrow"
+      - "Ligament"
+    answer: "Cartilage"
+  - question: "What substance in the skin gives it color and helps protect against ultraviolet sun damage?"
+    choices:
+      - "Melanin"
+      - "Keratin"
+      - "Collagen"
+      - "Hemoglobin"
+    answer: "Melanin"
+  - question: "Which part of the central nervous system carries nerve signals between the brain and the body?"
+    choices:
+      - "Spinal cord"
+      - "Femur"
+      - "Rib cage"
+      - "Trachea"
+    answer: "Spinal cord"
+  - question: "Why do we sweat when we feel hot or after exercising?"
+    choices:
+      - "Evaporating sweat cools the surface of the skin"
+      - "To release trapped bones"
+      - "To increase internal temperature"
+      - "To stop blood circulation"
+    answer: "Evaporating sweat cools the surface of the skin"
+  - question: "Which food group on the Pinggang Pinoy plate provides protein for growth and muscle repair?"
+    choices:
+      - "Grow foods (meat, fish, eggs)"
+      - "Go foods (rice, bread)"
+      - "Glow foods (fruits, vegetables)"
+      - "Junk foods"
+    answer: "Grow foods (meat, fish, eggs)"
+  - question: "Which food group provides carbohydrates for quick energy to play and learn?"
+    choices:
+      - "Go foods (rice, bread, grains)"
+      - "Grow foods (fish, meat)"
+      - "Glow foods (vegetables)"
+      - "Water"
+    answer: "Go foods (rice, bread, grains)"
+  - question: "Which food group is rich in vitamins and minerals that keep the skin and immune system healthy?"
+    choices:
+      - "Glow foods (fruits and vegetables)"
+      - "Go foods (grains)"
+      - "Grow foods (poultry)"
+      - "Fats and oils"
+    answer: "Glow foods (fruits and vegetables)"
+  - question: "Why do birds have hollow, lightweight bones filled with air spaces?"
+    choices:
+      - "To reduce body weight for easier flight"
+      - "To store extra digestive water"
+      - "To make their bodies heavy for diving"
+      - "To produce loud singing sounds"
+    answer: "To reduce body weight for easier flight"
+  - question: "Which animal undergoes incomplete metamorphosis with three stages: egg, nymph, and adult?"
+    choices:
+      - "Grasshopper"
+      - "Butterfly"
+      - "Housefly"
+      - "Mosquito"
+    answer: "Grasshopper"
+  - question: "How does a nymph differ mainly from an adult grasshopper?"
+    choices:
+      - "It is smaller and lacks fully developed wings"
+      - "It lives entirely underwater with gills"
+      - "It spins a silk chrysalis"
+      - "It eats only wood"
+    answer: "It is smaller and lacks fully developed wings"
+  - question: "Why do chameleons and walking stick insects use camouflage in their environment?"
+    choices:
+      - "To blend in and avoid detection by predators or prey"
+      - "To attract bright sunlight"
+      - "To scare off plants"
+      - "To cool their body temperature"
+    answer: "To blend in and avoid detection by predators or prey"
+  - question: "What do we call animals that are cold-blooded (their body temperature changes with the environment)?"
+    choices:
+      - "Ectothermic"
+      - "Endothermic"
+      - "Mammalian"
+      - "Warm-blooded"
+    answer: "Ectothermic"
+  - question: "What do we call animals, such as birds and mammals, that maintain a constant internal body temperature?"
+    choices:
+      - "Endothermic (warm-blooded)"
+      - "Ectothermic (cold-blooded)"
+      - "Invertebrates"
+      - "Amphibious"
+    answer: "Endothermic (warm-blooded)"
+  - question: "What is the specialized breathing organ of insects composed of tiny body openings called?"
+    choices:
+      - "Spiracles"
+      - "Gills"
+      - "Lungs"
+      - "Nostrils"
+    answer: "Spiracles"
+  - question: "Why do ducks apply oily secretions from the uropygial (preen) gland onto their feathers?"
+    choices:
+      - "To make their plumage waterproof for swimming"
+      - "To change feather colors"
+      - "To attract fish underwater"
+      - "To cool off in summer"
+    answer: "To make their plumage waterproof for swimming"
+  - question: "What structural adaptation helps hawks and eagles catch and hold struggling prey?"
+    choices:
+      - "Sharp, curved talons and a hooked beak"
+      - "Webbed feet and a flat bill"
+      - "Long wading legs and a pouch"
+      - "Short blunt teeth"
+    answer: "Sharp, curved talons and a hooked beak"
+  - question: "What is an animal called that hunts, catches, and feeds on other living animals?"
+    choices:
+      - "Predator"
+      - "Prey"
+      - "Host"
+      - "Parasite"
+    answer: "Predator"
+  - question: "What is an animal called that is hunted and eaten by a predator?"
+    choices:
+      - "Prey"
+      - "Predator"
+      - "Producer"
+      - "Decomposer"
+    answer: "Prey"
+  - question: "What role do scavengers like vultures and hyenas play in an ecosystem?"
+    choices:
+      - "They consume dead animal carcasses"
+      - "They make food through sunlight"
+      - "They pollinate forest flowers"
+      - "They hunt only plant seeds"
+    answer: "They consume dead animal carcasses"
+  - question: "What role do decomposers such as bacteria and fungi serve in the environment?"
+    choices:
+      - "They break down decaying matter and recycle nutrients into soil"
+      - "They hunt live predators"
+      - "They produce oxygen through leaves"
+      - "They cause volcanic eruptions"
+    answer: "They break down decaying matter and recycle nutrients into soil"
+  - question: "In the food chain: Rice plant → Locust → Frog → Snake, which organism is the primary consumer?"
+    choices:
+      - "Locust"
+      - "Rice plant"
+      - "Frog"
+      - "Snake"
+    answer: "Locust"
+  - question: "In the food chain: Rice plant → Locust → Frog → Snake, which organism is the producer?"
+    choices:
+      - "Rice plant"
+      - "Locust"
+      - "Frog"
+      - "Snake"
+    answer: "Rice plant"
+  - question: "What are the microscopic pores on the underside of leaves used for gas exchange called?"
+    choices:
+      - "Stomata"
+      - "Chloroplasts"
+      - "Xylem"
+      - "Phloem"
+    answer: "Stomata"
+  - question: "Which specialized cells surround stomata to regulate their opening and closing?"
+    choices:
+      - "Guard cells"
+      - "Epidermal cells"
+      - "Root hair cells"
+      - "Pith cells"
+    answer: "Guard cells"
+  - question: "What is the process where plants lose water vapor through their leaf stomata called?"
+    choices:
+      - "Transpiration"
+      - "Respiration"
+      - "Germination"
+      - "Pollination"
+    answer: "Transpiration"
+  - question: "Which plant vascular tissue conducts water and minerals upward from roots to leaves?"
+    choices:
+      - "Xylem"
+      - "Phloem"
+      - "Cambium"
+      - "Cortex"
+    answer: "Xylem"
+  - question: "Which plant vascular tissue transports manufactured food (glucose) from leaves to all plant parts?"
+    choices:
+      - "Phloem"
+      - "Xylem"
+      - "Epidermis"
+      - "Root cap"
+    answer: "Phloem"
+  - question: "Why do desert cacti have spines instead of broad, flat leaves?"
+    choices:
+      - "To reduce water loss through transpiration and defend against herbivores"
+      - "To absorb extra moonlight"
+      - "To catch flying insects"
+      - "To freeze morning dew"
+    answer: "To reduce water loss through transpiration and defend against herbivores"
+  - question: "What is the primary function of cotyledons (seed leaves) inside a developing seed?"
+    choices:
+      - "To store food for the young embryo until true leaves grow"
+      - "To protect the seed from rain"
+      - "To anchor the plant in rock"
+      - "To attract pollinating bees"
+    answer: "To store food for the young embryo until true leaves grow"
+  - question: "What is the male reproductive part of a flowering plant called?"
+    choices:
+      - "Stamen (anther and filament)"
+      - "Pistil / Carpel"
+      - "Sepal"
+      - "Receptacle"
+    answer: "Stamen (anther and filament)"
+  - question: "What is the female reproductive part of a flowering plant called?"
+    choices:
+      - "Pistil / Carpel (stigma, style, ovary)"
+      - "Stamen"
+      - "Petal"
+      - "Pollen grain"
+    answer: "Pistil / Carpel (stigma, style, ovary)"
+  - question: "What structure in a flower develops into a fruit after successful fertilization?"
+    choices:
+      - "Ovary"
+      - "Stigma"
+      - "Anther"
+      - "Sepal"
+    answer: "Ovary"
+  - question: "What structure inside the flower ovary develops into a seed after fertilization?"
+    choices:
+      - "Ovule"
+      - "Petal"
+      - "Style"
+      - "Pollen sac"
+    answer: "Ovule"
+  - question: "What happens to the pitch of a vibrating guitar string when you tighten it?"
+    choices:
+      - "The pitch gets higher"
+      - "The pitch gets lower"
+      - "The sound turns silent"
+      - "The volume drops to zero"
+    answer: "The pitch gets higher"
+  - question: "What characteristic of a sound wave determines its loudness or volume?"
+    choices:
+      - "Amplitude"
+      - "Frequency"
+      - "Wavelength"
+      - "Speed"
+    answer: "Amplitude"
+  - question: "What characteristic of a sound wave determines its high or low pitch?"
+    choices:
+      - "Frequency (vibrations per second)"
+      - "Amplitude"
+      - "Loudness"
+      - "Color"
+    answer: "Frequency (vibrations per second)"
+  - question: "Why can sound NOT travel across outer space?"
+    choices:
+      - "Space is a vacuum with no air or matter particles to vibrate"
+      - "Space is too dark for sound"
+      - "Gravity pulls sound waves backward"
+      - "The Sun absorbs all frequencies"
+    answer: "Space is a vacuum with no air or matter particles to vibrate"
+  - question: "What optical phenomenon causes a straw in a glass of water to look bent or broken?"
+    choices:
+      - "Refraction (bending of light)"
+      - "Reflection"
+      - "Diffraction"
+      - "Absorption"
+    answer: "Refraction (bending of light)"
+  - question: "What optical phenomenon occurs when light bounces off a shiny, flat mirror surface?"
+    choices:
+      - "Reflection"
+      - "Refraction"
+      - "Absorption"
+      - "Dispersion"
+    answer: "Reflection"
+  - question: "Why do white objects stay cooler than dark black objects when exposed to sunlight?"
+    choices:
+      - "White surfaces reflect most light while dark surfaces absorb it"
+      - "White surfaces produce cold air"
+      - "Black surfaces reflect all heat"
+      - "Color does not affect heat"
+    answer: "White surfaces reflect most light while dark surfaces absorb it"
+  - question: "Which of the following materials is a good thermal and electrical insulator?"
+    choices:
+      - "Rubber"
+      - "Aluminum"
+      - "Copper"
+      - "Silver"
+    answer: "Rubber"
+  - question: "What happens when an electrical switch is opened (turned off)?"
+    choices:
+      - "The circuit is broken and electric current stops flowing"
+      - "Electricity flows twice as fast"
+      - "The light bulb burns out"
+      - "The battery recharges instantly"
+    answer: "The circuit is broken and electric current stops flowing"
+  - question: "In a series circuit with two light bulbs, what happens if one bulb is unscrewed?"
+    choices:
+      - "Both bulbs go out because the single circuit path is broken"
+      - "The other bulb glows brighter"
+      - "The wires catch fire"
+      - "The circuit converts to parallel"
+    answer: "Both bulbs go out because the single circuit path is broken"
+  - question: "Why are household lights usually wired in parallel circuits rather than series circuits?"
+    choices:
+      - "Other appliances continue working if one device is turned off"
+      - "Parallel circuits use no electricity"
+      - "Series circuits require no wires"
+      - "Parallel circuits make bulbs dimmer"
+    answer: "Other appliances continue working if one device is turned off"
+  - question: "What form of energy is stored in food, batteries, and gasoline?"
+    choices:
+      - "Chemical energy"
+      - "Light energy"
+      - "Nuclear energy"
+      - "Kinetic energy"
+    answer: "Chemical energy"
+  - question: "What energy transformation occurs when you switch on a battery flashlight?"
+    choices:
+      - "Chemical energy → Electrical energy → Light & heat energy"
+      - "Light energy → Sound energy"
+      - "Nuclear energy → Mechanical energy"
+      - "Kinetic energy → Potential energy"
+    answer: "Chemical energy → Electrical energy → Light & heat energy"
+  - question: "What energy is possessed by an object due to its motion?"
+    choices:
+      - "Kinetic energy"
+      - "Potential energy"
+      - "Chemical energy"
+      - "Thermal energy"
+    answer: "Kinetic energy"
+  - question: "What energy is stored in an object because of its elevated position above ground?"
+    choices:
+      - "Gravitational potential energy"
+      - "Kinetic energy"
+      - "Electrical energy"
+      - "Light energy"
+    answer: "Gravitational potential energy"
+  - question: "Which soil type has the smallest, finest particles and holds water the longest?"
+    choices:
+      - "Clay soil"
+      - "Sandy soil"
+      - "Loam soil"
+      - "Gravel"
+    answer: "Clay soil"
+  - question: "Which soil type has large, coarse particles and allows water to drain very rapidly?"
+    choices:
+      - "Sandy soil"
+      - "Clay soil"
+      - "Loam soil"
+      - "Silt"
+    answer: "Sandy soil"
+  - question: "Which rich soil type containing sand, silt, clay, and decayed organic humus is best for planting crops?"
+    choices:
+      - "Loam soil"
+      - "Pure sand"
+      - "Heavy clay"
+      - "Crushed rock"
+    answer: "Loam soil"
+  - question: "What dark, organic component of fertile soil is formed from decayed plants and animals?"
+    choices:
+      - "Humus"
+      - "Gravel"
+      - "Bedrock"
+      - "Magma"
+    answer: "Humus"
+  - question: "What is the process that breaks solid rocks into smaller fragments over time called?"
+    choices:
+      - "Weathering"
+      - "Erosion"
+      - "Deposition"
+      - "Volcanism"
+    answer: "Weathering"
+  - question: "What is the process of transporting weathered rock and soil particles by wind or water called?"
+    choices:
+      - "Erosion"
+      - "Weathering"
+      - "Germination"
+      - "Condensation"
+    answer: "Erosion"
+  - question: "How does planting cover crops and trees help prevent soil erosion on hillsides?"
+    choices:
+      - "Their root systems bind and anchor soil particles firmly"
+      - "Their leaves make soil heavier"
+      - "They stop all rain from falling"
+      - "They turn soil into hard stone"
+    answer: "Their root systems bind and anchor soil particles firmly"
+  - question: "What type of clouds are fluffy, white, and look like cotton balls on a fair day?"
+    choices:
+      - "Cumulus clouds"
+      - "Stratus clouds"
+      - "Cirrus clouds"
+      - "Cumulonimbus clouds"
+    answer: "Cumulus clouds"
+  - question: "What type of tall, dark tower clouds bring heavy rain, lightning, and thunderstorms?"
+    choices:
+      - "Cumulonimbus clouds"
+      - "Cirrus clouds"
+      - "Stratus clouds"
+      - "Altocumulus clouds"
+    answer: "Cumulonimbus clouds"
+  - question: "What thin, feathery, wispy clouds high in the sky are made primarily of ice crystals?"
+    choices:
+      - "Cirrus clouds"
+      - "Cumulus clouds"
+      - "Stratus clouds"
+      - "Fog"
+    answer: "Cirrus clouds"
+  - question: "Which Philippine agency monitors weather forecasts, typhoons, and flood warnings?"
+    choices:
+      - "PAGASA"
+      - "PHIVOLCS"
+      - "DENR"
+      - "DEPED"
+    answer: "PAGASA"
+  - question: "Which Philippine agency monitors volcanic activity, earthquakes, and tsunamis?"
+    choices:
+      - "PHIVOLCS"
+      - "PAGASA"
+      - "DOH"
+      - "DPWH"
+    answer: "PHIVOLCS"
+  - question: "What is molten rock called while it is still beneath Earth's crust?"
+    choices:
+      - "Magma"
+      - "Lava"
+      - "Basalt"
+      - "Granite"
+    answer: "Magma"
+  - question: "What is molten rock called once it erupts and flows onto Earth's surface?"
+    choices:
+      - "Lava"
+      - "Magma"
+      - "Humus"
+      - "Ash"
+    answer: "Lava"
+  - question: "Which famous Philippine volcano in Albay is renowned for its near-perfect symmetrical cone?"
+    choices:
+      - "Mayon Volcano"
+      - "Taal Volcano"
+      - "Mount Pinatubo"
+      - "Mount Apo"
+    answer: "Mayon Volcano"
+  - question: "What is the highest mountain peak in the Philippines?"
+    choices:
+      - "Mount Apo"
+      - "Mount Pulag"
+      - "Mayon Volcano"
+      - "Mount Kanlaon"
+    answer: "Mount Apo"
+  - question: "Why do we experience the four seasons in parts of the world away from the equator?"
+    choices:
+      - "Earth's tilted axis as it revolves around the Sun"
+      - "Earth moving closer and farther from the Sun"
+      - "The Moon's gravity changing each month"
+      - "Sunspots turning on and off"
+    answer: "Earth's tilted axis as it revolves around the Sun"
+  - question: "What imaginary line divides Earth into the Northern and Southern Hemispheres?"
+    choices:
+      - "Equator"
+      - "Prime Meridian"
+      - "Tropic of Cancer"
+      - "Axis"
+    answer: "Equator"
+  - question: "What two climate seasons are experienced in the tropical Philippines?"
+    choices:
+      - "Wet (rainy) and Dry seasons"
+      - "Summer, Autumn, Winter, Spring"
+      - "Cold and Snow seasons"
+      - "Monsoon and Ice seasons"
+    answer: "Wet (rainy) and Dry seasons"
+  - question: "Which planet in the solar system is closest to the Sun?"
+    choices:
+      - "Mercury"
+      - "Venus"
+      - "Earth"
+      - "Mars"
+    answer: "Mercury"
+  - question: "Which planet is often called Earth's twin because of its similar size and density?"
+    choices:
+      - "Venus"
+      - "Mars"
+      - "Mercury"
+      - "Neptune"
+    answer: "Venus"
+  - question: "Why is Mars commonly referred to as the 'Red Planet'?"
+    choices:
+      - "Its soil is rich in reddish iron oxide (rust)"
+      - "It is covered in red lava lakes"
+      - "Its atmosphere is pure red gas"
+      - "It burns like a small star"
+    answer: "Its soil is rich in reddish iron oxide (rust)"
+  - question: "Which is the largest planet in our solar system?"
+    choices:
+      - "Jupiter"
+      - "Saturn"
+      - "Uranus"
+      - "Neptune"
+    answer: "Jupiter"
+  - question: "Which gas giant planet is famous for its bright, prominent system of rings made of ice and rock?"
+    choices:
+      - "Saturn"
+      - "Jupiter"
+      - "Mars"
+      - "Mercury"
+    answer: "Saturn"
+  - question: "Why does the Moon appear to shine in the night sky?"
+    choices:
+      - "It reflects light coming from the Sun"
+      - "It produces its own light from magma"
+      - "It stores electricity from lightning"
+      - "It reflects city lights on Earth"
+    answer: "It reflects light coming from the Sun"
+  - question: "Why do we see different phases of the Moon (new moon, crescent, gibbous, full moon)?"
+    choices:
+      - "We see varying portions of its sunlit half as it orbits Earth"
+      - "Earth casts a shadow on it every single night"
+      - "The Moon changes its actual shape"
+      - "Clouds cover different parts of the Moon"
+    answer: "We see varying portions of its sunlit half as it orbits Earth"
+  - question: "How long does it take for the Moon to complete one orbit around the Earth?"
+    choices:
+      - "About 27 to 29.5 days (about 1 month)"
+      - "24 hours"
+      - "365 days"
+      - "7 days"
+    answer: "About 27 to 29.5 days (about 1 month)"
+  - question: "What celestial event occurs when the Moon passes directly between the Sun and Earth, blocking sunlight?"
+    choices:
+      - "Solar eclipse"
+      - "Lunar eclipse"
+      - "Equinox"
+      - "Solstice"
+    answer: "Solar eclipse"
+  - question: "What celestial event occurs when Earth passes directly between the Sun and the Moon, casting Earth's shadow on the Moon?"
+    choices:
+      - "Lunar eclipse"
+      - "Solar eclipse"
+      - "Tide surge"
+      - "Meteor shower"
+    answer: "Lunar eclipse"
+difficult:
+  - question: "What polysaccharide structural carbohydrate forms the tough outer exoskeleton of insects and crustaceans?"
+    choices:
+      - "Chitin"
+      - "Cellulose"
+      - "Keratin"
+      - "Glycogen"
+    answer: "Chitin"
+  - question: "What tough fibrous protein makes up human hair, fingernails, and animal claws?"
+    choices:
+      - "Keratin"
+      - "Chitin"
+      - "Collagen"
+      - "Melanin"
+    answer: "Keratin"
+  - question: "What is an ecological organism called that specifically consumes dead and decomposing organic material?"
+    choices:
+      - "Detritivore"
+      - "Herbivore"
+      - "Carnivore"
+      - "Autotroph"
+    answer: "Detritivore"
+  - question: "What specialized cells in plant leaves regulate the opening and closing of stomata to control transpiration?"
+    choices:
+      - "Guard cells"
+      - "Epidermal cells"
+      - "Xylem vessels"
+      - "Mesophyll cells"
+    answer: "Guard cells"
+  - question: "Which specific organelle in green plant cells contains chlorophyll and carries out photosynthesis?"
+    choices:
+      - "Chloroplast"
+      - "Mitochondria"
+      - "Nucleus"
+      - "Vacuole"
+    answer: "Chloroplast"
+  - question: "What organelle is known as the 'powerhouse of the cell' because it produces cellular energy (ATP)?"
+    choices:
+      - "Mitochondrion"
+      - "Ribosome"
+      - "Golgi body"
+      - "Endoplasmic reticulum"
+    answer: "Mitochondrion"
+  - question: "What symbiotic biological relationship benefits one organism while the other organism is neither helped nor harmed?"
+    choices:
+      - "Commensalism"
+      - "Mutualism"
+      - "Parasitism"
+      - "Predation"
+    answer: "Commensalism"
+  - question: "What symbiotic biological relationship benefits both interacting species, such as bees pollinating flowers?"
+    choices:
+      - "Mutualism"
+      - "Commensalism"
+      - "Parasitism"
+      - "Competition"
+    answer: "Mutualism"
+  - question: "What symbiotic relationship occurs when one organism benefits at the expense of harming its host organism?"
+    choices:
+      - "Parasitism"
+      - "Mutualism"
+      - "Commensalism"
+      - "Saprophytism"
+    answer: "Parasitism"
+  - question: "What is the plant's directional growth response toward sunlight called?"
+    choices:
+      - "Phototropism"
+      - "Geotropism"
+      - "Hydrotropism"
+      - "Thigmotropism"
+    answer: "Phototropism"
+  - question: "What is the downward growth of plant roots in response to the pull of gravity called?"
+    choices:
+      - "Positive geotropism (gravitropism)"
+      - "Negative phototropism"
+      - "Hydrotropism"
+      - "Thigmotropism"
+    answer: "Positive geotropism (gravitropism)"
+  - question: "Why do freshwater fish not survive in a concentrated marine saltwater environment?"
+    choices:
+      - "They lose body water rapidly through osmosis and become dehydrated"
+      - "They absorb too much water and burst"
+      - "Salt immediately freezes their gills"
+      - "They cannot find oxygen in saltwater"
+    answer: "They lose body water rapidly through osmosis and become dehydrated"
+  - question: "What is the longest, strongest, and heaviest single bone in the human skeletal system?"
+    choices:
+      - "Femur (thigh bone)"
+      - "Tibia (shin bone)"
+      - "Humerus (upper arm bone)"
+      - "Fibula"
+    answer: "Femur (thigh bone)"
+  - question: "What are the smallest bones in the human body, located inside the middle ear cavity?"
+    choices:
+      - "Ossicles (Malleus, Incus, Stapes)"
+      - "Phalanges"
+      - "Carpals"
+      - "Metatarsals"
+    answer: "Ossicles (Malleus, Incus, Stapes)"
+  - question: "What microscopic blood vessels connect the smallest arteries to veins and allow nutrient-gas exchange with tissues?"
+    choices:
+      - "Capillaries"
+      - "Arterioles"
+      - "Venules"
+      - "Lymphatics"
+    answer: "Capillaries"
+  - question: "What valve-like muscular flap closes over the trachea during swallowing to prevent food from entering the airway?"
+    choices:
+      - "Epiglottis"
+      - "Uvula"
+      - "Pharynx"
+      - "Larynx"
+    answer: "Epiglottis"
+  - question: "What involuntary wave-like muscular contractions push food through the esophagus and digestive tract?"
+    choices:
+      - "Peristalsis"
+      - "Osmosis"
+      - "Circulation"
+      - "Mastication"
+    answer: "Peristalsis"
+  - question: "What digestive fluid produced by the liver and stored in the gallbladder helps emulsify dietary fats?"
+    choices:
+      - "Bile"
+      - "Gastric juice"
+      - "Saliva"
+      - "Insulin"
+    answer: "Bile"
+  - question: "What is the transparent front layer of the human eye that covers the iris and pupil and refracts incoming light?"
+    choices:
+      - "Cornea"
+      - "Retina"
+      - "Sclera"
+      - "Lens"
+    answer: "Cornea"
+  - question: "What light-sensitive inner lining at the back of the eyeball contains photoreceptor rods and cones?"
+    choices:
+      - "Retina"
+      - "Cornea"
+      - "Iris"
+      - "Pupil"
+    answer: "Retina"
+  - question: "What scientific law states that an object at rest stays at rest unless acted upon by an unbalanced external force?"
+    choices:
+      - "Law of Inertia (Newton's 1st Law)"
+      - "Law of Acceleration"
+      - "Law of Interaction"
+      - "Law of Gravity"
+    answer: "Law of Inertia (Newton's 1st Law)"
+  - question: "What scientific law states that for every action, there is an equal and opposite reaction?"
+    choices:
+      - "Law of Interaction (Newton's 3rd Law)"
+      - "Law of Inertia"
+      - "Law of Conservation of Mass"
+      - "Ohm's Law"
+    answer: "Law of Interaction (Newton's 3rd Law)"
+  - question: "What happens to the kinetic energy of a moving vehicle if its speed is doubled?"
+    choices:
+      - "It quadruples (increases by 4 times)"
+      - "It doubles"
+      - "It stays the same"
+      - "It triples"
+    answer: "It quadruples (increases by 4 times)"
+  - question: "What form of heat transfer occurs through direct physical contact between solid particles?"
+    choices:
+      - "Conduction"
+      - "Convection"
+      - "Radiation"
+      - "Insulation"
+    answer: "Conduction"
+  - question: "What form of heat transfer occurs through circulating currents in fluids (liquids and gases)?"
+    choices:
+      - "Convection"
+      - "Conduction"
+      - "Radiation"
+      - "Sublimation"
+    answer: "Convection"
+  - question: "What form of heat transfer travels through empty space in the form of electromagnetic waves (such as sunlight)?"
+    choices:
+      - "Radiation"
+      - "Conduction"
+      - "Convection"
+      - "Evaporation"
+    answer: "Radiation"
+  - question: "Why do sea breezes blow from the sea toward the land during a bright sunny afternoon?"
+    choices:
+      - "Land heats up faster than water, causing warm air over land to rise and cool sea air to move in"
+      - "The sea becomes hotter than the land"
+      - "The Moon pulls air toward the land"
+      - "Ocean tides push wind inland"
+    answer: "Land heats up faster than water, causing warm air over land to rise and cool sea air to move in"
+  - question: "What optical tool separates composite white sunlight into its continuous spectral colors (ROYGBIV)?"
+    choices:
+      - "Triangular glass prism"
+      - "Flat mirror"
+      - "Convex lens"
+      - "Opaque filter"
+    answer: "Triangular glass prism"
+  - question: "What is the speed of light in a vacuum approximately equal to?"
+    choices:
+      - "300,000 kilometers per second"
+      - "343 meters per second"
+      - "1,000 kilometers per hour"
+      - "100,000 meters per second"
+    answer: "300,000 kilometers per second"
+  - question: "What is the speed of sound in dry air at room temperature approximately equal to?"
+    choices:
+      - "About 340 to 343 meters per second"
+      - "300,000 kilometers per second"
+      - "1,500 meters per second"
+      - "50 meters per second"
+    answer: "About 340 to 343 meters per second"
+  - question: "What fundamental scientific law states that matter cannot be created or destroyed in a chemical reaction?"
+    choices:
+      - "Law of Conservation of Mass"
+      - "Law of Gravity"
+      - "Law of Definite Proportions"
+      - "Archimedes' Principle"
+    answer: "Law of Conservation of Mass"
+  - question: "What physical property is calculated by dividing an object's mass by its volume (D = m / V)?"
+    choices:
+      - "Density"
+      - "Weight"
+      - "Speed"
+      - "Friction"
+    answer: "Density"
+  - question: "What upward buoyant force exerted by a fluid on a submerged body is equal to the weight of the fluid displaced?"
+    choices:
+      - "Archimedes' Principle"
+      - "Pascal's Law"
+      - "Bernoulli's Principle"
+      - "Boyle's Law"
+    answer: "Archimedes' Principle"
+  - question: "What instrument measures atmospheric pressure to assist in meteorology and altitude calculation?"
+    choices:
+      - "Barometer"
+      - "Anemometer"
+      - "Hygrometer"
+      - "Seismograph"
+    answer: "Barometer"
+  - question: "What instrument is used by meteorologists to measure relative humidity (moisture in the air)?"
+    choices:
+      - "Hygrometer"
+      - "Thermometer"
+      - "Barometer"
+      - "Rain gauge"
+    answer: "Hygrometer"
+  - question: "What atmospheric layer contains the ozone layer that absorbs harmful solar ultraviolet (UV) radiation?"
+    choices:
+      - "Stratosphere"
+      - "Troposphere"
+      - "Mesosphere"
+      - "Thermosphere"
+    answer: "Stratosphere"
+  - question: "In which atmospheric layer does nearly all Earth's weather (clouds, storms, rain) occur?"
+    choices:
+      - "Troposphere"
+      - "Stratosphere"
+      - "Thermosphere"
+      - "Exosphere"
+    answer: "Troposphere"
+  - question: "What scale measures the earthquake magnitude based on seismic energy released at the epicenter?"
+    choices:
+      - "Richter magnitude scale / Moment magnitude scale"
+      - "Beaufort wind scale"
+      - "Mohs hardness scale"
+      - "Celsius scale"
+    answer: "Richter magnitude scale / Moment magnitude scale"
+  - question: "What scale is used in mineralogy to measure mineral scratch resistance and relative hardness from 1 (Talc) to 10 (Diamond)?"
+    choices:
+      - "Mohs hardness scale"
+      - "Richter scale"
+      - "Kelvin scale"
+      - "Beaufort scale"
+    answer: "Mohs hardness scale"
+  - question: "What is the hardest naturally occurring mineral on Earth on the Mohs scale?"
+    choices:
+      - "Diamond"
+      - "Quartz"
+      - "Corundum"
+      - "Topaz"
+    answer: "Diamond"
+  - question: "What is the softest mineral on the Mohs scale with a hardness rating of 1?"
+    choices:
+      - "Talc"
+      - "Gypsum"
+      - "Calcite"
+      - "Fluorite"
+    answer: "Talc"
+  - question: "What rock type is formed when molten magma or lava cools and solidifies?"
+    choices:
+      - "Igneous rock (e.g., basalt, granite)"
+      - "Sedimentary rock"
+      - "Metamorphic rock"
+      - "Fossil rock"
+    answer: "Igneous rock (e.g., basalt, granite)"
+  - question: "What rock type is formed by the accumulation, compaction, and cementation of mineral sediments over millions of years?"
+    choices:
+      - "Sedimentary rock (e.g., limestone, sandstone)"
+      - "Igneous rock"
+      - "Metamorphic rock"
+      - "Volcanic glass"
+    answer: "Sedimentary rock (e.g., limestone, sandstone)"
+  - question: "What rock type is created when existing rocks undergo transformation under intense heat and pressure deep underground?"
+    choices:
+      - "Metamorphic rock (e.g., marble, slate)"
+      - "Igneous rock"
+      - "Sedimentary rock"
+      - "Clay"
+    answer: "Metamorphic rock (e.g., marble, slate)"
+  - question: "What belt of active volcanoes and frequent earthquake epicenters encircles the basin of the Pacific Ocean, including the Philippines?"
+    choices:
+      - "Pacific Ring of Fire"
+      - "Mid-Atlantic Ridge"
+      - "Alpide Belt"
+      - "Great Rift Valley"
+    answer: "Pacific Ring of Fire"
+  - question: "What is the point on Earth's surface directly above the underground focus (hypocenter) where an earthquake originates?"
+    choices:
+      - "Epicenter"
+      - "Fault line"
+      - "Trench"
+      - "Crater"
+    answer: "Epicenter"
+  - question: "What deep oceanic trench located east of the Philippines is one of the deepest trenches in the world?"
+    choices:
+      - "Philippine Trench (Emden Deep)"
+      - "Mariana Trench"
+      - "Java Trench"
+      - "Puerto Rico Trench"
+    answer: "Philippine Trench (Emden Deep)"
+  - question: "What region between the orbits of Mars and Jupiter contains thousands of rocky planetary remnants?"
+    choices:
+      - "Asteroid Belt"
+      - "Kuiper Belt"
+      - "Oort Cloud"
+      - "Van Allen Belt"
+    answer: "Asteroid Belt"
+  - question: "What icy celestial body originates from the outer solar system and displays a glowing coma and tail when heated by the Sun?"
+    choices:
+      - "Comet"
+      - "Asteroid"
+      - "Meteoroid"
+      - "Black hole"
+    answer: "Comet"
+  - question: "What is the North Star commonly known as, used for celestial navigation in the Northern Hemisphere?"
+    choices:
+      - "Polaris"
+      - "Sirius"
+      - "Betelgeuse"
+      - "Alpha Centauri"
+    answer: "Polaris"

@@ -1,4 +1,4 @@
-import { applyAnswer, shuffle, shuffledQuestion } from './logic.mjs';
+import { applyAnswer, parseQuestionsYaml, shuffle, shuffledQuestion } from './logic.mjs';
 
 const LEVELS = [
   { key: 'easy', label: 'Easy', name: 'Monkey', emoji: '🐒', damage: 10 },
@@ -35,7 +35,7 @@ async function loadDatabase() {
   try {
     const response = await fetch('./questions.yaml');
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const data = JSON.parse(await response.text());
+    const data = parseQuestionsYaml(await response.text());
     if (!validateDatabase(data)) throw new Error('invalid question format');
     database = data;
     ui.start.disabled = false;
