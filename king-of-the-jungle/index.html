@@ -15,7 +15,7 @@
     .screen { min-height:100dvh; }
     .hidden { display:none !important; }
 
-    .intro, .ending { display:grid; place-items:center; padding:1rem; background:
+    .intro, .ending, .review { display:grid; place-items:center; padding:1rem; background:
       radial-gradient(circle at 50% 8%, rgba(255,220,90,.35), transparent 25%),
       linear-gradient(#176b46 0 55%, #0e3b25 55% 100%); }
     .card { width:min(94vw,580px); padding:clamp(1.25rem,4vw,2rem); text-align:center; color:var(--ink);
@@ -30,6 +30,8 @@
       color:#21300f; background:var(--gold); box-shadow:0 6px 0 #b87918; cursor:pointer; }
     .primary:active { transform:translateY(4px); box-shadow:0 2px 0 #b87918; }
     .primary:disabled { cursor:wait; opacity:.65; }
+    .secondary { width:100%; border:3px solid #28623e; border-radius:1rem; padding:.75rem 1.2rem; font-weight:900; color:#28623e; background:#fff; cursor:pointer; }
+    .actions { display:grid; gap:.8rem; }
     .error { color:#a91e1e; font-weight:800; }
 
     .battle { display:flex; flex-direction:column; background:#c6e7f0; color:var(--ink); }
@@ -74,7 +76,14 @@
     .overlay { position:fixed; inset:0; z-index:10; display:grid; place-items:center; padding:1rem; background:#061b12d9; }
     .overlay .card { max-width:460px; }
     .overlay-emoji { font-size:5rem; }
-    .overlay h2, .ending h2 { margin:.2rem 0; color:#8d4d16; font-size:2rem; }
+    .overlay h2, .ending h2, .review h2 { margin:.2rem 0; color:#8d4d16; font-size:2rem; }
+    .review { place-items:start center; }
+    .review .card { width:min(94vw,760px); text-align:left; }
+    .review-list { display:grid; gap:.8rem; margin:1rem 0; }
+    .review-item { padding:1rem; border-radius:1rem; background:#fff; border-left:6px solid #b9362b; }
+    .review-item p { margin:.35rem 0; }
+    .review-correct { color:#176b46; font-weight:900; }
+    .review-chosen { color:#a91e1e; }
 
     @keyframes attackLeft { 50% { transform:translate(34px,-12px) rotate(-6deg); } }
     @keyframes attackRight { 50% { transform:scaleX(-1) translate(34px,-12px) rotate(-6deg); } }
@@ -139,7 +148,11 @@
     </div>
 
     <section id="ending" class="screen ending hidden">
-      <div class="card"><div id="endingEmoji" class="logo">👑</div><h2 id="endingTitle">You are King of the Jungle!</h2><p id="endingText"></p><button id="againBtn" class="primary" type="button">Battle Again</button></div>
+      <div class="card"><div id="endingEmoji" class="logo">👑</div><h2 id="endingTitle">You are King of the Jungle!</h2><p id="endingText"></p><div class="actions"><button id="reviewBtn" class="secondary" type="button">Review Wrong Answers</button><button id="againBtn" class="primary" type="button">Battle Again</button></div></div>
+    </section>
+
+    <section id="review" class="screen review hidden" aria-labelledby="reviewTitle">
+      <div class="card"><h2 id="reviewTitle">Wrong Answer Review</h2><p id="reviewSummary"></p><div id="reviewList" class="review-list"></div><button id="reviewBackBtn" class="primary" type="button">Back to Results</button></div>
     </section>
   </main>
   <script type="module" src="./game.mjs"></script>

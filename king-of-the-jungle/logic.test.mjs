@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'bun:test';
-import { applyAnswer, parseQuestionsYaml, shuffledQuestion } from './logic.mjs';
+import { applyAnswer, parseQuestionsYaml, shuffledQuestion, wrongAnswer } from './logic.mjs';
 
 const question = {
   question: 'Which planet is our home?',
@@ -35,5 +35,10 @@ describe('battle logic', () => {
     expect(result.choices).toEqual(['Mars', 'Venus', 'Jupiter', 'Earth']);
     expect(result.answer).toBe('Earth');
     expect(question.choices).toEqual(['Earth', 'Mars', 'Venus', 'Jupiter']);
+  });
+
+  test('only wrong answers are saved for review', () => {
+    expect(wrongAnswer(question, 'Earth')).toBeNull();
+    expect(wrongAnswer(question, 'Mars')).toEqual({ question: question.question, chosen: 'Mars', correct: 'Earth' });
   });
 });

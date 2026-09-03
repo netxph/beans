@@ -1,4 +1,4 @@
-import { applyAnswer, parseQuestionsYaml, shuffle, shuffledQuestion } from './logic.mjs';
+import { applyAnswer, parseQuestionsYaml, shuffle, shuffledQuestion, wrongAnswer } from './logic.mjs';
 
 const LEVELS = [
   { key: 'easy', label: 'Easy', name: 'Monkey', emoji: '🐒', damage: 10 },
@@ -14,7 +14,8 @@ const ui = {
   lionSprite: $('lionSprite'), lionHp: $('lionHp'), lionHpText: $('lionHpText'),
   feedback: $('feedback'), question: $('question'), choices: $('choices'),
   overlay: $('levelOverlay'), overlayEmoji: $('overlayEmoji'), overlayTitle: $('overlayTitle'), overlayText: $('overlayText'),
-  continue: $('continueBtn'), endingEmoji: $('endingEmoji'), endingTitle: $('endingTitle'), endingText: $('endingText'), again: $('againBtn'),
+  continue: $('continueBtn'), endingEmoji: $('endingEmoji'), endingTitle: $('endingTitle'), endingText: $('endingText'),
+  review: $('review'), reviewButton: $('reviewBtn'), reviewSummary: $('reviewSummary'), reviewList: $('reviewList'), reviewBack: $('reviewBackBtn'), again: $('againBtn'),
 };
 
 let database;
@@ -48,8 +49,8 @@ async function loadDatabase() {
 }
 
 function startGame() {
-  game = { level: 0, lionHp: 100, enemyHp: 100, deck: [], current: null, locked: false, answered: 0, correct: 0 };
-  show(ui.battle, ui.intro, ui.ending, ui.overlay);
+  game = { level: 0, lionHp: 100, enemyHp: 100, deck: [], current: null, locked: false, answered: 0, correct: 0, wrong: [] };
+  show(ui.battle, ui.intro, ui.ending, ui.review, ui.overlay);
   startLevel();
 }
 
@@ -92,8 +93,10 @@ function answer(choice) {
   if (game.locked) return;
   game.locked = true;
   game.answered++;
-  const correct = choice === game.current.answer;
+  const wrong = wrongAnswer(game.current, choice);
+  const correct = !wrong;
   if (correct) game.correct++;
+  else game.wrong.push(wrong);
 
   const result = applyAnswer(game, correct, LEVELS[game.level].damage);
   game.lionHp = result.lionHp;
@@ -141,13 +144,37 @@ function continueBattle() {
 }
 
 function endGame(won) {
-  show(ui.ending, ui.battle, ui.overlay, ui.intro);
+  show(ui.ending, ui.battle, ui.review, ui.overlay, ui.intro);
   ui.endingEmoji.textContent = won ? '👑' : '🌧️';
   ui.endingTitle.textContent = won ? 'You are King of the Jungle!' : 'The jungle wins this round';
   ui.endingText.textContent = won
     ? `The lion defeated all three challengers with ${game.lionHp} HP left. You answered ${game.correct} of ${game.answered} questions correctly.`
     : `You reached ${LEVELS[game.level].name} and answered ${game.correct} of ${game.answered} questions correctly. Try the climb again!`;
-  ui.again.focus();
+  ui.reviewButton.focus();
+}
+
+function showReview() {
+  ui.reviewSummary.textContent = game.wrong.length
+    ? `You missed ${game.wrong.length} of ${game.answered} questions.`
+    : 'Perfect game — no wrong answers to review!';
+  ui.reviewList.replaceChildren(...game.wrong.map((answer, index) => {
+    const item = document.createElement('article');
+    item.className = 'review-item';
+
+    const question = document.createElement('strong');
+    question.textContent = `${index + 1}. ${answer.question}`;
+    const chosen = document.createElement('p');
+    chosen.className = 'review-chosen';
+    chosen.textContent = `Your answer: ${answer.chosen}`;
+    const correct = document.createElement('p');
+    correct.className = 'review-correct';
+    correct.textContent = `Correct answer: ${answer.correct}`;
+
+    item.append(question, chosen, correct);
+    return item;
+  }));
+  show(ui.review, ui.ending);
+  ui.reviewBack.focus();
 }
 
 function updateHealth() {
@@ -180,6 +207,11 @@ window.addEventListener('message', (event) => {
 });
 ui.start.addEventListener('click', startGame);
 ui.continue.addEventListener('click', continueBattle);
+ui.reviewButton.addEventListener('click', showReview);
+ui.reviewBack.addEventListener('click', () => {
+  show(ui.ending, ui.review);
+  ui.reviewButton.focus();
+});
 ui.again.addEventListener('click', startGame);
 
 loadDatabase();

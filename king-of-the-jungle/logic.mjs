@@ -30,6 +30,10 @@ export function shuffledQuestion(question, random = Math.random) {
   return { ...question, choices: shuffle(question.choices, random) };
 }
 
+export function wrongAnswer(question, chosen) {
+  return chosen === question.answer ? null : { question: question.question, chosen, correct: question.answer };
+}
+
 export function applyAnswer({ lionHp, enemyHp }, correct, enemyDamage) {
   return correct
     ? { lionHp, enemyHp: Math.max(0, enemyHp - 20) }
