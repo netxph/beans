@@ -68,6 +68,7 @@
             for(let i = 0; i < TOTAL_SPOTS; i++) {
                 sequenceData.push(startNum + (i * step));
             }
+            if (Math.random() < 0.5) sequenceData.reverse();
 
             // Pick 3 random indices to hide (leave 0 and 1 visible to establish pattern)
             let possibleIndices = [2, 3, 4, 5];

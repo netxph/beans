@@ -1,4 +1,4 @@
-const CACHE_NAME = 'beans-kids-arcade-v13';
+const CACHE_NAME = 'beans-kids-arcade-v14';
 const APP_SHELL = [
   './',
   './index.html',
@@ -42,24 +42,12 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  const freshContent = req.destination === 'document'
-    || req.destination === 'script'
-    || req.destination === 'style';
-
   event.respondWith(
-    (freshContent
-      ? fetch(req, { cache: 'no-store' })
-          .then((res) => {
-            const copy = res.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
-            return res;
-          })
-          .catch(() => caches.match(req))
-      : caches.match(req).then((cached) => cached || fetch(req).then((res) => {
-          const copy = res.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
-          return res;
-        }))
-    ).catch(() => caches.match('./index.html'))
+    caches.match(req).then((cached) => cached || fetch(req).then((res) => {
+      if (!res.ok) return res;
+      return caches.open(CACHE_NAME)
+        .then((cache) => cache.put(req, res.clone()))
+        .then(() => res);
+    })).catch(() => req.mode === 'navigate' ? caches.match('./index.html') : Response.error())
   );
 });
