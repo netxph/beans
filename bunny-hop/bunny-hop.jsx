@@ -1,5 +1,5 @@
         // Game Constants
-        const TOTAL_PUZZLES = 5;
+        const TOTAL_PUZZLES = 10;
         const TOTAL_SPOTS = 6;
         const MANHOLE_COUNT = 3;
         const INCREMENTS = [1, 10, 100];
@@ -68,7 +68,8 @@
             for(let i = 0; i < TOTAL_SPOTS; i++) {
                 sequenceData.push(startNum + (i * step));
             }
-            if (Math.random() < 0.5) sequenceData.reverse();
+            // Alternate directions so every game teaches both pattern types.
+            if (currentPuzzleIndex % 2 === 1) sequenceData.reverse();
 
             // Pick 3 random indices to hide (leave 0 and 1 visible to establish pattern)
             let possibleIndices = [2, 3, 4, 5];
