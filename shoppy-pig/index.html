@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Shoppy Pig</title>
+  <style>
+    :root { font-family: ui-rounded, "Arial Rounded MT Bold", system-ui, sans-serif; color: #3f2930; background: #fff4d8; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; background: linear-gradient(#ffe9a8 0 26%, #fff8e8 26%); }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: .75rem clamp(1rem, 4vw, 3rem); background: #8b3f57; color: white; border-bottom: 6px solid #6b2940; }
+    .brand { font-size: clamp(1.25rem, 3vw, 2rem); font-weight: 900; }
+    .stats { display: flex; gap: .6rem; font-weight: 800; }
+    .pill { padding: .45rem .8rem; border-radius: 999px; background: #fff3; }
+    main { width: min(1120px, 100%); margin: auto; padding: clamp(1rem, 3vw, 2rem); }
+    .intro, .finish { min-height: 75vh; display: grid; place-items: center; text-align: center; }
+    .card { background: white; border: 3px solid #e8bd80; border-radius: 24px; box-shadow: 0 9px 0 #d69d5c; padding: clamp(1.5rem, 5vw, 3rem); }
+    .pig { font-size: clamp(5rem, 16vw, 9rem); line-height: 1; }
+    h1 { margin: .4rem 0; color: #d43f70; font-size: clamp(2.4rem, 8vw, 5rem); }
+    .lead { max-width: 560px; font-size: 1.15rem; line-height: 1.5; }
+    .primary { border: 0; border-radius: 16px; padding: .85rem 1.5rem; color: white; background: #2f9c61; box-shadow: 0 6px 0 #187043; font-size: 1.2rem; font-weight: 900; }
+    .primary:active { transform: translateY(4px); box-shadow: 0 2px 0 #187043; }
+    .primary:disabled { cursor: not-allowed; opacity: .45; filter: grayscale(1); }
+    .game { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 360px); gap: 1.5rem; align-items: start; }
+    .store-title { display: flex; justify-content: space-between; align-items: end; gap: 1rem; margin-bottom: 1rem; }
+    .store-title h2 { margin: 0; font-size: clamp(1.6rem, 4vw, 2.5rem); }
+    .hint { margin: .25rem 0 0; color: #765763; }
+    .shelves { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+    .item { position: relative; min-height: 180px; border: 3px solid #dcaa6b; border-radius: 18px; background: white; box-shadow: 0 6px 0 #d19353; padding: 1rem; text-align: center; color: inherit; }
+    .item:hover:not(:disabled), .item:focus-visible { transform: translateY(-3px); }
+    .item:disabled { cursor: not-allowed; opacity: .48; box-shadow: none; }
+    .item-emoji { display: block; font-size: 4rem; }
+    .item-name { display: block; margin: .35rem 0; font-weight: 900; }
+    .price { display: inline-block; border-radius: 999px; background: #ffdc65; padding: .3rem .7rem; font-weight: 900; }
+    .calculator { position: sticky; top: 1rem; background: #29313f; color: white; border: 5px solid #161c26; border-radius: 22px; overflow: hidden; box-shadow: 0 8px 0 #121722; }
+    .calc-head { padding: 1rem; background: #e85583; font-size: 1.25rem; font-weight: 900; }
+    .paper { margin: 1rem; min-height: 280px; border-radius: 8px; background: #fffef4; color: #2d343f; padding: 1rem; font-family: "Courier New", monospace; font-size: 1.35rem; font-weight: 800; }
+    .sum-label { margin: 0 0 .5rem; font-family: inherit; font-size: .85rem; color: #735664; }
+    .sum-grid { display: grid; grid-template-columns: 1.25rem repeat(3, minmax(3rem, 1fr)); align-items: end; text-align: center; }
+    .digit-cell { min-height: 4rem; display: grid; place-items: center; }
+    .digit-button { width: 100%; height: 100%; border: 0; background: transparent; color: #2d343f; font: inherit; font-size: 1.8rem; font-weight: 900; }
+    .digit-button:not(:disabled):hover { background: #ffed9e; border-radius: 8px; }
+    .digit-button:disabled { cursor: default; }
+    .borrowed { display: block; min-height: 1.5rem; color: #cf3f70; font-size: 1.25rem; }
+    .changed .original { color: #8b6e78; text-decoration: line-through 3px #cf3f70; }
+    .operator { align-self: center; font-size: 2rem; }
+    .spent-digit { padding: .45rem 0; font-size: 1.8rem; }
+    .sum-rule { grid-column: 1 / -1; border-top: 4px solid #2d343f; margin: .35rem 0 .6rem; }
+    .answer-digit { width: 2.8rem; height: 3rem; justify-self: center; border: 3px solid #8b3f57; border-radius: 8px; background: white; text-align: center; font-size: 1.5rem; font-weight: 900; }
+    .answer-digit:disabled { background: #e5e1dc; }
+    .work-hint { margin: 1rem 0 0; min-height: 2.5rem; color: #7a2c49; font-family: inherit; font-size: .9rem; text-align: center; }
+    .receipt { margin: 0 1rem 1rem; border-radius: 10px; background: #fffef4; color: #2d343f; overflow: hidden; }
+    .receipt h3 { margin: 0; padding: .55rem .8rem; background: #ffdc65; font-size: 1rem; }
+    .receipt-list { max-height: 150px; overflow-y: auto; padding: .5rem .8rem; font-family: "Courier New", monospace; font-weight: 800; }
+    .receipt-row { display: flex; justify-content: space-between; gap: .5rem; padding: .25rem 0; border-bottom: 1px dashed #c7b9aa; }
+    .receipt-empty { margin: .25rem 0; color: #806f73; font: .85rem ui-rounded, system-ui, sans-serif; }
+    .feedback { min-height: 1.5rem; margin: .8rem 1rem; text-align: center; font-weight: 900; }
+    .checkout { width: calc(100% - 2rem); margin: 0 1rem 1rem; }
+    .cart-note { padding: .65rem 1rem; text-align: center; color: #ffe5a0; font-size: .9rem; }
+    .round-card { width: min(560px, 94vw); max-width: 560px; }
+    .review-receipt { margin: 1rem 0; border: 2px solid #dec9ae; border-radius: 12px; overflow: hidden; text-align: left; }
+    .review-row { padding: .65rem .8rem; border-bottom: 1px dashed #c7b9aa; background: #fffdf8; }
+    .review-row:last-child { border-bottom: 0; }
+    .review-row strong { display: block; font-family: "Courier New", monospace; font-size: 1.1rem; }
+    .review-row.wrong { border-left: 7px solid #dc315d; background: #fff0f3; }
+    .correction { display: block; margin-top: .25rem; color: #a3173d; font-weight: 900; }
+    .round-score { margin: 1rem 0; padding: .7rem; border-radius: 10px; background: #ffdc65; font-size: 1.2rem; font-weight: 900; }
+    .hidden { display: none !important; }
+    @media (max-width: 760px) and (orientation: portrait) {
+      html, body { height: 100%; height: 100dvh; overflow: hidden; }
+      body { display: flex; flex-direction: column; min-height: 0; }
+      .topbar { flex: none; padding: .4rem .6rem; border-bottom-width: 3px; }
+      .brand { font-size: 1.1rem; }
+      .stats { gap: .3rem; font-size: .78rem; }
+      .pill { padding: .3rem .45rem; }
+      main { flex: 1; min-height: 0; margin: 0 auto; padding: .4rem; }
+      .intro, .finish { height: 100%; min-height: 0; }
+      .card { max-height: 100%; padding: 1rem; border-radius: 16px; box-shadow: 0 4px 0 #d69d5c; }
+      .intro .pig { font-size: 4.5rem; }
+      .intro h1 { font-size: 2.5rem; }
+      .intro .lead { margin: .5rem 0 1rem; font-size: .95rem; }
+      .game { height: 100%; display: flex; flex-direction: column; align-items: center; gap: .4rem; }
+      .store { width: 100%; flex: 1; min-height: 0; display: flex; flex-direction: column; }
+      .store-title { flex: none; justify-content: center; align-items: center; margin: 0 0 .3rem; text-align: center; }
+      .store-title h2 { font-size: 1.15rem; }
+      .store-title .pig { display: none; }
+      .hint { margin: 0; font-size: .72rem; line-height: 1.1; }
+      .shelves { width: 100%; flex: 1; min-height: 0; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: max-content; align-content: start; gap: .45rem; }
+      .item { min-height: 0; aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; padding: .2rem; border-width: 2px; border-radius: 16px; box-shadow: 0 2px 0 #d19353; }
+      .item-emoji { font-size: clamp(2.3rem, 11vw, 3.2rem); line-height: 1; }
+      .item-name { margin: .2rem 0; font-size: .8rem; line-height: 1; }
+      .price { padding: .15rem .45rem; font-size: .85rem; line-height: 1; }
+      .calculator { width: 100%; position: static; flex: none; display: grid; grid-template-columns: 3fr 2fr; border-width: 3px; border-radius: 14px; box-shadow: none; }
+      .calc-head { grid-column: 1 / -1; padding: .4rem .6rem; font-size: .95rem; }
+      .paper { min-height: 0; margin: .35rem; padding: .4rem; font-size: .9rem; }
+      .sum-label { margin-bottom: .1rem; font-size: .62rem; }
+      .sum-grid { grid-template-columns: .8rem repeat(3, minmax(2.2rem, 1fr)); }
+      .digit-cell { min-height: 2.7rem; }
+      .digit-button, .spent-digit { font-size: 1.25rem; }
+      .borrowed { min-height: .9rem; font-size: .8rem; }
+      .operator { font-size: 1.25rem; }
+      .spent-digit { padding: .15rem 0; }
+      .sum-rule { border-top-width: 3px; margin: .15rem 0 .25rem; }
+      .answer-digit { width: 2.1rem; height: 2rem; border-width: 2px; font-size: 1rem; }
+      .work-hint { min-height: 1.2rem; margin: .3rem 0 0; font-size: .62rem; line-height: 1.1; }
+      .receipt { margin: .35rem .35rem .35rem 0; border-radius: 7px; }
+      .receipt h3 { padding: .3rem .4rem; font-size: .7rem; }
+      .receipt-list { max-height: none; padding: .2rem .35rem; font-size: .62rem; }
+      .receipt-row { display: block; padding: .12rem 0; line-height: 1.05; }
+      .receipt-row > span { display: block; }
+      .receipt-row > span:first-child { color: #806f73; font-size: .55rem; }
+      .receipt-empty { font-size: .62rem; }
+      .cart-note { display: none; }
+      .feedback { grid-column: 1 / -1; min-height: 1rem; margin: .15rem .4rem; font-size: .72rem; line-height: 1.1; }
+      .checkout { grid-column: 1 / -1; width: calc(100% - .8rem); margin: 0 .4rem .4rem; padding: .45rem; border-radius: 10px; box-shadow: 0 3px 0 #187043; font-size: .9rem; }
+      .finish .pig { font-size: 3rem; }
+      .finish h1 { font-size: 2rem; }
+      .finish .lead { margin: .3rem 0; font-size: .82rem; }
+      .review-receipt { margin: .4rem 0; }
+      .review-row { padding: .3rem .45rem; font-size: .72rem; }
+      .review-row strong { font-size: .8rem; }
+      .correction { margin-top: .1rem; }
+      .round-score { margin: .4rem 0; padding: .4rem; font-size: .9rem; }
+      .finish .primary { padding: .55rem 1rem; font-size: .9rem; box-shadow: 0 3px 0 #187043; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">🐷 Shoppy Pig</div>
+    <div class="stats"><span class="pill" id="roundLabel">Round 1/5</span><span class="pill">⭐ <span id="score">0</span></span></div>
+  </header>
+
+  <main>
+    <section id="intro" class="intro">
+      <div class="card">
+        <div class="pig">🐷🛒</div>
+        <h1>Shoppy Pig</h1>
+        <p class="lead">Help Shoppy shop until nothing left is affordable. Use the calculator to work out her change, then check out!</p>
+        <button class="primary" id="play">Open the store!</button>
+      </div>
+    </section>
+
+    <section id="game" class="game hidden" aria-live="polite">
+      <div class="store">
+        <div class="store-title">
+          <div><h2>Shoppy's Store</h2><p class="hint" id="storeHint">Tap something Shoppy can afford.</p></div>
+          <div class="pig" style="font-size:4rem">🐷</div>
+        </div>
+        <div class="shelves" id="shelves"></div>
+      </div>
+
+      <aside class="calculator" aria-label="Shopping calculator">
+        <div class="calc-head">🧾 Live Calculator</div>
+        <div class="paper">
+          <p class="sum-label">Available money minus item price</p>
+          <div class="sum-grid" id="worksheet"></div>
+          <p class="work-hint" id="workHint">Pick items to build the subtraction.</p>
+        </div>
+        <div class="receipt">
+          <h3>🧾 Shoppy's Receipt</h3>
+          <div class="receipt-list" id="receiptList"><p class="receipt-empty">Answers will appear here.</p></div>
+        </div>
+        <div class="cart-note" id="cartNote">Choose one item at a time.</div>
+        <p class="feedback" id="feedback"></p>
+        <button class="primary checkout" id="checkout" disabled>CHECK OUT</button>
+      </aside>
+    </section>
+
+    <section id="roundResult" class="finish hidden">
+      <div class="card round-card">
+        <div class="pig" id="resultEmoji">🎉</div>
+        <h1 id="resultTitle">Round complete!</h1>
+        <p class="lead" id="resultText"></p>
+        <div class="review-receipt" id="resultReceipt"></div>
+        <p class="round-score" id="roundScore"></p>
+        <button class="primary" id="nextRound">Next round</button>
+      </div>
+    </section>
+  </main>
+
+  <script type="module">
+    import { borrowPlace, canCheckout, countCorrectOperations, createRound, digitsFor } from './logic.mjs';
+
+    const $ = (id) => document.getElementById(id);
+    const intro = $('intro');
+    const game = $('game');
+    const roundResult = $('roundResult');
+    let round = 0;
+    let score = 0;
+    let balance = 0;
+    let items = [];
+    let selectedItem = null;
+    let receipt = [];
+    let workingDigits;
+    let answerDigits = ['', '', ''];
+
+    function show(section) {
+      [intro, game, roundResult].forEach((el) => el.classList.add('hidden'));
+      section.classList.remove('hidden');
+    }
+
+    function beginRound() {
+      const data = createRound();
+      balance = data.money;
+      items = data.items;
+      selectedItem = null;
+      receipt = [];
+      workingDigits = digitsFor(balance);
+      answerDigits = ['', '', ''];
+      $('roundLabel').textContent = `Round ${round + 1}/5`;
+      $('checkout').disabled = true;
+      $('feedback').textContent = '';
+      delete $('nextRound').dataset.finished;
+      render();
+      show(game);
+    }
+
+    function render() {
+      $('shelves').replaceChildren(...items.map((item) => {
+        const button = document.createElement('button');
+        button.className = 'item';
+        button.disabled = Boolean(selectedItem) || item.price > balance;
+        button.setAttribute('aria-label', `${item.name}, ${item.price}${item.price > balance ? ', cannot afford' : ''}`);
+        button.innerHTML = `<span class="item-emoji">${item.emoji}</span><span class="item-name">${item.name}</span><span class="price">${item.price}</span>`;
+        button.addEventListener('click', () => selectItem(item));
+        return button;
+      }));
+
+      const finished = !selectedItem && canCheckout(balance, items);
+      $('checkout').textContent = selectedItem ? 'SAVE & CONTINUE' : finished ? 'CHECK OUT' : 'PICK AN ITEM';
+      $('checkout').disabled = selectedItem ? answerDigits.every((digit) => !digit) : !finished;
+      $('storeHint').textContent = selectedItem ? 'Finish this subtraction before choosing another item.' : finished ? 'Nothing else is affordable. Time to check out!' : 'Tap something Shoppy can afford.';
+      $('cartNote').textContent = selectedItem ? 'Save the answer now. It will be checked at checkout.' : finished ? 'Checkout will check every receipt answer.' : 'Choose one item at a time.';
+      renderWorksheet(Boolean(selectedItem));
+      $('receiptList').innerHTML = receipt.length
+        ? receipt.map(({ available, price, answer, item }) => `<div class="receipt-row"><span>${item}</span><span>${available} − ${price} = ${answer}</span></div>`).join('')
+        : '<p class="receipt-empty">Answers will appear here.</p>';
+    }
+
+    function renderWorksheet(ready) {
+      const original = digitsFor(balance);
+      const spent = digitsFor(selectedItem?.price || 0);
+      const places = ['hundreds', 'tens', 'ones'];
+      const changed = places.map((place) => workingDigits[place] !== original[place]);
+      $('worksheet').innerHTML = `
+        <span></span>${places.map((place, index) => `<button class="digit-button ${changed[index] ? 'changed' : ''}" data-borrow="${place}" ${!ready || place === 'hundreds' ? 'disabled' : ''}><span class="borrowed">${changed[index] ? workingDigits[place] : ''}</span><span class="original">${original[place]}</span></button>`).join('')}
+        <span class="operator">−</span>${places.map((place) => `<span class="spent-digit">${spent[place]}</span>`).join('')}
+        <span class="sum-rule"></span>
+        <span></span>${answerDigits.map((digit, index) => `<input class="answer-digit" data-answer="${index}" value="${digit}" maxlength="1" inputmode="numeric" aria-label="Answer ${places[index]} digit" ${ready ? '' : 'disabled'}>`).join('')}`;
+      $('workHint').textContent = ready ? 'Tap a top digit to regroup. Type one answer digit in each box.' : 'Choose the next item.';
+
+      document.querySelectorAll('[data-borrow]').forEach((button) => button.addEventListener('click', () => {
+        workingDigits = borrowPlace(workingDigits, button.dataset.borrow);
+        const answerIndex = places.indexOf(button.dataset.borrow);
+        renderWorksheet(true);
+        document.querySelector(`[data-answer="${answerIndex}"]`)?.focus();
+      }));
+      document.querySelectorAll('[data-answer]').forEach((input) => input.addEventListener('input', () => {
+        input.value = input.value.replace(/\D/g, '').slice(-1);
+        const answerIndex = Number(input.dataset.answer);
+        answerDigits[answerIndex] = input.value;
+        $('checkout').disabled = answerDigits.every((digit) => !digit);
+        if (input.value) document.querySelector(`[data-answer="${answerIndex - 1}"]`)?.focus();
+      }));
+    }
+
+    function selectItem(item) {
+      if (selectedItem || item.price > balance) return;
+      selectedItem = item;
+      workingDigits = digitsFor(balance);
+      answerDigits = ['', '', ''];
+      $('feedback').textContent = `Shoppy picked ${item.name}. Solve it before shopping again!`;
+      render();
+    }
+
+    $('checkout').addEventListener('click', () => {
+      if (!selectedItem) return finishRound();
+      const answer = Number(answerDigits.map((digit) => digit || '0').join(''));
+      receipt.push({ available: balance, price: selectedItem.price, answer, item: selectedItem.name });
+      balance = answer;
+      items = items.filter(({ id }) => id !== selectedItem.id);
+      selectedItem = null;
+      workingDigits = digitsFor(balance);
+      answerDigits = ['', '', ''];
+      $('feedback').textContent = `Answer saved. Shoppy now has ${balance}.`;
+      render();
+    });
+
+    function finishRound() {
+      if (!canCheckout(balance, items)) return;
+      const correct = countCorrectOperations(receipt);
+      const passed = correct === receipt.length;
+      score += correct;
+      $('score').textContent = score;
+      $('resultEmoji').textContent = passed ? '🎉🐷' : '🧾❌';
+      $('resultTitle').textContent = passed ? 'Checkout passed!' : 'Checkout failed';
+      $('resultText').textContent = passed ? 'Every subtraction is correct!' : 'Review the corrections, then continue to the next round.';
+      $('resultReceipt').classList.remove('hidden');
+      $('resultReceipt').innerHTML = receipt.map(({ available, price, answer, item }) => {
+        const expected = available - price;
+        const correctAnswer = answer === expected;
+        return `<div class="review-row ${correctAnswer ? '' : 'wrong'}"><span>${item}</span><strong>${available} − ${price} = ${answer} ${correctAnswer ? '✓' : '✗'}</strong>${correctAnswer ? '' : `<span class="correction">Correction: ${available} − ${price} = ${expected}</span>`}</div>`;
+      }).join('');
+      $('roundScore').textContent = `Round score: ${correct} / ${receipt.length}`;
+      round++;
+      $('nextRound').textContent = round === 5 ? 'See final score' : 'Next round';
+      show(roundResult);
+    }
+
+    $('nextRound').addEventListener('click', () => {
+      if (round < 5) return beginRound();
+      if ($('nextRound').dataset.finished) {
+        round = score = 0;
+        $('score').textContent = '0';
+        return beginRound();
+      }
+      $('resultEmoji').textContent = '🏆🐷';
+      $('resultTitle').textContent = 'Shopping complete!';
+      $('resultText').textContent = `Your final score is ${score} correct subtraction${score === 1 ? '' : 's'}.`;
+      $('resultReceipt').classList.add('hidden');
+      $('roundScore').textContent = `Total score: ${score}`;
+      $('nextRound').textContent = 'Play again';
+      $('nextRound').dataset.finished = 'true';
+    });
+
+    $('play').addEventListener('click', beginRound);
+  </script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'beans-kids-arcade-v14';
+const CACHE_NAME = 'beans-kids-arcade-v15';
 const APP_SHELL = [
   './',
   './index.html',
@@ -10,6 +10,8 @@ const APP_SHELL = [
   './king-of-the-jungle/logic.mjs',
   './king-of-the-jungle/questions.yaml',
   './jungle-rush/index.html',
+  './shoppy-pig/index.html',
+  './shoppy-pig/logic.mjs',
   './mully/index.html',
   './mully/mully.jsx',
   './flies-invasion/index.html',
