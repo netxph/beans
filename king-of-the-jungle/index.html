@@ -43,11 +43,16 @@
     .step.active { border-color:#ffe26a; opacity:1; transform:scale(1.12); }
     .step.done { background:#2f9e55; opacity:1; }
 
-    .arena { position:relative; flex:1 1 43vh; min-height:280px; overflow:hidden; background:
-      radial-gradient(circle at 20% 10%,#fff6 0 2%,transparent 3%),
-      linear-gradient(#8fd3ed 0 58%,#76b852 58% 70%,#337839 70%); }
+    .arena { position:relative; flex:1 1 43vh; min-height:280px; overflow:hidden; transition:background .35s; }
+    .arena[data-background="jungle"] { background:linear-gradient(#8fd3ed 0 48%,#65a947 48% 65%,#1d6030 65%); }
+    .arena[data-background="pond"] { background:linear-gradient(#8fd3ed 0 45%,#78b45d 45% 55%,#3b9bb5 55% 86%,#876b42 86%); }
+    .arena[data-background="desert"] { background:linear-gradient(#efb66e 0 58%,#d98c3d 58% 72%,#b85f2e 72%); }
+    .arena[data-background="sky"] { background:linear-gradient(#4e9ee8 0 72%,#dcefff 72% 80%,#7a9a5a 80%); }
     .arena::before { content:""; position:absolute; inset:auto 0 28% 0; height:28%; opacity:.45;
       background:radial-gradient(ellipse at bottom,#1d6030 0 40%,transparent 42%) 0 100%/110px 90px repeat-x; }
+    .arena[data-background="pond"]::before { background:radial-gradient(ellipse at bottom,#8fd35b 0 25%,transparent 27%) 0 100%/95px 55px repeat-x; }
+    .arena[data-background="desert"]::before { background:radial-gradient(ellipse at bottom,#e7a44e 0 45%,transparent 47%) 0 100%/180px 75px repeat-x; }
+    .arena[data-background="sky"]::before { inset:12% 0 auto; background:radial-gradient(ellipse,#fff 0 40%,transparent 43%) 0 0/180px 70px repeat-x; }
     .sun { position:absolute; width:70px; height:70px; right:8%; top:8%; border-radius:50%; background:#fff2a3; box-shadow:0 0 40px #fff5a8; }
     .fighter { position:absolute; width:min(42vw,300px); display:flex; flex-direction:column; align-items:center; z-index:2; }
     .fighter.enemy { right:3%; top:8%; }
@@ -77,6 +82,7 @@
     .overlay .card { max-width:460px; }
     .overlay-emoji { font-size:5rem; }
     .overlay h2, .ending h2, .review h2 { margin:.2rem 0; color:#8d4d16; font-size:2rem; }
+    .study-summary { margin:1rem 0; padding:.8rem; border-radius:.8rem; background:#dff4d2; font-weight:900; color:#28553b; }
     .review { place-items:start center; }
     .review .card { width:min(94vw,760px); text-align:left; }
     .review-list { display:grid; gap:.8rem; margin:1rem 0; }
@@ -109,7 +115,7 @@
         <h1>King of the Jungle</h1>
         <p class="tagline">Battle with brainpower. Rule with science!</p>
         <ol class="rules">
-          <li>Defeat Monkey, Crocodile, then Tiger.</li>
+          <li>Defeat Monkey, Alligator, Hyena, then Eagle.</li>
           <li>Right answer: you attack. Wrong answer: they attack.</li>
           <li>Your health carries through the whole jungle.</li>
         </ol>
@@ -122,10 +128,10 @@
       <header class="hud">
         <div><div class="title">🦁 KING OF THE JUNGLE</div><small id="levelLabel">Level 1 · Easy</small></div>
         <div class="ladder" aria-label="Battle progress">
-          <span class="step active">🐒</span><span>›</span><span class="step">🐊</span><span>›</span><span class="step">🐯</span>
+          <span class="step active">🐒</span><span>›</span><span class="step">🐊</span><span>›</span><span class="step">🐺</span><span>›</span><span class="step">🦅</span>
         </div>
       </header>
-      <div class="arena">
+      <div class="arena" data-background="jungle">
         <div class="sun"></div>
         <div class="fighter enemy">
           <div class="nameplate"><div class="name-row"><span id="enemyName">Monkey</span><span id="enemyHpText">100/100</span></div><div class="hp-track"><div id="enemyHp" class="hp"></div></div></div>
@@ -148,7 +154,7 @@
     </div>
 
     <section id="ending" class="screen ending hidden">
-      <div class="card"><div id="endingEmoji" class="logo">👑</div><h2 id="endingTitle">You are King of the Jungle!</h2><p id="endingText"></p><div class="actions"><button id="reviewBtn" class="secondary" type="button">Review Wrong Answers</button><button id="againBtn" class="primary" type="button">Battle Again</button></div></div>
+      <div class="card"><div id="endingEmoji" class="logo">👑</div><h2 id="endingTitle">You are King of the Jungle!</h2><p id="endingText"></p><p id="studySummary" class="study-summary"></p><div class="actions"><button id="reviewBtn" class="secondary" type="button">Review Wrong Answers</button><button id="againBtn" class="primary" type="button">Battle Again</button></div></div>
     </section>
 
     <section id="review" class="screen review hidden" aria-labelledby="reviewTitle">

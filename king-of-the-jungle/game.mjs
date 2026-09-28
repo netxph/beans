@@ -1,20 +1,21 @@
-import { applyAnswer, parseQuestionsYaml, shuffle, shuffledQuestion, wrongAnswer } from './logic.mjs';
+import { applyAnswer, parseQuestionsYaml, shuffle, shuffledQuestion, studyTopics, wrongAnswer } from './logic.mjs';
 
 const LEVELS = [
-  { key: 'easy', label: 'Easy', name: 'Monkey', emoji: '🐒', damage: 10 },
-  { key: 'average', label: 'Average', name: 'Crocodile', emoji: '🐊', damage: 15 },
-  { key: 'difficult', label: 'Difficult', name: 'Tiger', emoji: '🐯', damage: 20 },
+  { key: 'easy', label: 'Easy', name: 'Monkey', emoji: '🐒', damage: 20, background: 'jungle' },
+  { key: 'average', label: 'Average', name: 'Alligator', emoji: '🐊', damage: 30, background: 'pond' },
+  { key: 'difficult', label: 'Difficult', name: 'Hyena', emoji: '🐺', damage: 40, background: 'desert' },
+  { key: 'clincher', label: 'Clincher', name: 'Eagle', emoji: '🦅', damage: 50, background: 'sky' },
 ];
 
 const $ = (id) => document.getElementById(id);
 const ui = {
-  intro: $('intro'), battle: $('battle'), ending: $('ending'), start: $('startBtn'),
+  intro: $('intro'), battle: $('battle'), arena: document.querySelector('.arena'), ending: $('ending'), start: $('startBtn'),
   loadError: $('loadError'), levelLabel: $('levelLabel'), steps: [...document.querySelectorAll('.step')],
   enemyName: $('enemyName'), enemySprite: $('enemySprite'), enemyHp: $('enemyHp'), enemyHpText: $('enemyHpText'),
   lionSprite: $('lionSprite'), lionHp: $('lionHp'), lionHpText: $('lionHpText'),
   feedback: $('feedback'), question: $('question'), choices: $('choices'),
   overlay: $('levelOverlay'), overlayEmoji: $('overlayEmoji'), overlayTitle: $('overlayTitle'), overlayText: $('overlayText'),
-  continue: $('continueBtn'), endingEmoji: $('endingEmoji'), endingTitle: $('endingTitle'), endingText: $('endingText'),
+  continue: $('continueBtn'), endingEmoji: $('endingEmoji'), endingTitle: $('endingTitle'), endingText: $('endingText'), studySummary: $('studySummary'),
   review: $('review'), reviewButton: $('reviewBtn'), reviewSummary: $('reviewSummary'), reviewList: $('reviewList'), reviewBack: $('reviewBackBtn'), again: $('againBtn'),
 };
 
@@ -62,6 +63,7 @@ function startLevel() {
   ui.levelLabel.textContent = `Level ${game.level + 1} · ${level.label} · ${level.damage} enemy damage`;
   ui.enemyName.textContent = level.name;
   ui.enemySprite.textContent = level.emoji;
+  ui.arena.dataset.background = level.background;
   ui.steps.forEach((step, index) => {
     step.classList.toggle('active', index === game.level);
     step.classList.toggle('done', index < game.level);
@@ -148,8 +150,12 @@ function endGame(won) {
   ui.endingEmoji.textContent = won ? '👑' : '🌧️';
   ui.endingTitle.textContent = won ? 'You are King of the Jungle!' : 'The jungle wins this round';
   ui.endingText.textContent = won
-    ? `The lion defeated all three challengers with ${game.lionHp} HP left. You answered ${game.correct} of ${game.answered} questions correctly.`
+    ? `The lion defeated all four challengers with ${game.lionHp} HP left. You answered ${game.correct} of ${game.answered} questions correctly.`
     : `You reached ${LEVELS[game.level].name} and answered ${game.correct} of ${game.answered} questions correctly. Try the climb again!`;
+  const topics = studyTopics(game.wrong);
+  ui.studySummary.textContent = topics.length
+    ? `Science topics to study: ${topics.map(({ topic, count }) => `${topic} (${count})`).join(', ')}.`
+    : 'Science topics to study: none — perfect work!';
   ui.reviewButton.focus();
 }
 
