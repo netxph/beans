@@ -29,7 +29,7 @@ function show(visible, ...hidden) {
 
 function validateDatabase(data) {
   return LEVELS.every(({ key }) => Array.isArray(data[key]) && data[key].every((item) =>
-    typeof item.question === 'string' && item.choices?.length === 4 && item.choices.includes(item.answer)
+    typeof item.question === 'string' && typeof item.topic === 'string' && item.topic.trim() && item.choices?.length === 4 && item.choices.includes(item.answer)
   ));
 }
 

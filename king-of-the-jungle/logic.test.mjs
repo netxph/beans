@@ -6,6 +6,7 @@ const question = {
   question: 'Which planet is our home?',
   choices: ['Earth', 'Mars', 'Venus', 'Jupiter'],
   answer: 'Earth',
+  topic: 'Earth, Weather & Space',
 };
 
 describe('question database', () => {
@@ -18,6 +19,7 @@ describe('question database', () => {
       - "Venus"
       - "Jupiter"
     answer: "Earth"
+    topic: "Earth, Weather & Space"
 `)).toEqual({ easy: [question] });
   });
 
@@ -29,6 +31,17 @@ describe('question database', () => {
       difficult: 100,
       clincher: 50,
     });
+    const questions = Object.values(database).flat();
+    expect(questions.every(({ topic }) => typeof topic === 'string' && topic.trim())).toBe(true);
+    expect(questions.every(({ question }) => !/^(What does “|Which choice gives the most accurate meaning of “|Which science term matches this definition: )/.test(question))).toBe(true);
+    expect(questions.find(({ question }) => question === 'Plant parts that use light to make food.')).toMatchObject({
+      choices: ['Leaves', 'Stem', 'Flower', 'Xylem'], answer: 'Leaves', topic: 'Plants & Growth',
+    });
+    const marco = (item) => item.question.startsWith('Marco cuts his knee');
+    expect(database.easy.some(marco)).toBe(false);
+    expect(database.average.some(marco)).toBe(true);
+    expect(database.difficult.some(({ question }) => question.startsWith('A class sees this result:'))).toBe(false);
+    expect(database.difficult[0].question).toBe('A wilted plant becomes firm after its roots receive water. Which explanation uses the evidence best?');
   });
 });
 
@@ -50,14 +63,14 @@ describe('battle logic', () => {
 
   test('only wrong answers are saved for review', () => {
     expect(wrongAnswer(question, 'Earth')).toBeNull();
-    expect(wrongAnswer(question, 'Mars')).toEqual({ question: question.question, chosen: 'Mars', correct: 'Earth' });
+    expect(wrongAnswer(question, 'Mars')).toEqual({ question: question.question, chosen: 'Mars', correct: 'Earth', topic: question.topic });
   });
 
   test('summarizes study topics from wrong answers', () => {
     expect(studyTopics([
-      { question: 'What does xylem carry?', correct: 'Water' },
-      { question: 'Why did the plant wilt?', correct: 'Its roots lacked water' },
-      { question: 'In this food chain, what does the frog eat?', correct: 'Insects' },
+      { question: 'What does xylem carry?', topic: 'Plants & Growth' },
+      { question: 'Why did the plant wilt?', topic: 'Plants & Growth' },
+      { question: 'In this food chain, what does the frog eat?', topic: 'Ecosystems & Relationships' },
     ])).toEqual([
       { topic: 'Plants & Growth', count: 2 },
       { topic: 'Ecosystems & Relationships', count: 1 },
