@@ -30,7 +30,8 @@ function show(visible, ...hidden) {
 
 function validateDatabase(data) {
   return LEVELS.every(({ key }) => Array.isArray(data[key]) && data[key].every((item) =>
-    typeof item.question === 'string' && typeof item.topic === 'string' && item.topic.trim() && item.choices?.length === 4 && item.choices.includes(item.answer)
+    typeof item.question === 'string' && typeof item.topic === 'string' && item.topic.trim() &&
+    typeof item.explanation === 'string' && item.explanation.trim() && item.choices?.length === 4 && item.choices.includes(item.answer)
   ));
 }
 
@@ -181,7 +182,11 @@ function showReview() {
     correct.className = 'review-correct';
     correct.textContent = `Correct answer: ${answer.correct}`;
 
-    item.append(question, chosen, correct);
+    const explanation = document.createElement('p');
+    explanation.className = 'review-explanation';
+    explanation.textContent = `Why: ${answer.explanation}`;
+
+    item.append(question, chosen, correct, explanation);
     return item;
   }));
   show(ui.review, ui.ending);

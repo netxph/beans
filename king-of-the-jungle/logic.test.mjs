@@ -7,6 +7,7 @@ const question = {
   choices: ['Earth', 'Mars', 'Venus', 'Jupiter'],
   answer: 'Earth',
   topic: 'Earth, Weather & Space',
+  explanation: 'Earth is the planet where people live. It has liquid water and air that support life.',
 };
 
 describe('question database', () => {
@@ -20,6 +21,7 @@ describe('question database', () => {
       - "Jupiter"
     answer: "Earth"
     topic: "Earth, Weather & Space"
+    explanation: "Earth is the planet where people live. It has liquid water and air that support life."
 `)).toEqual({ easy: [question] });
   });
 
@@ -32,16 +34,42 @@ describe('question database', () => {
       clincher: 50,
     });
     const questions = Object.values(database).flat();
-    expect(questions.every(({ topic }) => typeof topic === 'string' && topic.trim())).toBe(true);
-    expect(questions.every(({ question }) => !/^(What does “|Which choice gives the most accurate meaning of “|Which science term matches this definition: )/.test(question))).toBe(true);
-    expect(questions.find(({ question }) => question === 'Plant parts that use light to make food.')).toMatchObject({
-      choices: ['Leaves', 'Stem', 'Flower', 'Xylem'], answer: 'Leaves', topic: 'Plants & Growth',
-    });
-    const marco = (item) => item.question.startsWith('Marco cuts his knee');
-    expect(database.easy.some(marco)).toBe(false);
-    expect(database.average.some(marco)).toBe(true);
-    expect(database.difficult.some(({ question }) => question.startsWith('A class sees this result:'))).toBe(false);
-    expect(database.difficult[0].question).toBe('A wilted plant becomes firm after its roots receive water. Which explanation uses the evidence best?');
+    expect(new Set(questions.map(({ question }) => question)).size).toBe(350);
+    for (const item of questions) {
+      expect(Object.keys(item).sort()).toEqual(['answer', 'choices', 'explanation', 'question', 'topic']);
+      expect(typeof item.question).toBe('string');
+      expect(item.question.trim()).not.toBe('');
+      expect(typeof item.topic).toBe('string');
+      expect(item.topic.trim()).not.toBe('');
+      expect(item.choices).toHaveLength(4);
+      expect(new Set(item.choices).size).toBe(4);
+      expect(item.choices.every((choice) => typeof choice === 'string' && choice.trim())).toBe(true);
+      expect(item.choices).toContain(item.answer);
+      expect(typeof item.explanation).toBe('string');
+      expect(item.explanation.trim()).not.toBe('');
+      expect(item.explanation).not.toBe(item.answer);
+      const text = [item.question, ...item.choices, item.explanation].join(' ');
+      // Vitamin names such as B12 are names, not numerical recall questions.
+      expect(text.replace(/\bB\d+\b/g, '')).not.toMatch(/\d|[=×÷°]/);
+    }
+    for (const level of Object.values(database)) {
+      expect([...new Set(level.map(({ topic }) => topic))].sort()).toEqual([
+        'Animals & Life Cycles', 'Cells & Energy', 'Earth, Weather & Space',
+        'Ecosystems & Relationships', 'Forces & Motion', 'Kidneys & Digestion',
+        'Light & Sound', 'Matter & Materials', 'Minerals & Hardness',
+        'Plants & Growth', 'Vitamins & Minerals',
+      ]);
+    }
+    for (const [question, answer] of [
+      ['Which animal is a mammal?', 'Dolphin'],
+      ['Which plant tissue carries water and minerals from the roots up to the leaves?', 'Xylem'],
+      ['Marco cuts his knee while playing. Which nutrient pair helps his body repair tissues and heal the wound?', 'Vitamin C and zinc'],
+      ['Toy cars A and B travel along the same track. A reaches the finish before B. Which statement is correct?', 'Car A has a greater average speed.'],
+      ['Which soft mineral is commonly used to make plaster?', 'Gypsum'],
+      ['Which term means an object keeps the same speed during a trip?', 'Constant speed'],
+    ]) {
+      expect(questions.find((item) => item.question === question)?.answer).toBe(answer);
+    }
   });
 });
 
@@ -58,12 +86,13 @@ describe('battle logic', () => {
     const result = shuffledQuestion(question, () => 0);
     expect(result.choices).toEqual(['Mars', 'Venus', 'Jupiter', 'Earth']);
     expect(result.answer).toBe('Earth');
+    expect(result.explanation).toBe(question.explanation);
     expect(question.choices).toEqual(['Earth', 'Mars', 'Venus', 'Jupiter']);
   });
 
   test('only wrong answers are saved for review', () => {
     expect(wrongAnswer(question, 'Earth')).toBeNull();
-    expect(wrongAnswer(question, 'Mars')).toEqual({ question: question.question, chosen: 'Mars', correct: 'Earth', topic: question.topic });
+    expect(wrongAnswer(question, 'Mars')).toEqual({ question: question.question, chosen: 'Mars', correct: 'Earth', topic: question.topic, explanation: question.explanation });
   });
 
   test('summarizes study topics from wrong answers', () => {

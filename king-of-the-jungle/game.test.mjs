@@ -72,6 +72,30 @@ test('each animal appears in battle and wins the crown with the same health and 
   }
 });
 
+test('a winning game reviews only wrong answers with their explanations', async () => {
+  const { nodes, run } = await setup();
+  nodes.startBtn.click();
+  const missed = run('game.current');
+  run('answer(game.current.choices.find((choice) => choice !== game.current.answer)); resolveTurn();');
+  for (let level = 0; level < 4; level++) {
+    for (let turn = 0; turn < 5; turn++) run('answer(game.current.answer); resolveTurn();');
+    if (level < 3) nodes.continueBtn.click();
+  }
+  expect(nodes.endingTitle.textContent).toBe('You are King of the Jungle!');
+  nodes.reviewBtn.click();
+  expect(nodes.reviewList.children).toHaveLength(1);
+  expect(nodes.reviewList.children[0].children[2].textContent).toBe(`Correct answer: ${missed.answer}`);
+  expect(nodes.reviewList.children[0].children[3].textContent).toBe(`Why: ${missed.explanation}`);
+});
+
+test('the question bank requires a nonempty explanation for every answer', async () => {
+  const { run } = await setup();
+  expect(run('validateDatabase(database)')).toBe(true);
+  for (const explanation of ['undefined', '""', '"   "', '42']) {
+    expect(run(`validateDatabase({ ...database, easy: [{ ...database.easy[0], explanation: ${explanation} }] })`)).toBe(false);
+  }
+});
+
 test('a selected animal can lose, review answers, and return to choose another animal', async () => {
   const { nodes, animals, run } = await setup();
   animals.forEach((animal) => { animal.checked = animal.value === 'Elephant'; });
@@ -81,6 +105,13 @@ test('a selected animal can lose, review answers, and return to choose another a
   expect(nodes.endingTitle.textContent).toBe('The jungle wins this round');
   nodes.reviewBtn.click();
   expect(nodes.reviewList.children).toHaveLength(5);
+  const wrongAnswers = run('game.wrong');
+  nodes.reviewList.children.forEach((item, index) => {
+    expect(item.children[1].textContent).toBe(`Your answer: ${wrongAnswers[index].chosen}`);
+    expect(item.children[2].textContent).toBe(`Correct answer: ${wrongAnswers[index].correct}`);
+    expect(item.children[3].className).toBe('review-explanation');
+    expect(item.children[3].textContent).toBe(`Why: ${wrongAnswers[index].explanation}`);
+  });
   nodes.reviewBackBtn.click();
   nodes.againBtn.click();
   expect(nodes.intro.classList.contains('hidden')).toBe(false);

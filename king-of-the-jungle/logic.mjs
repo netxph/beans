@@ -12,6 +12,7 @@ export function parseQuestionsYaml(source) {
     else if ((match = line.match(/^      - (.+)$/))) question.choices.push(JSON.parse(match[1]));
     else if ((match = line.match(/^    answer: (.+)$/))) question.answer = JSON.parse(match[1]);
     else if ((match = line.match(/^    topic: (.+)$/))) question.topic = JSON.parse(match[1]);
+    else if ((match = line.match(/^    explanation: (.+)$/))) question.explanation = JSON.parse(match[1]);
     else throw new Error(`invalid YAML line: ${line}`);
   }
 
@@ -32,7 +33,7 @@ export function shuffledQuestion(question, random = Math.random) {
 }
 
 export function wrongAnswer(question, chosen) {
-  return chosen === question.answer ? null : { question: question.question, chosen, correct: question.answer, topic: question.topic };
+  return chosen === question.answer ? null : { question: question.question, chosen, correct: question.answer, topic: question.topic, explanation: question.explanation };
 }
 
 export function studyTopics(wrongAnswers) {
