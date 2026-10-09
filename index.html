@@ -9,6 +9,8 @@
     <meta name="apple-mobile-web-app-title" content="Beans" />
     <link rel="manifest" href="./manifest.webmanifest" />
     <link rel="icon" href="./images/icon.svg" type="image/svg+xml" />
+    <link rel="icon" href="./images/icon-192.png" type="image/png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="./images/apple-touch-icon.png" sizes="180x180" />
     <title>Beans</title>
     <style>
       :root {
@@ -369,39 +371,36 @@
 
       .player.show { display: flex; }
 
-      .top-trigger {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 10px;
-        z-index: 35;
-      }
-
       .player-top {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        z-index: 40;
+        flex-shrink: 0;
         display: flex;
         align-items: center;
-        gap: .6rem;
-        padding: max(.6rem, env(safe-area-inset-top)) .7rem .6rem;
-        background: #111827;
-        color: #e5e7eb;
+        gap: .4rem;
+        padding: max(.35rem, env(safe-area-inset-top)) max(.7rem, env(safe-area-inset-right)) .35rem max(.35rem, env(safe-area-inset-left));
+        background: #173f2a;
+        color: #fff;
         border-bottom: 1px solid rgba(255,255,255,.14);
-        transform: translateY(-110%);
-        opacity: 0;
-        pointer-events: none;
-        transition: transform .18s ease, opacity .18s ease;
       }
 
-      .player.nav-visible .player-top {
-        transform: translateY(0);
-        opacity: 1;
-        pointer-events: auto;
+      .back-btn {
+        flex-shrink: 0;
+        width: 44px;
+        height: 44px;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: inherit;
+        font: inherit;
+        font-size: 2rem;
+        cursor: pointer;
       }
+
+      .player-top button:focus-visible {
+        outline: 3px solid #fff;
+        outline-offset: 2px;
+      }
+
+      #fsBtn { margin-left: auto; min-height: 44px; flex-shrink: 0; }
 
       .ghost-btn {
         border: 1px solid rgba(255,255,255,.25);
@@ -414,15 +413,20 @@
       }
 
       .player-title {
-        margin-left: auto;
-        font-size: .95rem;
-        opacity: .9;
+        margin: 0;
+        min-width: 0;
+        font-size: 1rem;
+        font-weight: 700;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       iframe {
+        flex: 1;
+        min-height: 0;
         border: 0;
         width: 100%;
-        height: 100%;
         display: block;
         background: #000;
       }
@@ -466,12 +470,11 @@
       </main>
 
       <section id="player" class="player" aria-label="Game player">
-        <div id="topTrigger" class="top-trigger" aria-hidden="true"></div>
-        <div id="playerTop" class="player-top">
-          <button id="backBtn" class="ghost-btn" type="button">← Back to Games</button>
+        <header class="player-top">
+          <button id="backBtn" class="back-btn" type="button" aria-label="Back to game selection"><span aria-hidden="true">‹</span></button>
+          <h2 id="playerTitle" class="player-title"></h2>
           <button id="fsBtn" class="ghost-btn" type="button">Fullscreen</button>
-          <div id="playerTitle" class="player-title"></div>
-        </div>
+        </header>
         <iframe id="gameFrame" tabindex="0" allow="fullscreen; autoplay"></iframe>
       </section>
     </div>
@@ -707,11 +710,6 @@
       const backBtn = document.getElementById('backBtn');
       const fsBtn = document.getElementById('fsBtn');
       const playerTitle = document.getElementById('playerTitle');
-      const topTrigger = document.getElementById('topTrigger');
-      const playerTop = document.getElementById('playerTop');
-
-      let navHideTimer;
-
       function renderGames() {
         if (!games.length) {
           grid.innerHTML = '<div class="empty">No games yet. Add one in the <code>games</code> array in <code>index.html</code>.</div>';
@@ -745,32 +743,17 @@
         });
       }
 
-      function showNav(ms = 2200) {
-        clearTimeout(navHideTimer);
-        player.classList.add('nav-visible');
-        navHideTimer = setTimeout(() => {
-          player.classList.remove('nav-visible');
-        }, ms);
-      }
-
-      function hideNavSoon(ms = 180) {
-        clearTimeout(navHideTimer);
-        navHideTimer = setTimeout(() => {
-          player.classList.remove('nav-visible');
-        }, ms);
-      }
-
       function openGame(id) {
         const game = games.find(g => g.id === id);
         if (!game) return;
 
         frame.src = game.src;
-        playerTitle.textContent = `${game.emoji || '🎮'} ${game.title}`;
+        playerTitle.textContent = game.title;
+        frame.title = game.title;
         player.classList.add('show');
         document.getElementById('app').classList.add('in-game');
         home.style.display = 'none';
         history.replaceState(null, '', `?game=${encodeURIComponent(game.id)}`);
-        showNav(1200);
 
         const focusFrame = () => {
           try {
@@ -784,13 +767,13 @@
       }
 
       function closeGame() {
-        clearTimeout(navHideTimer);
+        const card = grid.querySelector(`[data-game-id="${new URLSearchParams(location.search).get('game')}"]`);
         player.classList.remove('show');
-        player.classList.remove('nav-visible');
         document.getElementById('app').classList.remove('in-game');
         home.style.display = '';
         frame.src = 'about:blank';
         history.replaceState(null, '', './');
+        card?.focus();
       }
 
       async function toggleFullscreen() {
@@ -805,29 +788,13 @@
       }
 
       backBtn.addEventListener('click', closeGame);
-      fsBtn.addEventListener('click', () => {
-        toggleFullscreen();
-        showNav(1200);
-      });
-
-      topTrigger.addEventListener('mouseenter', () => showNav());
-      topTrigger.addEventListener('mousemove', () => showNav());
-      topTrigger.addEventListener('mouseleave', () => hideNavSoon());
-      topTrigger.addEventListener('touchstart', () => showNav(), { passive: true });
-      topTrigger.addEventListener('touchend', () => hideNavSoon(120), { passive: true });
-      topTrigger.addEventListener('touchcancel', () => hideNavSoon(120), { passive: true });
-
-      playerTop.addEventListener('mouseenter', () => showNav());
-      playerTop.addEventListener('mousemove', () => showNav());
-      playerTop.addEventListener('mouseleave', () => hideNavSoon());
-      playerTop.addEventListener('touchstart', () => showNav(), { passive: true });
-      playerTop.addEventListener('touchend', () => hideNavSoon(120), { passive: true });
-      playerTop.addEventListener('touchcancel', () => hideNavSoon(120), { passive: true });
+      fsBtn.addEventListener('click', toggleFullscreen);
 
       // Forward desktop keyboard input to iframe game even when iframe focus is unreliable.
       window.addEventListener('keydown', (e) => {
         if (!player.classList.contains('show')) return;
         if (e.altKey || e.ctrlKey || e.metaKey) return;
+        if (e.target.closest?.('button, a, input, select, textarea')) return;
 
         const handled = /^[0-9]$/.test(e.key)
           || /^Numpad[0-9]$/.test(e.code)
@@ -848,7 +815,6 @@
         } catch {}
 
         e.preventDefault();
-        showNav(1200);
       });
 
       let serviceWorkerRegistration;

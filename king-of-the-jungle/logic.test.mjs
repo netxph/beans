@@ -47,11 +47,11 @@ describe('question database', () => {
 
 describe('battle logic', () => {
   test('correct answers hurt only the enemy', () => {
-    expect(applyAnswer({ lionHp: 80, enemyHp: 100 }, true, 15)).toEqual({ lionHp: 80, enemyHp: 80 });
+    expect(applyAnswer({ playerHp: 80, enemyHp: 100 }, true, 15)).toEqual({ playerHp: 80, enemyHp: 80 });
   });
 
-  test('wrong answers hurt only the lion without dropping below zero', () => {
-    expect(applyAnswer({ lionHp: 10, enemyHp: 60 }, false, 15)).toEqual({ lionHp: 0, enemyHp: 60 });
+  test('wrong answers hurt only the player without dropping below zero', () => {
+    expect(applyAnswer({ playerHp: 10, enemyHp: 60 }, false, 15)).toEqual({ playerHp: 0, enemyHp: 60 });
   });
 
   test('choices are shuffled without changing the source question', () => {

@@ -12,7 +12,8 @@ const ui = {
   intro: $('intro'), battle: $('battle'), arena: document.querySelector('.arena'), ending: $('ending'), start: $('startBtn'),
   loadError: $('loadError'), levelLabel: $('levelLabel'), steps: [...document.querySelectorAll('.step')],
   enemyName: $('enemyName'), enemySprite: $('enemySprite'), enemyHp: $('enemyHp'), enemyHpText: $('enemyHpText'),
-  lionSprite: $('lionSprite'), lionHp: $('lionHp'), lionHpText: $('lionHpText'),
+  animals: [...document.querySelectorAll('input[name="animal"]')], introAnimal: $('introAnimal'), battleTitle: $('battleTitle'),
+  playerName: $('playerName'), playerSprite: $('playerSprite'), playerHp: $('playerHp'), playerHpText: $('playerHpText'),
   feedback: $('feedback'), question: $('question'), choices: $('choices'),
   overlay: $('levelOverlay'), overlayEmoji: $('overlayEmoji'), overlayTitle: $('overlayTitle'), overlayText: $('overlayText'),
   continue: $('continueBtn'), endingEmoji: $('endingEmoji'), endingTitle: $('endingTitle'), endingText: $('endingText'), studySummary: $('studySummary'),
@@ -50,7 +51,11 @@ async function loadDatabase() {
 }
 
 function startGame() {
-  game = { level: 0, lionHp: 100, enemyHp: 100, deck: [], current: null, locked: false, answered: 0, correct: 0, wrong: [] };
+  const selected = ui.animals.find((animal) => animal.checked);
+  game = { animal: { name: selected.value, emoji: selected.dataset.emoji }, level: 0, playerHp: 100, enemyHp: 100, deck: [], current: null, locked: false, answered: 0, correct: 0, wrong: [] };
+  ui.playerName.textContent = `YOU · ${game.animal.name.toUpperCase()}`;
+  ui.playerSprite.textContent = game.animal.emoji;
+  ui.battleTitle.textContent = `${game.animal.emoji} KING OF THE JUNGLE`;
   show(ui.battle, ui.intro, ui.ending, ui.review, ui.overlay);
   startLevel();
 }
@@ -101,7 +106,7 @@ function answer(choice) {
   else game.wrong.push(wrong);
 
   const result = applyAnswer(game, correct, LEVELS[game.level].damage);
-  game.lionHp = result.lionHp;
+  game.playerHp = result.playerHp;
   game.enemyHp = result.enemyHp;
   updateHealth();
 
@@ -112,26 +117,26 @@ function answer(choice) {
   });
 
   if (correct) {
-    ui.feedback.textContent = `Correct! Your roar deals 20 damage to ${LEVELS[game.level].name}.`;
-    animate(ui.lionSprite, 'attack-left');
+    ui.feedback.textContent = `Correct! Your attack deals 20 damage to ${LEVELS[game.level].name}.`;
+    animate(ui.playerSprite, 'attack-left');
     animate(ui.enemySprite, 'hurt');
   } else {
     ui.feedback.textContent = `Not quite — the answer is ${game.current.answer}. You take ${LEVELS[game.level].damage} damage.`;
     animate(ui.enemySprite, 'attack-right');
-    animate(ui.lionSprite, 'hurt');
+    animate(ui.playerSprite, 'hurt');
   }
 
   setTimeout(resolveTurn, 900);
 }
 
 function resolveTurn() {
-  if (game.lionHp === 0) return endGame(false);
+  if (game.playerHp === 0) return endGame(false);
   if (game.enemyHp === 0) {
     if (game.level === LEVELS.length - 1) return endGame(true);
     const next = LEVELS[game.level + 1];
     ui.overlayEmoji.textContent = next.emoji;
     ui.overlayTitle.textContent = `${LEVELS[game.level].name} defeated!`;
-    ui.overlayText.textContent = `${game.lionHp} HP remains. Next: ${next.name} with ${next.label.toLowerCase()} questions and ${next.damage} damage per wrong answer.`;
+    ui.overlayText.textContent = `${game.playerHp} HP remains. Next: ${next.name} with ${next.label.toLowerCase()} questions and ${next.damage} damage per wrong answer.`;
     ui.overlay.classList.remove('hidden');
     ui.continue.focus();
     return;
@@ -147,10 +152,10 @@ function continueBattle() {
 
 function endGame(won) {
   show(ui.ending, ui.battle, ui.review, ui.overlay, ui.intro);
-  ui.endingEmoji.textContent = won ? '👑' : '🌧️';
+  ui.endingEmoji.textContent = won ? `${game.animal.emoji} 👑` : '🌧️';
   ui.endingTitle.textContent = won ? 'You are King of the Jungle!' : 'The jungle wins this round';
   ui.endingText.textContent = won
-    ? `The lion defeated all four challengers with ${game.lionHp} HP left. You answered ${game.correct} of ${game.answered} questions correctly.`
+    ? `Your ${game.animal.name.toLowerCase()} defeated all four challengers with ${game.playerHp} HP left. You answered ${game.correct} of ${game.answered} questions correctly.`
     : `You reached ${LEVELS[game.level].name} and answered ${game.correct} of ${game.answered} questions correctly. Try the climb again!`;
   const topics = studyTopics(game.wrong);
   ui.studySummary.textContent = topics.length
@@ -184,7 +189,7 @@ function showReview() {
 }
 
 function updateHealth() {
-  setHealth(ui.lionHp, ui.lionHpText, game.lionHp);
+  setHealth(ui.playerHp, ui.playerHpText, game.playerHp);
   setHealth(ui.enemyHp, ui.enemyHpText, game.enemyHp);
 }
 
@@ -218,6 +223,12 @@ ui.reviewBack.addEventListener('click', () => {
   show(ui.ending, ui.review);
   ui.reviewButton.focus();
 });
-ui.again.addEventListener('click', startGame);
+ui.animals.forEach((animal) => animal.addEventListener('change', () => {
+  ui.introAnimal.textContent = animal.dataset.emoji;
+}));
+ui.again.addEventListener('click', () => {
+  show(ui.intro, ui.ending, ui.review, ui.battle, ui.overlay);
+  ui.animals.find((animal) => animal.checked).focus();
+});
 
 loadDatabase();

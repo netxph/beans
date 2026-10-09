@@ -41,8 +41,8 @@ export function studyTopics(wrongAnswers) {
   return [...counts].sort((a, b) => b[1] - a[1]).map(([topic, count]) => ({ topic, count }));
 }
 
-export function applyAnswer({ lionHp, enemyHp }, correct, enemyDamage) {
+export function applyAnswer({ playerHp, enemyHp }, correct, enemyDamage) {
   return correct
-    ? { lionHp, enemyHp: Math.max(0, enemyHp - 20) }
-    : { lionHp: Math.max(0, lionHp - enemyDamage), enemyHp };
+    ? { playerHp, enemyHp: Math.max(0, enemyHp - 20) }
+    : { playerHp: Math.max(0, playerHp - enemyDamage), enemyHp };
 }

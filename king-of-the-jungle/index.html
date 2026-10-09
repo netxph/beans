@@ -12,6 +12,13 @@
     body { min-height:100dvh; color:var(--cream); overflow-x:hidden; }
     button { font:inherit; }
     button:focus-visible { outline:4px solid #fff; outline-offset:3px; }
+    .animal-picker { margin:1rem 0; padding:.8rem; border:2px solid #28623e; border-radius:1rem; }
+    .animal-picker legend { padding:0 .4rem; font-weight:900; }
+    .animal-options { display:grid; grid-template-columns:1fr 1fr; gap:.6rem; }
+    .animal-options label { display:flex; align-items:center; gap:.5rem; min-height:48px; padding:.6rem; border:2px solid #b0c99a; border-radius:.7rem; background:#fff; font-weight:800; cursor:pointer; }
+    .animal-options label:has(input:checked) { border-color:#28623e; background:#dff4d2; }
+    .animal-options label:focus-within { outline:3px solid #28623e; outline-offset:2px; }
+    .animal-options input { accent-color:#28623e; }
     .screen { min-height:100dvh; }
     .hidden { display:none !important; }
 
@@ -56,7 +63,7 @@
     .sun { position:absolute; width:70px; height:70px; right:8%; top:8%; border-radius:50%; background:#fff2a3; box-shadow:0 0 40px #fff5a8; }
     .fighter { position:absolute; width:min(42vw,300px); display:flex; flex-direction:column; align-items:center; z-index:2; }
     .fighter.enemy { right:3%; top:8%; }
-    .fighter.lion { left:3%; bottom:5%; }
+    .fighter.player { left:3%; bottom:5%; }
     .nameplate { width:100%; padding:.55rem .7rem; background:#fffce8eF; border:3px solid #32513e; border-radius:.8rem; box-shadow:0 5px 0 #173423; }
     .name-row { display:flex; justify-content:space-between; font-weight:1000; font-size:.9rem; }
     .hp-track { height:13px; margin-top:.35rem; background:#493e35; border:2px solid #25352a; border-radius:999px; overflow:hidden; }
@@ -100,10 +107,11 @@
       .arena { min-height:300px; }
       .fighter { width:48vw; }
       .fighter.enemy { right:2%; }
-      .fighter.lion { left:2%; }
+      .fighter.player { left:2%; }
       .choices { grid-template-columns:1fr; }
       .choice { min-height:2.85rem; }
     }
+    @media (max-width:380px) { .animal-options { grid-template-columns:1fr; } }
     @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms !important; transition-duration:.01ms !important; } }
   </style>
 </head>
@@ -111,9 +119,18 @@
   <main>
     <section id="intro" class="screen intro">
       <div class="card">
-        <div class="logo" aria-hidden="true">🦁</div>
+        <div id="introAnimal" class="logo" aria-hidden="true">🦁</div>
         <h1>King of the Jungle</h1>
         <p class="tagline">Battle with brainpower. Rule with science!</p>
+        <fieldset class="animal-picker">
+          <legend>Choose your jungle king</legend>
+          <div class="animal-options">
+            <label><input type="radio" name="animal" value="Lion" data-emoji="🦁" checked> <span aria-hidden="true">🦁</span> Lion</label>
+            <label><input type="radio" name="animal" value="Tiger" data-emoji="🐯"> <span aria-hidden="true">🐯</span> Tiger</label>
+            <label><input type="radio" name="animal" value="Elephant" data-emoji="🐘"> <span aria-hidden="true">🐘</span> Elephant</label>
+            <label><input type="radio" name="animal" value="Gorilla" data-emoji="🦍"> <span aria-hidden="true">🦍</span> Gorilla</label>
+          </div>
+        </fieldset>
         <ol class="rules">
           <li>Defeat Monkey, Alligator, Hyena, then Eagle.</li>
           <li>Right answer: you attack. Wrong answer: they attack.</li>
@@ -126,7 +143,7 @@
 
     <section id="battle" class="screen battle hidden" aria-label="Science battle">
       <header class="hud">
-        <div><div class="title">🦁 KING OF THE JUNGLE</div><small id="levelLabel">Level 1 · Easy</small></div>
+        <div><div id="battleTitle" class="title">🦁 KING OF THE JUNGLE</div><small id="levelLabel">Level 1 · Easy</small></div>
         <div class="ladder" aria-label="Battle progress">
           <span class="step active">🐒</span><span>›</span><span class="step">🐊</span><span>›</span><span class="step">🐺</span><span>›</span><span class="step">🦅</span>
         </div>
@@ -137,9 +154,9 @@
           <div class="nameplate"><div class="name-row"><span id="enemyName">Monkey</span><span id="enemyHpText">100/100</span></div><div class="hp-track"><div id="enemyHp" class="hp"></div></div></div>
           <div id="enemySprite" class="sprite" aria-hidden="true">🐒</div>
         </div>
-        <div class="fighter lion">
-          <div id="lionSprite" class="sprite" aria-hidden="true">🦁</div>
-          <div class="nameplate"><div class="name-row"><span>YOU · LION</span><span id="lionHpText">100/100</span></div><div class="hp-track"><div id="lionHp" class="hp"></div></div></div>
+        <div class="fighter player">
+          <div id="playerSprite" class="sprite" aria-hidden="true">🦁</div>
+          <div class="nameplate"><div class="name-row"><span id="playerName">YOU · LION</span><span id="playerHpText">100/100</span></div><div class="hp-track"><div id="playerHp" class="hp"></div></div></div>
         </div>
       </div>
       <section class="quiz" aria-labelledby="question">

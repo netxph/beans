@@ -1,10 +1,13 @@
-const CACHE_NAME = 'beans-kids-arcade-v15';
+const CACHE_NAME = 'beans-kids-arcade-v20';
 const APP_SHELL = [
   './',
   './index.html',
   './manifest.webmanifest',
   './images/jungle.png',
   './images/icon.svg',
+  './images/icon-192.png',
+  './images/icon-512.png',
+  './images/apple-touch-icon.png',
   './king-of-the-jungle/index.html',
   './king-of-the-jungle/game.mjs',
   './king-of-the-jungle/logic.mjs',
