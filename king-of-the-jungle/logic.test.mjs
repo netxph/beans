@@ -48,15 +48,18 @@ describe('question database', () => {
       expect(typeof item.explanation).toBe('string');
       expect(item.explanation.trim()).not.toBe('');
       expect(item.explanation).not.toBe(item.answer);
+      const text = [item.question, ...item.choices, item.answer, item.explanation].join(' ');
+      expect(text).not.toMatch(/\d|[=×÷°]|\b(zero|two|three|four|five|six|seven|eight|nine|ten|hundred|thousand|numbers?|numerical|calculation|computation|arithmetic|divided|multiplied|meters|seconds|hours)\b/i);
+      expect(item.question).not.toMatch(/how many|how long|how much|\b(count|measures?|speed|boiling point|mass|volume)\b/i);
     }
     expect(new Set(questions.map(({ topic }) => topic)).size).toBeGreaterThanOrEqual(10);
     for (const [question, answer] of [
       ['A caterpillar is a young butterfly. What is this stage called?', 'Larva'],
       ['Which plant tissue carries water and minerals from roots toward leaves?', 'Xylem'],
-      ['At normal sea-level air pressure, what is the boiling point of pure water?', '100°C'],
-      ['Between which two planets is the main asteroid belt?', 'Mars and Jupiter'],
+      ['Which change happens when water becomes ice?', 'Liquid changes into solid'],
+      ['Between which planets is the main asteroid belt?', 'Mars and Jupiter'],
       ['What process inside cells releases usable energy from food?', 'Cellular respiration'],
-      ['A toy car travels 12 meters in 4 seconds. What is its average speed?', '3 meters per second'],
+      ["A child opens a door by pulling its handle. What does this show about a force?", "It can change an object's motion"],
       ['Boiling water makes an invisible gas and a visible white cloud above the pot. What is the visible white cloud mainly made of?', 'Tiny liquid water droplets'],
       ['What adaptation allows an organism to blend visually into its surroundings to hide from predators?', 'Camouflage'],
       ['An orchid grows on a tree for support without harming or helping the tree. What relationship does this illustrate?', 'Commensalism'],
@@ -64,7 +67,7 @@ describe('question database', () => {
       ['Which digestive organ absorbs remaining water and salts from undigested material as it forms stool?', 'Large intestine'],
       ['Which organelle in an animal cell produces most of its usable chemical energy during aerobic cellular respiration?', 'Mitochondrion'],
       ["In which layer of Earth's atmosphere does almost all weather, including rain and storms, occur?", 'Troposphere'],
-      ['Which planet rotates fastest on its axis, completing a rotation in less than 10 hours?', 'Jupiter'],
+      ['Which planet has the Great Red Spot, a giant long-lasting storm?', 'Jupiter'],
       ['Why does water expand and become less dense when it freezes into ordinary ice?', 'Water molecules form an open crystalline structure'],
     ]) {
       expect(questions.find((item) => item.question === question)?.answer).toBe(answer);

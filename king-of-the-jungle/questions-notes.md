@@ -4,17 +4,23 @@ The bank contains 50 easy, 50 average, 58 difficult, and 20 clincher questions (
 
 ## Scope and suitability
 
-All supplied question prompts are represented, with scientific or wording corrections where needed. The two supplied caterpillar questions are retained as differently worded easy and difficult entries; they test the same fact. Categories were adjusted where appropriate rather than treating the supplied category labels as fixed.
+Supplied question topics are represented with scientific or wording corrections where needed, except that number-based prompts have been replaced at the user's request. The two supplied caterpillar questions are retained as differently worded easy and difficult entries; they test the same fact. Categories were adjusted where appropriate rather than treating the supplied category labels as fixed.
 
-Easy questions emphasize familiar animals, plants, senses, food, materials, weather, safety, and observation. Average questions add classification and simple explanations. Difficult and clincher questions include enrichment from the supplied examples: photosynthesis, plant transport, cellular respiration, malnutrition, astronomy, and scientific vocabulary. Clinchers emphasize applying ideas and include one simple speed calculation.
+Easy questions emphasize familiar animals, plants, senses, food, materials, weather, safety, and observation. Average questions add classification and simple explanations. Difficult and clincher questions include enrichment from the supplied examples: photosynthesis, plant transport, cellular respiration, malnutrition, astronomy, and scientific vocabulary. Clinchers emphasize applying ideas without calculations.
 
 This is a practice bank, not an official ASMEPPS paper or a verified match to its current syllabus. The examples span elementary levels roughly Grades 2–5, with some terminology beyond ordinary Grade 2 lessons. Have the coach check the contest's actual coverage before using the advanced rounds.
 
 ## Additional RMSQ practice questions
 
-The second supplied set adds eight difficult questions: camouflage, commensalism, radiation, the large intestine, mitochondria, the troposphere, Jupiter's rotation, and ice's crystal structure. Xylem and refraction already have equivalent questions in the bank and are not duplicated. Before this addition, the 170-question bank was saved in `questions.backup.20261013-181733.yaml`.
+The second supplied set adds eight difficult questions: camouflage, commensalism, radiation, the large intestine, mitochondria, the troposphere, Jupiter (now its Great Red Spot instead of rotation timing), and ice's crystal structure. Xylem and refraction already have equivalent questions in the bank and are not duplicated. Before this addition, the 170-question bank was saved in `questions.backup.20261013-181733.yaml`.
 
 The large-intestine question specifies absorption of *remaining* water and salts; most water absorption occurs in the small intestine. The camouflage question describes blending into surroundings without using leaf insects as the sole example, since leaf resemblance can also be described as mimicry or masquerade.
+
+## No-number revision
+
+Replaced 15 counting, numerical-recall, measurement, quantity, and computation questions with qualitative science questions. These include the sense-organ and leg counts, spider body-region count, boiling temperature, measurement tools, mass and volume, rotation timing, population quantities, speed calculation, and mass-conservation question. Remaining entries were reworded to remove incidental number references, including the vitamin-name distractor. The bank still contains 178 questions with the same round sizes and data structure. The pre-revision bank is saved in `questions.backup.20261013-182244.yaml`.
+
+Tests reject digits, common number words, calculation terms, and quantitative question wording. Qualitative science concepts such as friction, freezing, and why ice floats remain.
 
 ## Important corrections
 
@@ -22,7 +28,7 @@ The large-intestine question specifies absorption of *remaining* water and salts
 - The hind-leg question specifies leaping and uses distractors without hind legs; dogs and bears also have hind legs.
 - The vision question specifies complete blindness and distinguishes sight from touch and taste.
 - The spider question asks about two main body regions, not anatomical segments of every arachnid.
-- Boiling-water questions specify an uncovered pot or normal sea-level pressure as needed.
+- The boiling-water question now asks about the change of state rather than water quantity or boiling temperature.
 - Digestion breaks food down; cellular respiration releases usable energy from food in cells.
 - Water vapor is invisible. Steam is gaseous water; the visible white cloud is condensed liquid droplets.
 - Kwashiorkor retains the conventional school answer, protein, while noting that severe malnutrition has complex causes.
