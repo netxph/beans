@@ -86,6 +86,8 @@ test('a winning game reviews only wrong answers with their explanations', async 
   expect(nodes.reviewList.children).toHaveLength(1);
   expect(nodes.reviewList.children[0].children[2].textContent).toBe(`Correct answer: ${missed.answer}`);
   expect(nodes.reviewList.children[0].children[3].textContent).toBe(`Why: ${missed.explanation}`);
+  expect(nodes.reviewList.children[0].children[4].className).toBe('review-topic');
+  expect(nodes.reviewList.children[0].children[4].textContent).toBe(`Topic category: ${missed.topic}`);
 });
 
 test('the question bank requires a nonempty explanation for every answer', async () => {
@@ -111,6 +113,8 @@ test('a selected animal can lose, review answers, and return to choose another a
     expect(item.children[2].textContent).toBe(`Correct answer: ${wrongAnswers[index].correct}`);
     expect(item.children[3].className).toBe('review-explanation');
     expect(item.children[3].textContent).toBe(`Why: ${wrongAnswers[index].explanation}`);
+    expect(item.children[4].className).toBe('review-topic');
+    expect(item.children[4].textContent).toBe(`Topic category: ${wrongAnswers[index].topic}`);
   });
   nodes.reviewBackBtn.click();
   nodes.againBtn.click();

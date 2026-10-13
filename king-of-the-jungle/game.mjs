@@ -186,7 +186,11 @@ function showReview() {
     explanation.className = 'review-explanation';
     explanation.textContent = `Why: ${answer.explanation}`;
 
-    item.append(question, chosen, correct, explanation);
+    const topic = document.createElement('p');
+    topic.className = 'review-topic';
+    topic.textContent = `Topic category: ${answer.topic}`;
+
+    item.append(question, chosen, correct, explanation, topic);
     return item;
   }));
   show(ui.review, ui.ending);
