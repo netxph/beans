@@ -1,46 +1,47 @@
-# Grade 2 ASMEPPS science quiz-bee practice bank
+# PDF science question bank
 
-The bank contains 50 easy, 50 average, 58 difficult, and 20 clincher questions (178 total). Each entry keeps the game's existing `question`, four `choices`, `answer`, `topic`, and `explanation` fields. The original bank is saved in `questions.backup.20261013-181042.yaml`.
+`questions.yaml` replaces the previous practice bank with all 150 questions from the five supplied `~/Downloads/cm-*.pdf` files (30 per PDF). No additional questions or distractors were invented.
 
-## Scope and suitability
+The schema is unchanged: `easy`, `average`, `difficult`, and `clincher` contain entries with `question`, four `choices`, `answer`, `topic`, and `explanation`. The existing `topic` field holds the requested file-based category, even when a question's subject overlaps another category.
 
-Supplied question topics are represented with scientific or wording corrections where needed, except that number-based prompts have been replaced at the user's request. The two supplied caterpillar questions are retained as differently worded easy and difficult entries; they test the same fact. Categories were adjusted where appropriate rather than treating the supplied category labels as fixed.
+| Source | Category | Easy | Average | Difficult | Clincher | Total |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| `cm-ps.pdf` | Physical Science | 8 | 2 | 11 | 9 | 30 |
+| `cm-ec.pdf` | Elementary Chemistry | 11 | 9 | 5 | 5 | 30 |
+| `cm-es.pdf` | Earth Science | 5 | 11 | 7 | 7 | 30 |
+| `cm-is.pdf` | Integrated Science | 12 | 5 | 8 | 5 | 30 |
+| `cm-hr.pdf` | Heat Round | 6 | 7 | 10 | 7 | 30 |
+| **Total** | | **42** | **34** | **41** | **33** | **150** |
 
-Easy questions emphasize familiar animals, plants, senses, food, materials, weather, safety, and observation. Average questions add classification and simple explanations. Difficult and clincher questions include enrichment from the supplied examples: photosynthesis, plant transport, cellular respiration, malnutrition, astronomy, and scientific vocabulary. Clinchers emphasize applying ideas without calculations.
+There are at least 20 items in each difficulty across the bank. There cannot be 20 per difficulty in every category: each source contains only 30 questions, not the 80 that would require. No duplication or new questions were used to pad the counts.
 
-This is a practice bank, not an official ASMEPPS paper or a verified match to its current syllabus. The examples span elementary levels roughly Grades 2–5, with some terminology beyond ordinary Grade 2 lessons. Have the coach check the contest's actual coverage before using the advanced rounds.
+## Difficulty assessment
 
-## Additional RMSQ practice questions
+- **Easy:** direct definitions, familiar facts, and straightforward identification.
+- **Average:** more specialized terminology, classification, and facts presented through brief descriptions. A scenario that only asks for a familiar term or fact is not automatically difficult.
+- **Difficult:** applying a principle to a situation, interpreting an observation, predicting a consequence, or a straightforward calculation.
+- **Clincher:** combining clues, comparing explanations, matching multiple tasks or observations, evaluating a claim, or reasoning through a sequence. These are relative to the supplied elementary-level material, not newly written advanced questions.
 
-The second supplied set adds eight difficult questions: camouflage, commensalism, radiation, the large intestine, mitochondria, the troposphere, Jupiter (now its Great Red Spot instead of rotation timing), and ice's crystal structure. Xylem and refraction already have equivalent questions in the bank and are not duplicated. Before this addition, the 170-question bank was saved in `questions.backup.20261013-181733.yaml`.
+## Extraction and answer verification
 
-The large-intestine question specifies absorption of *remaining* water and salts; most water absorption occurs in the small intestine. The camouflage question describes blending into surroundings without using leaf insects as the sole example, since leaf resemblance can also be described as mimicry or masquerade.
+Text was extracted with Poppler. Image-only question text and tables were read from rendered PDF pages and transcribed into the existing `question` string. The answer keys were extracted from the green correct-answer markers, **not** the learner's selected responses (which are sometimes wrong). Tests retain the original A–D keys as a regression check; YAML choices remain in source order.
 
-## No-number revision
+Every explanation starts with its source filename and original question number, such as `cm-es.pdf, question 7:`. The explanatory sentences were added for the game's existing wrong-answer review; they are not explanations quoted from the PDFs. Personal details, results-page navigation, scores, and URLs were not copied into the bank.
 
-Replaced 15 counting, numerical-recall, measurement, quantity, and computation questions with qualitative science questions. These include the sense-organ and leg counts, spider body-region count, boiling temperature, measurement tools, mass and volume, rotation timing, population quantities, speed calculation, and mass-conservation question. Remaining entries were reworded to remove incidental number references, including the vitamin-name distractor. The bank still contains 178 questions with the same round sizes and data structure. The pre-revision bank is saved in `questions.backup.20261013-182244.yaml`.
+Only formatting/context cleanup was applied to prompts:
 
-Tests reject digits, common number words, calculation terms, and quantitative question wording. Qualitative science concepts such as friction, freezing, and why ice floats remain.
+- Whitespace and page breaks were normalized; source questions and all four choices were retained.
+- Earth Science questions 7, 9, and 22 include the original image-only tables as text, and question 26 includes its image-only scenario paragraph. Its decorative factory picture is unnecessary to answer the supplied paragraph. Question 27's original paragraph already describes the before/after illustration, so the bitmap is not needed.
+- Physical Science question 25 includes the original table as text; its touch/no-touch checkmarks are written as Yes/No. The toy-car and parachute text diagrams are retained.
+- Heat Round question 6 repeats the original food chain from question 5. Questions 14–18 include the aquarium picture's labels as text. Shared question-number headings were removed because questions are displayed independently and shuffled. The plant questions already describe the conditions needed to answer them.
+- Physical Science question 29 had a stray `11 meters` appended to its question text in the PDF. Only that stray fragment was removed; the actual `11 meters` distractor remains unchanged.
+- Integrated Science question 30 says “based on the chart,” but no separate chart is present for that question in the supplied results PDF. The four choices themselves provide all sound levels needed; only that dangling phrase was removed.
+- Numerical questions from the supplied PDFs are retained. The old no-number restriction and old practice-question assertions no longer describe this replacement bank.
 
-## Important corrections
+Newlines in transcribed tables are displayed in both battle and wrong-answer review without introducing HTML or new YAML fields.
 
-- Ampalaya is not described as curing diabetes. The question now links diabetes to high blood sugar; its explanation says ampalaya is not a cure or a substitute for prescribed treatment.
-- The hind-leg question specifies leaping and uses distractors without hind legs; dogs and bears also have hind legs.
-- The vision question specifies complete blindness and distinguishes sight from touch and taste.
-- The spider question asks about two main body regions, not anatomical segments of every arachnid.
-- The boiling-water question now asks about the change of state rather than water quantity or boiling temperature.
-- Digestion breaks food down; cellular respiration releases usable energy from food in cells.
-- Water vapor is invisible. Steam is gaseous water; the visible white cloud is condensed liquid droplets.
-- Kwashiorkor retains the conventional school answer, protein, while noting that severe malnutrition has complex causes.
-- The Earth-from-space question specifies the sunlit side to avoid confusing reflected sunlight with auroras or atmospheric glow.
+## Choice randomization
 
-## Research references
+The game already calls `shuffledQuestion()` for every displayed question. It uses a Fisher–Yates shuffle of a copied choices array; the source bank is not mutated. Correctness is checked against answer text, not a fixed button position. Tests cover shuffle permutations, rendered button order, grading, highlighting, and wrong-answer review. No second shuffle implementation, dependency, or schema option was added.
 
-New questions are original practice wording based on standard science concepts, not copied exam items. Web research informed the scope assessment and astronomy and health checks; these references are not a claim of individual source verification for every entry.
-
-- [K to 12 Science Curriculum Guide, August 2016 (mirror)](https://www.studocu.com/en-us/document/central-elementaryhigh-school/science/k-to-12-science-curriculum-guide-grades-3-10-august-2016/146103850): Grade 2 standards emphasize senses, comparing objects, weather, measurement, safety, conservation, and caring for plants and pets.
-- [Science Curriculum Guide 2023 (mirror)](https://studylib.net/doc/28616814/science-cg-2023): Kindergarten–Grade 2 science foundations are integrated into other curricula; formal science domains begin at Grade 3.
-- [NASA Space Place: What Is an Asteroid?](https://spaceplace.nasa.gov/asteroid/en/): rocky bodies and the main asteroid belt between Mars and Jupiter.
-- [NASA: Comets, the Sun, and You](https://science.nasa.gov/learning-resources/science-activation/helio-and-you-comets-the-sun-and-you/): icy comet bodies and the release of gas and dust as they approach the Sun.
-- [University of Santo Tomas plant database: Ampalaya](https://www.ust.edu.ph/ust-manila-plant-databse/ampalaya/): climbing vine, tendrils, and its association with blood-sugar management rather than a guaranteed cure.
-- [Cumulonimbus cloud](https://en.wikipedia.org/wiki/Cumulonimbus_cloud): thunderstorm clouds and their association with severe weather, including tornadoes.
+The service-worker cache version was incremented so installed/offline clients receive the replacement bank after the updated worker activates.

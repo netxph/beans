@@ -90,6 +90,27 @@ test('a winning game reviews only wrong answers with their explanations', async 
   expect(nodes.reviewList.children[0].children[4].textContent).toBe(`Topic category: ${missed.topic}`);
 });
 
+test('battle choices are randomized while grading and review keep the original answer', async () => {
+  const { nodes, run } = await setup();
+  nodes.startBtn.click();
+  const original = run('database.easy[0]');
+  run(`shuffledQuestion = (question) => ({ ...question, choices: [...question.choices].reverse() });
+    game.deck = [database.easy[0]]; nextQuestion();`);
+  expect(nodes.choices.children.map((button) => button.dataset.choice)).toEqual([...original.choices].reverse());
+  expect(run('database.easy[0].choices')).toEqual(original.choices);
+  const wrong = nodes.choices.children.find((button) => button.dataset.choice !== original.answer);
+  wrong.click();
+  expect(nodes.choices.children.find((button) => button.dataset.choice === original.answer).classList.contains('correct')).toBe(true);
+  expect(wrong.classList.contains('wrong')).toBe(true);
+  expect(run('game.wrong[0].correct')).toBe(original.answer);
+  expect(run('game.playerHp')).toBe(80);
+
+  run('game.deck = [database.easy[0]]; nextQuestion();');
+  nodes.choices.children.find((button) => button.dataset.choice === original.answer).click();
+  expect(run('game.correct')).toBe(1);
+  expect(run('game.enemyHp')).toBe(80);
+});
+
 test('the question bank requires a nonempty explanation for every answer', async () => {
   const { run } = await setup();
   expect(run('validateDatabase(database)')).toBe(true);
