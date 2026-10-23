@@ -1,11 +1,18 @@
 import { applyAnswer, parseQuestionsYaml, shuffle, shuffledQuestion, studyTopics, wrongAnswer } from './logic.mjs';
 
 const LEVELS = [
-  { key: 'easy', label: 'Easy', name: 'Monkey', emoji: '🐒', damage: 20, background: 'jungle' },
-  { key: 'average', label: 'Average', name: 'Alligator', emoji: '🐊', damage: 30, background: 'pond' },
-  { key: 'difficult', label: 'Difficult', name: 'Hyena', emoji: '🐺', damage: 40, background: 'desert' },
-  { key: 'clincher', label: 'Clincher', name: 'Eagle', emoji: '🦅', damage: 50, background: 'sky' },
+  { key: 'easy', label: 'Easy', name: 'Monkey', emoji: '🐒', damage: 10, background: 'jungle' },
+  { key: 'average', label: 'Average', name: 'Alligator', emoji: '🐊', damage: 15, background: 'pond' },
+  { key: 'difficult', label: 'Difficult', name: 'Hyena', emoji: '🐺', damage: 20, background: 'desert' },
+  { key: 'clincher', label: 'Clincher', name: 'Eagle', emoji: '🦅', damage: 25, background: 'sky' },
 ];
+
+const POWERUPS = {
+  Lion: 'Double next correct hit',
+  Tiger: 'Remove 2 wrong choices',
+  Elephant: 'Restore 25 HP',
+  Gorilla: 'Skip question',
+};
 
 const $ = (id) => document.getElementById(id);
 const ui = {
@@ -14,7 +21,8 @@ const ui = {
   enemyName: $('enemyName'), enemySprite: $('enemySprite'), enemyHp: $('enemyHp'), enemyHpText: $('enemyHpText'),
   animals: [...document.querySelectorAll('input[name="animal"]')], introAnimal: $('introAnimal'), battleTitle: $('battleTitle'),
   playerName: $('playerName'), playerSprite: $('playerSprite'), playerHp: $('playerHp'), playerHpText: $('playerHpText'),
-  feedback: $('feedback'), question: $('question'), choices: $('choices'),
+  feedback: $('feedback'), quiz: document.querySelector('.quiz'), question: $('question'), choices: $('choices'),
+  powerMeter: $('powerMeter'), powerText: $('powerText'), powerButton: $('powerBtn'),
   overlay: $('levelOverlay'), overlayEmoji: $('overlayEmoji'), overlayTitle: $('overlayTitle'), overlayText: $('overlayText'),
   continue: $('continueBtn'), endingEmoji: $('endingEmoji'), endingTitle: $('endingTitle'), endingText: $('endingText'), studySummary: $('studySummary'),
   review: $('review'), reviewButton: $('reviewBtn'), reviewSummary: $('reviewSummary'), reviewList: $('reviewList'), reviewBack: $('reviewBackBtn'), again: $('againBtn'),
@@ -64,6 +72,8 @@ function startGame() {
 function startLevel() {
   const level = LEVELS[game.level];
   game.enemyHp = 100;
+  game.charge = 0;
+  game.lionBoost = false;
   game.deck = shuffle(database[level.key]);
   game.locked = false;
   ui.levelLabel.textContent = `Level ${game.level + 1} · ${level.label} · ${level.damage} enemy damage`;
@@ -82,7 +92,7 @@ function nextQuestion() {
   if (!game.deck.length) game.deck = shuffle(database[LEVELS[game.level].key]);
   game.current = shuffledQuestion(game.deck.pop());
   game.locked = false;
-  ui.feedback.textContent = 'Choose the best answer.';
+  ui.feedback.textContent = game.lionBoost ? 'Double damage ready for your next correct answer!' : 'Choose the best answer.';
   ui.question.textContent = game.current.question;
   ui.choices.replaceChildren(...game.current.choices.map((choice, index) => {
     const button = document.createElement('button');
@@ -94,7 +104,42 @@ function nextQuestion() {
     button.addEventListener('click', () => answer(choice));
     return button;
   }));
+  ui.quiz.scrollTop = 0;
+  updatePowerup();
   ui.choices.firstElementChild?.focus({ preventScroll: true });
+}
+
+function updatePowerup() {
+  ui.powerMeter.value = game.charge;
+  ui.powerText.textContent = game.lionBoost ? 'Next correct hit: ×2' : `Power-up: ${game.charge}/5${game.charge === 5 ? ' · Ready!' : ' · Correct streak'}`;
+  ui.powerButton.textContent = POWERUPS[game.animal.name];
+  ui.powerButton.disabled = game.charge < 5 || game.locked;
+}
+
+function usePowerup() {
+  if (!game || game.locked || game.charge !== 5 || ui.battle.classList.contains('hidden') || !ui.overlay.classList.contains('hidden')) return;
+  game.charge = 0;
+  if (game.animal.name === 'Lion') {
+    game.lionBoost = true;
+    ui.feedback.textContent = 'Double damage ready for your next correct answer!';
+  } else if (game.animal.name === 'Tiger') {
+    const incorrect = [...ui.choices.children].filter((button) => button.dataset.choice !== game.current.answer);
+    shuffle(incorrect).slice(0, 2).forEach((button) => {
+      button.disabled = true;
+      button.classList.add('hidden');
+    });
+    ui.feedback.textContent = 'Two incorrect choices removed.';
+  } else if (game.animal.name === 'Elephant') {
+    const restored = Math.min(25, 100 - game.playerHp);
+    game.playerHp += restored;
+    updateHealth();
+    ui.feedback.textContent = `Restored ${restored} HP!`;
+  } else if (game.animal.name === 'Gorilla') {
+    nextQuestion();
+    ui.feedback.textContent = 'Question skipped — no score or damage. Choose the best answer.';
+  }
+  updatePowerup();
+  [...ui.choices.children].find((button) => !button.disabled)?.focus({ preventScroll: true });
 }
 
 function answer(choice) {
@@ -106,10 +151,14 @@ function answer(choice) {
   if (correct) game.correct++;
   else game.wrong.push(wrong);
 
-  const result = applyAnswer(game, correct, LEVELS[game.level].damage);
+  const attackDamage = game.lionBoost ? 20 : 10;
+  const result = applyAnswer(game, correct, LEVELS[game.level].damage, attackDamage);
   game.playerHp = result.playerHp;
   game.enemyHp = result.enemyHp;
+  if (correct) game.lionBoost = false;
+  if (game.charge < 5) game.charge = correct ? game.charge + 1 : 0;
   updateHealth();
+  updatePowerup();
 
   [...ui.choices.children].forEach((button) => {
     button.disabled = true;
@@ -118,7 +167,7 @@ function answer(choice) {
   });
 
   if (correct) {
-    ui.feedback.textContent = `Correct! Your attack deals 20 damage to ${LEVELS[game.level].name}.`;
+    ui.feedback.textContent = `Correct! Your attack deals ${attackDamage} damage to ${LEVELS[game.level].name}.`;
     animate(ui.playerSprite, 'attack-left');
     animate(ui.enemySprite, 'hurt');
   } else {
@@ -218,7 +267,8 @@ function animate(element, className) {
 function chooseByKey(key) {
   if (ui.battle.classList.contains('hidden') || game?.locked) return;
   const index = Number(key) - 1;
-  if (index >= 0 && index < 4) ui.choices.children[index]?.click();
+  const button = ui.choices.children[index];
+  if (index >= 0 && index < 4 && button && !button.disabled) button.click();
 }
 
 document.addEventListener('keydown', (event) => chooseByKey(event.key));
@@ -226,6 +276,7 @@ window.addEventListener('message', (event) => {
   if (event.origin === location.origin && event.data?.type === 'beans-key') chooseByKey(event.data.key);
 });
 ui.start.addEventListener('click', startGame);
+ui.powerButton.addEventListener('click', usePowerup);
 ui.continue.addEventListener('click', continueBattle);
 ui.reviewButton.addEventListener('click', showReview);
 ui.reviewBack.addEventListener('click', () => {

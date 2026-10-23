@@ -30,18 +30,17 @@ describe('question database', () => {
     expect(Object.keys(database)).toEqual(['easy', 'average', 'difficult', 'clincher']);
     for (const questions of Object.values(database)) expect(questions.length).toBeGreaterThanOrEqual(20);
 
-    // Correct-answer markers from the PDFs, in original question order (not the learner's selections).
+    // PDF correct-answer markers grouped by category, in bank order across the four difficulties.
     const sources = {
-      ec: { topic: 'Elementary Chemistry', key: 'BCABAABBBACBCCCADACABCCABACBCB' },
-      es: { topic: 'Earth Science', key: 'CDABCBDACBDBDACABDCBACBDCBADDC' },
-      hr: { topic: 'Heat Round', key: 'BABABAAABCABABCBCCBCACCBCBBABA' },
-      is: { topic: 'Integrated Science', key: 'ACDBACAAABABCABABBBBAACBBABABC' },
-      ps: { topic: 'Physical Science', key: 'CACBBCABACDBBCBCCBCACBCACACBDC' },
+      ec: { topic: 'Elementary Chemistry', key: 'BABACCDABCBCACABACBCBABCAABBCC' },
+      es: { topic: 'Earth Science', key: 'CBCABCDABBDDCDDDDABABBCCDACCBA' },
+      hr: { topic: 'Heat Round', key: 'ABCBCAAACCBBABABAABBBCCBACCBAB' },
+      is: { topic: 'Integrated Science', key: 'ACDBBCAABBABACBCBAAAABABCBBABA' },
+      ps: { topic: 'Physical Science', key: 'CABBBCBACBACBACBCCACBBCCDCCADC' },
     };
     const questions = Object.values(database).flat();
     expect(questions).toHaveLength(150);
     expect(new Set(questions.map(({ question }) => question)).size).toBe(150);
-    const sourceIds = new Set();
     for (const item of questions) {
       expect(Object.keys(item).sort()).toEqual(['answer', 'choices', 'explanation', 'question', 'topic']);
       expect(typeof item.question).toBe('string');
@@ -50,15 +49,10 @@ describe('question database', () => {
       expect(new Set(item.choices).size).toBe(4);
       expect(item.choices.every((choice) => typeof choice === 'string' && choice.trim())).toBe(true);
       expect(item.choices).toContain(item.answer);
-      const provenance = item.explanation.match(/^cm-(ec|es|hr|is|ps)\.pdf, question (\d+): (.+)$/);
-      expect(provenance).not.toBeNull();
-      const [, code, number, explanation] = provenance;
-      expect(Number(number)).toBeGreaterThanOrEqual(1);
-      expect(Number(number)).toBeLessThanOrEqual(30);
-      expect(item.topic).toBe(sources[code].topic);
-      expect(item.answer).toBe(item.choices['ABCD'.indexOf(sources[code].key[Number(number) - 1])]);
-      expect(explanation.trim()).not.toBe('');
-      sourceIds.add(`${code}:${number}`);
+      expect(Object.values(sources).map(({ topic }) => topic)).toContain(item.topic);
+      expect(typeof item.explanation).toBe('string');
+      expect(item.explanation.trim()).not.toBe('');
+      expect([item.question, ...item.choices, item.answer, item.explanation].join(' ')).not.toMatch(/cm-\w+\.pdf|\bquestion \d+:/i);
       expect(item.question).not.toMatch(/ClassMarker|https:\/\/|BRIANNE|For questions? \d/i);
 
       for (const random of [() => 0, () => 0.5, () => 0.999]) {
@@ -69,27 +63,34 @@ describe('question database', () => {
         expect(shuffled.answer).toBe(item.answer);
       }
     }
-    expect(sourceIds.size).toBe(150);
-    for (const { topic } of Object.values(sources)) {
-      expect(questions.filter((item) => item.topic === topic)).toHaveLength(30);
+    for (const { topic, key } of Object.values(sources)) {
+      const category = questions.filter((item) => item.topic === topic);
+      expect(category).toHaveLength(30);
+      expect(category.map((item) => 'ABCD'[item.choices.indexOf(item.answer)]).join('')).toBe(key);
     }
 
-    const from = (code, number) => questions.find((item) => item.explanation.startsWith(`cm-${code}.pdf, question ${number}:`));
-    expect(from('es', 7).question).toContain('Ana — A meteor burns up');
-    expect(from('es', 7).question).toContain('Which student describes');
-    expect(from('es', 9).question).toContain('Z — Auroras commonly occur.');
-    expect(from('es', 22).question).toContain('X — A factory accidentally releases');
-    expect(from('es', 26).question).toContain('A factory releases wastewater');
-    expect(from('ps', 25).question).toContain('X — No — An apple falls toward Earth.');
-    expect(from('hr', 6).question).toContain('Grass → Grasshopper → Frog → Hawk');
-    expect(from('hr', 17).question).toContain('Aquarium picture labels:');
-    expect(from('ps', 29).question).toEndWith('How far does it travel?');
+    const from = (text) => questions.find((item) => item.question.includes(text));
+    expect(from('During a science activity, four students').question).toContain('Ana — A meteor burns up');
+    expect(from('During a science activity, four students').question).toContain('Which student describes');
+    expect(from('A group of young scientists').question).toContain('Z — Auroras commonly occur.');
+    expect(from('A group of students classified four events').question).toContain('X — A factory accidentally releases');
+    expect(from('After several weeks, many fish become sick').question).toContain('A factory releases wastewater');
+    expect(from('Four situations were observed.').question).toContain('X — No — An apple falls toward Earth.');
+    expect(from('If the number of grasshoppers').question).toContain('Grass → Grasshopper → Frog → Hawk');
+    expect(from('Suppose all the living things were removed').question).toContain('Aquarium picture labels:');
+    expect(from('A bicycle travels at an average speed').question).toEndWith('How far does it travel?');
   });
 });
 
 describe('battle logic', () => {
   test('correct answers hurt only the enemy', () => {
-    expect(applyAnswer({ playerHp: 80, enemyHp: 100 }, true, 15)).toEqual({ playerHp: 80, enemyHp: 80 });
+    expect(applyAnswer({ playerHp: 80, enemyHp: 100 }, true, 15)).toEqual({ playerHp: 80, enemyHp: 90 });
+  });
+
+  test('a powered hit doubles damage and clamps enemy health at zero', () => {
+    expect(applyAnswer({ playerHp: 80, enemyHp: 100 }, true, 15, 20)).toEqual({ playerHp: 80, enemyHp: 80 });
+    expect(applyAnswer({ playerHp: 80, enemyHp: 10 }, true, 15, 20)).toEqual({ playerHp: 80, enemyHp: 0 });
+    expect(applyAnswer({ playerHp: 80, enemyHp: 100 }, false, 15, 20)).toEqual({ playerHp: 65, enemyHp: 100 });
   });
 
   test('wrong answers hurt only the player without dropping below zero', () => {

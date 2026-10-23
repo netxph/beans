@@ -15,6 +15,21 @@ The schema is unchanged: `easy`, `average`, `difficult`, and `clincher` contain 
 
 There are at least 20 items in each difficulty across the bank. There cannot be 20 per difficulty in every category: each source contains only 30 questions, not the 80 that would require. No duplication or new questions were used to pad the counts.
 
+## Round length and damage
+
+Correct answers deal 10 damage, so each 100-HP opponent requires 10 correct answers. Wrong answers deal 10/15/20/25 damage in Easy/Average/Difficult/Clincher. Starting a round at full health without using power-ups, the longest winning round uses at most 19/16/14/13 questions respectively (10 correct plus the maximum survivable wrong answers). The available 42/34/41/33 questions comfortably cover this without repeats. Health still carries between rounds; tests exercise the full-health upper bound for each difficulty.
+
+## Character power-ups
+
+Five consecutive correct answers fill the meter. A wrong answer resets partial charge, but a full meter stays ready until used. Activating a power-up empties the meter; the next correct answer begins charging again. Charge and unused effects reset each round and on a new game. Power-ups cannot be used during answer feedback, round transitions, or after the game ends.
+
+- **Lion:** the next correct hit deals 20 instead of 10 damage. Wrong answers still hurt normally and do not consume the pending boost.
+- **Tiger:** hides and disables two randomly chosen incorrect choices for the current question only. The correct choice always remains, and eliminated number-key shortcuts cannot answer. The question bank is not modified.
+- **Elephant:** restores 25 HP (25% of maximum health), capped at 100 HP. Using it at full health still consumes the charge.
+- **Gorilla:** discards the current question and draws the next, without changing HP, answered/correct counts, or wrong-answer review.
+
+The meter and button stay outside the scrollable quiz panel. Even with power-ups, the bank is sufficient: Elephant's extra health permits at most 22/18/16/14 answered questions in a winning round; Gorilla can add one skipped question to the ordinary bounds. Other powers do not lengthen a round. No extra questions or schema changes are needed.
+
 ## Difficulty assessment
 
 - **Easy:** direct definitions, familiar facts, and straightforward identification.
@@ -24,9 +39,9 @@ There are at least 20 items in each difficulty across the bank. There cannot be 
 
 ## Extraction and answer verification
 
-Text was extracted with Poppler. Image-only question text and tables were read from rendered PDF pages and transcribed into the existing `question` string. The answer keys were extracted from the green correct-answer markers, **not** the learner's selected responses (which are sometimes wrong). Tests retain the original A–D keys as a regression check; YAML choices remain in source order.
+Text was extracted with Poppler. Image-only question text and tables were read from rendered PDF pages and transcribed into the existing `question` string. The answer keys were extracted from the green correct-answer markers, **not** the learner's selected responses (which are sometimes wrong). Tests retain the PDF A–D keys grouped by category in bank order as a regression check; each question's YAML choices remain in source order.
 
-Every explanation starts with its source filename and original question number, such as `cm-es.pdf, question 7:`. The explanatory sentences were added for the game's existing wrong-answer review; they are not explanations quoted from the PDFs. Personal details, results-page navigation, scores, and URLs were not copied into the bank.
+Explanations contain only the learning explanation, without source-filename or question-number prefixes. The explanatory sentences were added for the game's existing wrong-answer review; they are not explanations quoted from the PDFs. Personal details, results-page navigation, scores, and URLs were not copied into the bank.
 
 Only formatting/context cleanup was applied to prompts:
 
