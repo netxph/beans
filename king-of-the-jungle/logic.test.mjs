@@ -25,22 +25,16 @@ describe('question database', () => {
 `)).toEqual({ easy: [question] });
   });
 
-  test('keeps the schema, PDF categories, answer keys, and at least 20 items per difficulty', async () => {
+  test('keeps the schema, grade 3 science topics, and 50 items per difficulty', async () => {
     const database = parseQuestionsYaml(await readFile(new URL('./questions.yaml', import.meta.url), 'utf8'));
     expect(Object.keys(database)).toEqual(['easy', 'average', 'difficult', 'clincher']);
-    for (const questions of Object.values(database)) expect(questions.length).toBeGreaterThanOrEqual(20);
+    for (const questions of Object.values(database)) expect(questions).toHaveLength(50);
 
-    // PDF correct-answer markers grouped by category, in bank order across the four difficulties.
-    const sources = {
-      ec: { topic: 'Elementary Chemistry', key: 'BABACCDABCBCACABACBCBABCAABBCC' },
-      es: { topic: 'Earth Science', key: 'CBCABCDABBDDCDDDDABABBCCDACCBA' },
-      hr: { topic: 'Heat Round', key: 'ABCBCAAACCBBABABAABBBCCBACCBAB' },
-      is: { topic: 'Integrated Science', key: 'ACDBBCAABBABACBCBAAAABABCBBABA' },
-      ps: { topic: 'Physical Science', key: 'CABBBCBACBACBACBCCACBBCCDCCADC' },
-    };
+    const validTopics = ['Living Things', 'Matter', 'Force, Motion, and Energy', 'Earth and Space'];
     const questions = Object.values(database).flat();
-    expect(questions).toHaveLength(150);
-    expect(new Set(questions.map(({ question }) => question)).size).toBe(150);
+    expect(questions).toHaveLength(200);
+    expect(new Set(questions.map(({ question }) => question)).size).toBe(200);
+
     for (const item of questions) {
       expect(Object.keys(item).sort()).toEqual(['answer', 'choices', 'explanation', 'question', 'topic']);
       expect(typeof item.question).toBe('string');
@@ -49,11 +43,9 @@ describe('question database', () => {
       expect(new Set(item.choices).size).toBe(4);
       expect(item.choices.every((choice) => typeof choice === 'string' && choice.trim())).toBe(true);
       expect(item.choices).toContain(item.answer);
-      expect(Object.values(sources).map(({ topic }) => topic)).toContain(item.topic);
+      expect(validTopics).toContain(item.topic);
       expect(typeof item.explanation).toBe('string');
       expect(item.explanation.trim()).not.toBe('');
-      expect([item.question, ...item.choices, item.answer, item.explanation].join(' ')).not.toMatch(/cm-\w+\.pdf|\bquestion \d+:/i);
-      expect(item.question).not.toMatch(/ClassMarker|https:\/\/|BRIANNE|For questions? \d/i);
 
       for (const random of [() => 0, () => 0.5, () => 0.999]) {
         const shuffled = shuffledQuestion(item, random);
@@ -63,22 +55,10 @@ describe('question database', () => {
         expect(shuffled.answer).toBe(item.answer);
       }
     }
-    for (const { topic, key } of Object.values(sources)) {
-      const category = questions.filter((item) => item.topic === topic);
-      expect(category).toHaveLength(30);
-      expect(category.map((item) => 'ABCD'[item.choices.indexOf(item.answer)]).join('')).toBe(key);
-    }
 
-    const from = (text) => questions.find((item) => item.question.includes(text));
-    expect(from('During a science activity, four students').question).toContain('Ana — A meteor burns up');
-    expect(from('During a science activity, four students').question).toContain('Which student describes');
-    expect(from('A group of young scientists').question).toContain('Z — Auroras commonly occur.');
-    expect(from('A group of students classified four events').question).toContain('X — A factory accidentally releases');
-    expect(from('After several weeks, many fish become sick').question).toContain('A factory releases wastewater');
-    expect(from('Four situations were observed.').question).toContain('X — No — An apple falls toward Earth.');
-    expect(from('If the number of grasshoppers').question).toContain('Grass → Grasshopper → Frog → Hawk');
-    expect(from('Suppose all the living things were removed').question).toContain('Aquarium picture labels:');
-    expect(from('A bicycle travels at an average speed').question).toEndWith('How far does it travel?');
+    for (const topic of validTopics) {
+      expect(questions.filter((item) => item.topic === topic).length).toBeGreaterThanOrEqual(40);
+    }
   });
 });
 
