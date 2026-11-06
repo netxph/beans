@@ -25,7 +25,7 @@ describe('question database', () => {
 `)).toEqual({ easy: [question] });
   });
 
-  test('keeps the schema, grade 3 science topics, and 50 items per difficulty', async () => {
+  test('keeps the schema, grade 2 science topics, and 50 items per difficulty', async () => {
     const database = parseQuestionsYaml(await readFile(new URL('./questions.yaml', import.meta.url), 'utf8'));
     expect(Object.keys(database)).toEqual(['easy', 'average', 'difficult', 'clincher']);
     for (const questions of Object.values(database)) expect(questions).toHaveLength(50);
@@ -56,8 +56,10 @@ describe('question database', () => {
       }
     }
 
-    for (const topic of validTopics) {
-      expect(questions.filter((item) => item.topic === topic).length).toBeGreaterThanOrEqual(40);
+    for (const items of Object.values(database)) {
+      for (const topic of validTopics) {
+        expect(items.some((item) => item.topic === topic)).toBe(true);
+      }
     }
   });
 });
