@@ -1,4 +1,4 @@
-const CACHE_NAME = 'beans-kids-arcade-v31';
+const CACHE_NAME = 'beans-kids-arcade-v41';
 const APP_SHELL = [
   './',
   './index.html',
@@ -8,6 +8,11 @@ const APP_SHELL = [
   './images/icon-192.png',
   './images/icon-512.png',
   './images/apple-touch-icon.png',
+  './spellcaster-bee/index.html',
+  './spellcaster-bee/style.css',
+  './spellcaster-bee/game.mjs',
+  './spellcaster-bee/logic.mjs',
+  './spellcaster-bee/words.yaml',
   './king-of-the-jungle/index.html',
   './king-of-the-jungle/game.mjs',
   './king-of-the-jungle/logic.mjs',

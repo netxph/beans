@@ -1,0 +1,69 @@
+# Spellcaster Bee · Custom spelling course
+# 19 unique words per difficulty; each round draws 10 without repeats.
+# Keep all three pools equal, with at least 10 words each and 2–15 English letters per word.
+# Use a level heading, then two spaces, a dash, and a plain or quoted word.
+# Changing the word bank starts a new set of saved diplomas on each device.
+# Difficulty is relative to this list, not a formal Grade 2 rating.
+# Easy: familiar words with mostly predictable sounds, common endings, or simple doubled letters.
+easy:
+  - muffin
+  - thirsty
+  - dazzle
+  - blossom
+  - feather
+  - pumpkin
+  - adventure
+  - curious
+  - courage
+  - journey
+  - stubborn
+  - probably
+  - grateful
+  - enormous
+  - fortunate
+  - hesitate
+  - honest
+  - accomplish
+  - imagination
+# Average: more silent letters, doubled consonants, and easily confused vowel patterns.
+average:
+  - island
+  - knuckle
+  - wrinkle
+  - scissors
+  - knowledge
+  - broccoli
+  - cinnamon
+  - raspberry
+  - definite
+  - separate
+  - disappear
+  - embarrass
+  - persevere
+  - courageous
+  - occasional
+  - orchestra
+  - chaos
+  - environment
+  - necessary # Added to balance the supplied 56 words into three pools of 19.
+# Difficult: unusual borrowed spellings, less obvious silent letters, or multiple spelling traps.
+difficult:
+  - colonel
+  - vacuum
+  - pharaoh
+  - chameleon
+  - asthma
+  - souvenir
+  - yacht
+  - bureau
+  - camouflage
+  - leisure
+  - rhythm
+  - solemn
+  - resign
+  - debris
+  - embarrassment
+  - rendezvous
+  - embarrassed
+  - drought
+  - foreign

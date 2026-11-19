@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#23143f">
+  <title>Spellcaster Bee</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <svg class="sprite-definitions" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <symbol id="bee-art" viewBox="0 0 220 230">
+        <ellipse cx="106" cy="215" rx="58" ry="8" fill="#120e29" opacity=".3"/>
+        <ellipse cx="58" cy="132" rx="30" ry="42" fill="#d5faff" stroke="#9ed6eb" stroke-width="3" transform="rotate(-35 58 132)"/>
+        <ellipse cx="147" cy="130" rx="30" ry="42" fill="#d5faff" stroke="#9ed6eb" stroke-width="3" transform="rotate(35 147 130)"/>
+        <path d="M101 207L89 219 84 204" fill="#38243d"/>
+        <ellipse cx="105" cy="164" rx="47" ry="46" fill="#ffc844" stroke="#573245" stroke-width="3"/>
+        <path d="M62 152Q106 175 149 151L151 167Q106 190 59 166Z M66 185Q106 208 145 185L136 201Q105 219 76 202Z" fill="#573245"/>
+        <path d="M68 137Q102 158 142 137L152 178 129 171 106 187 83 172 59 179Z" fill="#8451c8" stroke="#573681" stroke-width="3"/>
+        <circle cx="105" cy="112" r="44" fill="#ffda66" stroke="#573245" stroke-width="3"/>
+        <ellipse cx="91" cy="112" rx="5" ry="7" fill="#38243d"/><ellipse cx="122" cy="112" rx="5" ry="7" fill="#38243d"/>
+        <circle cx="90" cy="110" r="1.7" fill="white"/><circle cx="121" cy="110" r="1.7" fill="white"/>
+        <ellipse cx="78" cy="125" rx="8" ry="5" fill="#f39d78"/><ellipse cx="135" cy="125" rx="8" ry="5" fill="#f39d78"/>
+        <path d="M97 127Q106 138 116 127" stroke="#573245" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M72 86L92 19Q96 9 105 18L142 86Z" fill="#8e60cf" stroke="#573681" stroke-width="3"/>
+        <path d="M80 66L133 66 140 81 76 81Z" fill="#ffcb58"/>
+        <ellipse cx="106" cy="86" rx="54" ry="10" fill="#9f74de" stroke="#573681" stroke-width="3"/>
+        <path d="M104 35L107 43 116 43 109 49 112 57 104 52 97 57 100 49 93 43 102 43Z" fill="#ffe6a1"/>
+        <path d="M147 164L182 117" stroke="#e8b667" stroke-width="7" stroke-linecap="round"/>
+        <path d="M188 96L192 108 205 111 193 117 190 131 183 119 170 117 181 109Z" fill="#ffe49a" stroke="#bd853e" stroke-width="2"/>
+        <circle cx="147" cy="163" r="9" fill="#ffda66" stroke="#573245" stroke-width="2"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <main class="academy">
+    <div class="brand"><span aria-hidden="true">✦</span> THE HONEYCOMB ACADEMY <span aria-hidden="true">✦</span></div>
+    <p id="loadError" class="notice error" role="alert" hidden></p>
+    <p id="speechWarning" class="notice" role="alert" hidden></p>
+    <p id="storageWarning" class="notice" role="status" hidden></p>
+
+    <section id="intro" class="intro" aria-labelledby="introTitle">
+      <div class="hero-art" aria-hidden="true"><span class="orbit star-one">✧</span><svg class="bee"><use href="#bee-art"/></svg><span class="orbit star-two">✦</span></div>
+      <p class="eyebrow">A LITTLE BEE. A LITTLE MAGIC.</p>
+      <h1 id="introTitle" tabindex="-1">Spellcaster <span>Bee</span></h1>
+      <p class="subtitle">Big spells begin with little letters.</p>
+      <div class="story"><span class="master" aria-hidden="true">🧙🏽‍♂️</span><p>“Welcome, apprentice Bee! Listen to my word, gather its letters, and brew a spelling spell.”</p></div>
+      <ol class="instructions">
+        <li><span aria-hidden="true">🔊</span> Hear the word. Replay it anytime.</li>
+        <li><span aria-hidden="true">🫧</span> Tap letter bubbles in the right order.</li>
+        <li><span aria-hidden="true">🪄</span> Tap your last letter to undo. Then cast!</li>
+      </ol>
+      <button id="reviewBtn" class="secondary review-open" type="button" disabled><span aria-hidden="true">📖</span> Review all words</button>
+      <p class="round-rule">10 words per class · Up to 3 mistakes · 70% to graduate</p>
+      <div id="levelCards" class="level-cards" aria-label="Choose a wizard class"></div>
+      <p id="loading" class="muted" role="status">Opening the spell book…</p>
+      <p class="footnote">Diplomas stay on this device. Leaving a class restarts its 10 words.</p>
+    </section>
+
+    <section id="review" class="word-review" aria-labelledby="reviewTitle" hidden>
+      <p class="eyebrow">A LITTLE PRACTICE BEFORE THE MAGIC</p>
+      <h1 id="reviewTitle" tabindex="-1">Bee’s spell book</h1>
+      <p class="subtitle">All words, A to Z. Swipe for the next 10!</p>
+      <div id="reviewDeck" class="review-deck" role="region" aria-roledescription="carousel" aria-label="Alphabetical spelling word pages" tabindex="0"></div>
+      <div class="review-controls">
+        <button id="reviewPrevBtn" class="secondary" type="button" aria-label="Previous page" disabled><span aria-hidden="true">‹</span></button>
+        <p id="reviewCount" aria-live="polite" aria-atomic="true"></p>
+        <button id="reviewNextBtn" class="secondary" type="button" aria-label="Next page"><span aria-hidden="true">›</span></button>
+      </div>
+      <p class="footnote">Swipe, use the arrows, or press your keyboard’s left and right arrow keys. This is practice, not a test!</p>
+      <button id="reviewHomeBtn" class="secondary" type="button">Back to the academy</button>
+    </section>
+
+    <section id="lesson" class="lesson" aria-labelledby="levelTitle" hidden>
+      <header class="lesson-header">
+        <div><p class="eyebrow">APPRENTICE TRAINING</p><h1 id="levelTitle" tabindex="-1">Easy class</h1></div>
+        <span id="rankBadge" class="rank-badge">CLASS 1</span>
+      </header>
+      <div class="stats">
+        <span id="questionCount">Word 1 / 10</span>
+        <span id="mistakes" aria-live="polite">Mistakes: 0 / 3</span>
+      </div>
+      <progress id="wordProgress" max="10" value="0" aria-label="Words answered"></progress>
+      <div class="master-prompt"><span aria-hidden="true">🧙🏽‍♂️</span><p>“Listen closely, Bee.<br>Which letters make my word?”</p></div>
+      <button id="listenBtn" class="listen" type="button"><span aria-hidden="true">🔊</span> Hear word again</button>
+      <div id="workshop" class="workshop" data-effect="idle">
+        <span class="floating-spark spark-left" aria-hidden="true">✧</span>
+        <svg class="apprentice bee" aria-hidden="true"><use href="#bee-art"/></svg>
+        <div class="cauldron" aria-hidden="true">
+          <div class="steam steam-one"></div><div class="steam steam-two"></div><div class="steam steam-three"></div>
+          <div class="potion"></div><div class="pot"><span>✦</span></div><div class="pot-rim"></div>
+          <div class="pot-foot left"></div><div class="pot-foot right"></div>
+          <span class="spell-burst">✦</span><span class="poof">POOF!</span>
+        </div>
+        <span class="floating-spark spark-right" aria-hidden="true">✦</span>
+      </div>
+      <div class="spelling-area">
+        <p id="slotHint" class="slot-hint">Your spell · Tap the last letter or Undo</p>
+        <div id="slots" class="slots" role="group" aria-label="Letters in the cauldron"></div>
+        <button id="undoBtn" class="secondary undo" type="button" disabled><span aria-hidden="true">↶</span> Undo last letter</button>
+        <p id="selectionStatus" class="sr-only" aria-live="polite"></p>
+        <div id="bubbleArea">
+          <p class="eyebrow bubble-label">GATHER YOUR LETTERS</p>
+          <div id="bubbles" class="bubbles" role="group" aria-label="Magic letter bubbles"></div>
+        </div>
+        <button id="submitBtn" class="primary cast" type="button" disabled><span aria-hidden="true">✦</span> Cast spelling spell</button>
+      </div>
+      <div id="feedback" class="feedback" role="status" hidden>
+        <h2 id="feedbackTitle"></h2><p id="feedbackText"></p>
+      </div>
+      <button id="nextBtn" class="primary" type="button" hidden>Next word →</button>
+    </section>
+
+    <section id="diploma" class="award-screen" aria-labelledby="diplomaTitle" hidden>
+      <div class="diploma-paper">
+        <p class="eyebrow">THE HONEYCOMB ACADEMY OF MAGIC</p>
+        <div class="award-icon" aria-hidden="true">📜</div>
+        <p class="certificate">Diploma of Spelling Magic</p>
+        <h1 id="diplomaTitle" tabindex="-1">Congratulations, Bee!</h1>
+        <p>You are now</p><h2 id="wizardTitle" class="wizard-title">Wizard Class 1</h2>
+        <div class="grade-seal"><strong id="diplomaGrade">100%</strong><span>YOUR GRADE</span></div>
+        <p id="diplomaScore"></p>
+        <p class="signature">Master Honeycomb <span aria-hidden="true">✧</span></p>
+      </div>
+      <p class="award-message">Your hard work is its own kind of magic.</p>
+      <button id="graduateBtn" class="primary" type="button">Enter the next class →</button>
+      <button id="diplomaHomeBtn" class="secondary" type="button">Back to the academy</button>
+    </section>
+
+    <section id="supreme" class="award-screen" aria-labelledby="supremeTitle" hidden>
+      <div class="supreme-art" aria-hidden="true"><span>👑</span><svg class="bee"><use href="#bee-art"/></svg></div>
+      <p class="eyebrow">ALL THREE CLASSES COMPLETE</p>
+      <h1 id="supremeTitle" tabindex="-1">Supreme<br><span>Spellcaster!</span></h1>
+      <p class="subtitle">Bee, you’ve earned the academy’s highest title.</p>
+      <div id="courseGrades" class="course-grades"></div>
+      <p id="courseGrade" class="course-grade"></p>
+      <p>Thirty words. Three diplomas. One brilliant little bee.</p>
+      <button id="supremeHomeBtn" class="primary" type="button">Back to the academy ✦</button>
+    </section>
+  </main>
+  <script type="module" src="./game.mjs"></script>
+</body>
+</html>
