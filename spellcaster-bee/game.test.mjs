@@ -294,17 +294,17 @@ test('passing saves immediately, replay keeps the best grade, and unfinished cla
   expect(restored.run('round.index')).toBe(0);
 });
 
-test('speech failures and unsupported browsers are visible, with safe replay and cancellation', async () => {
+test('playback errors remain visible while unsupported speech stays quiet, with safe replay and cancellation', async () => {
   const unsupported = await setup({ supported: false });
-  expect(unsupported.nodes.speechWarning.hidden).toBe(false);
+  expect(unsupported.nodes.speechWarning.hidden).toBe(true);
   expect(unsupported.nodes.levelCards.children.every((button) => button.disabled)).toBe(true);
   const { nodes, spoken, timers, events } = await setup();
   nodes.levelCards.children[0].click();
   const old = spoken.at(-1);
   nodes.listenBtn.click();
-  old.onerror();
+  old.onerror({ error: 'interrupted' });
   expect(nodes.speechWarning.hidden).toBe(true);
-  spoken.at(-1).onerror();
+  spoken.at(-1).onerror({ error: 'network' });
   expect(nodes.speechWarning.hidden).toBe(false);
   expect(nodes.speechWarning.textContent).toContain('could not play');
   nodes.listenBtn.click();
@@ -312,6 +312,18 @@ test('speech failures and unsupported browsers are visible, with safe replay and
   expect(nodes.speechWarning.textContent).toContain('hasn’t started');
   events.pagehide();
   expect(timers.size).toBe(0);
+});
+
+test('unavailable voice, language, and synthesis errors stay quiet and cancel the speech timeout', async () => {
+  for (const error of ['voice-unavailable', 'language-unavailable', 'synthesis-unavailable']) {
+    const { nodes, spoken, timers } = await setup();
+    nodes.levelCards.children[0].click();
+    for (const handler of timers.values()) handler();
+    expect(nodes.speechWarning.hidden).toBe(false);
+    spoken.at(-1).onerror({ error });
+    expect(nodes.speechWarning.hidden).toBe(true);
+    expect(timers.size).toBe(0);
+  }
 });
 
 test('prefers male English voices, British accents, and local voices within an accent', async () => {
@@ -336,7 +348,7 @@ test('prefers male English voices, British accents, and local voices within an a
   }
 });
 
-test('warns when male voices cannot be identified and never picks a non-English male voice', async () => {
+test('silently falls back when male voices cannot be identified and never picks a non-English male voice', async () => {
   for (const voices of [
     [{ name: 'Samantha', lang: 'en-US' }, { name: 'David', lang: 'fr-FR' }],
     [{ name: 'English Female', lang: 'en-US' }],
@@ -345,20 +357,19 @@ test('warns when male voices cannot be identified and never picks a non-English 
     const { nodes, spoken } = await setup({ voices });
     nodes.levelCards.children[0].click();
     expect(spoken.at(-1).voice).toBe(voices[0]);
-    expect(nodes.speechWarning.textContent).toContain('male English voice couldn’t be identified');
+    expect(nodes.speechWarning.hidden).toBe(true);
     spoken.at(-1).onstart();
-    expect(nodes.speechWarning.hidden).toBe(false);
+    expect(nodes.speechWarning.hidden).toBe(true);
   }
 });
 
 test('replay selects a male voice when the device finishes loading its voices', async () => {
   const voices = [];
-  const { nodes, spoken, events } = await setup({ voices });
+  const { nodes, spoken } = await setup({ voices });
   nodes.levelCards.children[0].click();
-  expect(nodes.speechWarning.textContent).toContain('male English voice couldn’t be identified');
+  expect(nodes.speechWarning.hidden).toBe(true);
   const male = { name: 'Microsoft Ryan', lang: 'en-GB', localService: true };
   voices.push(male);
-  events.voiceschanged();
   nodes.listenBtn.click();
   expect(spoken.at(-1).voice).toBe(male);
   expect(nodes.speechWarning.hidden).toBe(true);
@@ -374,10 +385,12 @@ test('accepts other English male accents without warning and handles lazy or mis
   const nonEnglish = await setup({ voices: [{ lang: 'fr-FR' }] });
   nonEnglish.nodes.levelCards.children[0].click();
   expect(nonEnglish.spoken).toHaveLength(0);
-  expect(nonEnglish.nodes.speechWarning.textContent).toContain('No English voice');
+  expect(nonEnglish.nodes.speechWarning.hidden).toBe(true);
   const lazy = await setup({ voices: [] });
   lazy.nodes.levelCards.children[0].click();
   expect(lazy.spoken.at(-1).lang).toBe('en-GB');
+  for (const handler of lazy.timers.values()) handler();
+  expect(lazy.nodes.speechWarning.hidden).toBe(true);
 });
 
 test('blocked storage does not interrupt graduation and invalid word banks cannot start', async () => {

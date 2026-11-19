@@ -36,14 +36,6 @@ function englishVoice() {
   return british.find((voice) => voice.localService) ?? british[0] ?? candidates.find((voice) => voice.localService) ?? candidates[0];
 }
 
-function checkSpeech() {
-  if (!speechAvailable) {
-    speechWarning('This browser cannot speak words. Open the game in a browser with text-to-speech and an English voice enabled.');
-  } else if (speech.getVoices().length && !englishVoice()) {
-    speechWarning('No English voice is installed. Ask a grown-up to add an English voice in this device’s speech settings, then tap “Hear word again”.');
-  }
-}
-
 function stopSpeech() {
   speechId++;
   clearTimeout(speechTimer);
@@ -54,12 +46,10 @@ function stopSpeech() {
 function speakWord() {
   if (!round || round.phase !== 'spelling' || ui.lesson.hidden || !speechAvailable) return;
   stopSpeech();
+  speechWarning('');
   const voice = englishVoice();
-  if (speech.getVoices().length && !voice) return checkSpeech();
+  if (speech.getVoices().length && !voice) return;
   const id = speechId;
-  const fallback = !MALE_VOICE_NAME.test(voice?.name ?? '')
-    ? 'A male English voice couldn’t be identified. Using the device’s English voice. Ask a grown-up to install a male English voice in device speech settings.' : '';
-  speechWarning(fallback);
   activeUtterance = new window.SpeechSynthesisUtterance(round.words[round.index]);
   activeUtterance.lang = voice?.lang ?? 'en-GB';
   if (voice) activeUtterance.voice = voice;
@@ -68,21 +58,25 @@ function speakWord() {
   activeUtterance.onstart = () => {
     if (id !== speechId) return;
     clearTimeout(speechTimer);
-    speechWarning(fallback);
+    speechWarning('');
   };
   activeUtterance.onend = () => {
     if (id !== speechId) return;
     clearTimeout(speechTimer);
     activeUtterance = null;
   };
-  activeUtterance.onerror = () => {
+  activeUtterance.onerror = (event) => {
     if (id !== speechId) return;
     clearTimeout(speechTimer);
     activeUtterance = null;
+    if (['voice-unavailable', 'language-unavailable', 'synthesis-unavailable'].includes(event.error)) {
+      speechWarning('');
+      return;
+    }
     speechWarning('The master’s voice could not play. Check the volume and device English voice settings, then tap “Hear word again”. Some voices need an internet connection.');
   };
   speechTimer = setTimeout(() => {
-    if (id === speechId) speechWarning('The master’s voice hasn’t started. Check the volume, tap “Hear word again”, or enable an English voice in device settings.');
+    if (id === speechId && voice) speechWarning('The master’s voice hasn’t started. Check the volume, tap “Hear word again”, or enable an English voice in device settings.');
   }, 8000);
   try {
     speech.speak(activeUtterance);
@@ -353,6 +347,4 @@ ui.diplomaHomeBtn.addEventListener('click', returnHome);
 ui.supremeHomeBtn.addEventListener('click', returnHome);
 window.addEventListener('pagehide', stopSpeech);
 document.addEventListener('visibilitychange', () => { if (document.hidden) stopSpeech(); });
-speech?.addEventListener('voiceschanged', checkSpeech);
-checkSpeech();
 loadBank();
