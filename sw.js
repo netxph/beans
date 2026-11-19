@@ -1,4 +1,4 @@
-const CACHE_NAME = 'beans-kids-arcade-v42';
+const CACHE_NAME = 'beans-kids-arcade-v43';
 const APP_SHELL = [
   './',
   './index.html',
@@ -28,7 +28,9 @@ const APP_SHELL = [
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)).then(() => self.skipWaiting())
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(
+      APP_SHELL.map((url) => new Request(new URL(url, self.location.href), { cache: 'reload' }))
+    )).then(() => self.skipWaiting())
   );
 });
 
