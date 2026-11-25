@@ -81,6 +81,7 @@ export default function App() {
   // Screen routing states: 'WELCOME' | 'GAME' | 'RESULTS' | 'ALL_TABLES'
   const [screen, setScreen] = useState('WELCOME');
   const [sessionLength, setSessionLength] = useState(10); // 5, 10, 15, 20
+  const [selectedFactors, setSelectedFactors] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]); // tables to practise
   const [questions, setQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [userAnswer, setUserAnswer] = useState('');
@@ -172,8 +173,10 @@ export default function App() {
     // Ensure varied multiplication combos.
     // Try to focus mostly on typical school multiplication tables (1 to 10)
     for (let i = 0; i < length; i++) {
-      const factorA = Math.floor(Math.random() * 10) + 1; // 1 to 10
-      const factorB = Math.floor(Math.random() * 10) + 1; // 1 to 10
+      // One factor from the chosen tables, the other 1 to 10, in random order
+      const chosen = selectedFactors[Math.floor(Math.random() * selectedFactors.length)];
+      const other = Math.floor(Math.random() * 10) + 1;
+      const [factorA, factorB] = Math.random() < 0.5 ? [chosen, other] : [other, chosen];
       arr.push({
         id: i,
         factorA,
@@ -471,6 +474,40 @@ export default function App() {
                           <Check className="w-3 h-3 stroke-[4]" />
                         </div>
                       )}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="space-y-2 text-center">
+                <span className="text-xs bg-purple-100 text-purple-700 font-bold px-3 py-1 rounded-full">
+                  Step 2: Choose Times Tables
+                </span>
+                <p className="text-xs text-slate-400">Which numbers do you want to multiply?</p>
+              </div>
+
+              <div className="grid grid-cols-5 gap-2">
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => {
+                  const isSelected = selectedFactors.includes(num);
+                  return (
+                    <button
+                      key={num}
+                      aria-pressed={isSelected}
+                      aria-label={`${num} times table`}
+                      onClick={() => {
+                        if (isSelected && selectedFactors.length === 1) return; // keep at least one
+                        playSound('click', isMuted);
+                        setSelectedFactors(isSelected
+                          ? selectedFactors.filter((n) => n !== num)
+                          : [...selectedFactors, num].sort((a, b) => a - b));
+                      }}
+                      className={`py-2 rounded-xl font-black text-lg transition-all duration-150 ${
+                        isSelected
+                          ? 'bg-gradient-to-b from-emerald-400 to-emerald-500 text-white border-b-4 border-emerald-600'
+                          : 'bg-slate-100 text-slate-400 border-b-4 border-slate-200 hover:bg-slate-200'
+                      }`}
+                    >
+                      {num}
                     </button>
                   );
                 })}

@@ -42,7 +42,7 @@ function setup(search = '') {
 
 test('every game uses the shared title and back button without auto-hiding navigation', () => {
   const { nodes, cards, timers, location, focused, run } = setup();
-  expect(cards.size).toBe(9);
+  expect(cards.size).toBe(10);
   expect(html).not.toMatch(/top-trigger|nav-visible|showNav|hideNavSoon/);
   expect(html).toContain('aria-label="Back to game selection"');
   const headerCss = html.match(/\.player-top \{([^}]+)\}/)[1];

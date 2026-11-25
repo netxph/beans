@@ -639,8 +639,31 @@
         </svg>
       `;
 
+      const GRANDPA_OWL_ICON = `
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <ellipse cx="50" cy="60" rx="32" ry="34" fill="#8b5e3c" />
+          <ellipse cx="50" cy="70" rx="20" ry="22" fill="#e9cfa6" />
+          <path d="M22 36 L18 14 L36 28 Z M78 36 L82 14 L64 28 Z" fill="#6e4529" />
+          <circle cx="37" cy="42" r="13" fill="#fff" />
+          <circle cx="63" cy="42" r="13" fill="#fff" />
+          <circle cx="37" cy="43" r="5" fill="#2b1d12" />
+          <circle cx="63" cy="43" r="5" fill="#2b1d12" />
+          <circle cx="37" cy="42" r="14" fill="none" stroke="#c0a062" stroke-width="3" />
+          <circle cx="63" cy="42" r="14" fill="none" stroke="#c0a062" stroke-width="3" />
+          <path d="M24 30 q13 -6 24 2 M76 30 q-13 -6 -24 2" stroke="#f4f4f4" stroke-width="4" stroke-linecap="round" fill="none" />
+          <path d="M45 52 L55 52 L50 61 Z" fill="#f2a33a" />
+        </svg>
+      `;
+
       const games = [
         {
+          id: 'grandpa-clock',
+          title: 'Grandpa Clock',
+          icon: GRANDPA_OWL_ICON,
+          emoji: '🦉',
+          description: 'Help forgetful Grandpa Owl read 10, 20 or 30 clocks and win a cake!',
+          src: './grandpa-clock/index.html'
+        },        {
           id: 'spellcaster-bee',
           title: 'Spellcaster Bee',
           emoji: '🐝',

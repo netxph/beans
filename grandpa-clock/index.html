@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Grandpa Clock</title>
+  <style>
+    :root { font-family: ui-rounded, "Arial Rounded MT Bold", system-ui, sans-serif; color: #3b2a1e; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; }
+    body { min-height: 100dvh; display: grid; place-items: center; background: radial-gradient(circle at 80% 10%, #fff7c2 0 6%, transparent 7%), linear-gradient(#2d3a6e, #4f5fa3 55%, #6b8e4e 55%); overflow-x: hidden; }
+    main { width: min(560px, 100%); padding: .8rem 1rem; display: grid; gap: .6rem; justify-items: center; text-align: center; }
+    .hidden { display: none !important; }
+    .card { width: 100%; background: #fff8ec; border: 4px solid #c99a5b; border-radius: 24px; box-shadow: 0 8px 0 #8d6236; padding: 1rem; }
+    h1 { margin: .2rem 0; color: #8d4f1d; font-size: clamp(2rem, 8vw, 3rem); }
+    .owl { width: clamp(110px, 30vw, 150px); }
+    .owl.bounce { animation: bounce .5s ease; }
+    .owl.puzzled { animation: tilt .5s ease; }
+    @keyframes bounce { 40% { transform: translateY(-14px); } }
+    @keyframes tilt { 30% { transform: rotate(-10deg); } 70% { transform: rotate(10deg); } }
+    .bubble { position: relative; background: white; border-radius: 18px; padding: .7rem 1rem; font-size: 1.15rem; font-weight: 800; box-shadow: 0 4px 0 #0002; min-height: 3rem; }
+    .bubble::after { content: ""; position: absolute; left: 50%; bottom: -12px; border: 12px solid transparent; border-top-color: white; border-bottom: 0; transform: translateX(-50%); }
+    .scene { display: flex; align-items: end; justify-content: center; gap: .5rem; width: 100%; }
+    /* Square clock: as big as the width allows, but shrinks so numpad stays on short screens. */
+    .clock { --size: clamp(190px, min(66vw, 100dvh - 466px), 360px); width: var(--size); height: var(--size); flex: none; filter: drop-shadow(0 6px 0 #0003); }
+    #gameOwl { width: clamp(56px, 16vw, 90px); flex: none; }
+    .hand { transition: transform .4s ease; transform-origin: 100px 100px; }
+    .numpad { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; width: min(100%, 340px); }
+    .key, .primary { border: 0; border-radius: 16px; padding: .55rem; font: inherit; font-size: clamp(1.5rem, 6vw, 1.9rem); font-weight: 900; color: #3b2a1e; background: #ffd66b; box-shadow: 0 5px 0 #c9962a; cursor: pointer; }
+    .key:active, .primary:active { transform: translateY(4px); box-shadow: 0 1px 0 #c9962a; }
+    .key.ok { background: #7ed492; box-shadow: 0 5px 0 #3e9a55; }
+    .key.back { background: #f3c4a2; box-shadow: 0 5px 0 #b97f57; }
+    .key:disabled { opacity: .35; cursor: not-allowed; }
+    .key:focus-visible, .primary:focus-visible { outline: 4px solid white; outline-offset: 2px; }
+    .entry { min-width: 9rem; min-height: 3.6rem; padding: .3rem 1rem; border-radius: 16px; background: #1f2a4d; color: #9ef0b0; font-size: 2.4rem; font-weight: 900; letter-spacing: .08em; border: 4px solid #c99a5b; }
+    .entry:empty::before { content: "?:??"; opacity: .3; }
+    .entry.right { color: #fff; background: #3e9a55; }
+    .entry.wrong { animation: shake .35s; color: #fff; background: #c0392b; }
+    .mistakes { font-weight: 900; color: #fff; background: #0004; border-radius: 999px; padding: .15rem .8rem; font-size: .95rem; }
+    @keyframes shake { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+    .progress { display: flex; flex-wrap: wrap; gap: .1rem .3rem; justify-content: center; font-size: .95rem; max-width: 24rem; }
+    .progress span { opacity: .3; }
+    .progress span.done { opacity: 1; }
+    .primary { background: #ff8fb1; box-shadow: 0 6px 0 #c95278; color: white; padding: .8rem 1.6rem; }
+    .counts { display: flex; gap: .6rem; justify-content: center; flex-wrap: wrap; }
+    .cake { font-size: clamp(5rem, 22vw, 8rem); animation: bounce 1s ease infinite; }
+    .lead { font-size: 1.15rem; line-height: 1.45; }
+  </style>
+</head>
+<body>
+  <template id="owlArt">
+    <svg class="owl" viewBox="0 0 100 100" aria-hidden="true">
+      <ellipse cx="50" cy="60" rx="32" ry="34" fill="#8b5e3c" />
+      <ellipse cx="50" cy="70" rx="20" ry="22" fill="#e9cfa6" />
+      <path d="M22 36 L18 14 L36 28 Z M78 36 L82 14 L64 28 Z" fill="#6e4529" />
+      <path d="M30 52 q-4 18 -16 22 M70 52 q4 18 16 22" stroke="#6e4529" stroke-width="8" stroke-linecap="round" fill="none" />
+      <circle cx="37" cy="42" r="13" fill="#fff" />
+      <circle cx="63" cy="42" r="13" fill="#fff" />
+      <circle cx="37" cy="43" r="5" fill="#2b1d12" />
+      <circle cx="63" cy="43" r="5" fill="#2b1d12" />
+      <circle cx="37" cy="42" r="14" fill="none" stroke="#c0a062" stroke-width="3" />
+      <circle cx="63" cy="42" r="14" fill="none" stroke="#c0a062" stroke-width="3" />
+      <path d="M51 42 h-2" stroke="#c0a062" stroke-width="3" />
+      <path d="M24 30 q13 -6 24 2 M76 30 q-13 -6 -24 2" stroke="#f4f4f4" stroke-width="4" stroke-linecap="round" fill="none" />
+      <path d="M45 52 L55 52 L50 61 Z" fill="#f2a33a" />
+      <path d="M36 92 v5 M44 93 v4 M56 93 v4 M64 92 v5" stroke="#f2a33a" stroke-width="4" stroke-linecap="round" />
+    </svg>
+  </template>
+
+  <main>
+    <section id="intro" class="card">
+      <div data-owl></div>
+      <h1>Grandpa Clock</h1>
+      <p class="lead">Oh dear! Grandpa Owl forgot how to tell the time. 🦉<br>Can you help him read his clocks?<br>If you do, he'll bake you a <b>cake</b>! 🎂</p>
+      <p class="lead"><b>How many clocks?</b></p>
+      <div class="counts" id="counts"></div>
+    </section>
+
+    <section id="game" class="hidden" style="display:contents">
+      <div class="progress" id="progress" aria-label="Progress"></div>
+      <div class="mistakes" id="mistakes" aria-live="polite"></div>
+      <div class="bubble" id="say" aria-live="polite"></div>
+      <div class="scene">
+        <div data-owl id="gameOwl"></div>
+        <svg class="clock" viewBox="0 0 200 200" role="img" id="clock">
+          <circle cx="100" cy="100" r="94" fill="#fff" stroke="#8d4f1d" stroke-width="10" />
+          <g id="marks"></g>
+          <line class="hand" id="hourHand" x1="100" y1="100" x2="100" y2="52" stroke="#2b1d12" stroke-width="9" stroke-linecap="round" />
+          <line class="hand" id="minuteHand" x1="100" y1="100" x2="100" y2="24" stroke="#d9480f" stroke-width="5" stroke-linecap="round" />
+          <circle cx="100" cy="100" r="7" fill="#2b1d12" />
+        </svg>
+      </div>
+      <div class="entry" id="entry" aria-live="polite" aria-label="Your answer"></div>
+      <div class="numpad" id="numpad">
+        <button class="key" data-key="1">1</button><button class="key" data-key="2">2</button><button class="key" data-key="3">3</button>
+        <button class="key" data-key="4">4</button><button class="key" data-key="5">5</button><button class="key" data-key="6">6</button>
+        <button class="key" data-key="7">7</button><button class="key" data-key="8">8</button><button class="key" data-key="9">9</button>
+        <button class="key back" data-key="Backspace" aria-label="Delete">⌫</button><button class="key" data-key="0">0</button><button class="key ok" data-key="Enter" id="okKey" aria-label="Check answer">✔</button>
+      </div>
+    </section>
+
+    <section id="finish" class="card hidden">
+      <div class="cake">🎂</div>
+      <h1>Thank you!</h1>
+      <p class="lead">Hoo-hoo! You helped Grandpa Owl read <span id="doneCount"></span> clocks.<br>Here is your cake, my clever little helper! 🦉💛</p>
+      <button class="primary" id="again">Play again</button>
+    </section>
+
+    <section id="over" class="card hidden">
+      <div class="cake">🦉❓</div>
+      <h1>You're out!</h1>
+      <p class="lead">Oh no, too many wrong times. Grandpa Owl got even more confused!<br>Practise a little more and try again for the cake. 🎂</p>
+      <button class="primary" id="retry">Try again</button>
+    </section>
+  </main>
+
+  <script type="module">
+    import { allowedMistakes, COUNTS, createGame, formatEntry, handAngles, isOut } from './logic.mjs';
+
+    const $ = (id) => document.getElementById(id);
+    document.querySelectorAll('[data-owl]').forEach((el) => el.replaceWith(Object.assign($('owlArt').content.cloneNode(true).firstElementChild, { id: el.id || '' })));
+    const owl = $('gameOwl');
+
+    $('marks').innerHTML = Array.from({ length: 60 }, (_, i) => {
+      const a = (i * 6 * Math.PI) / 180;
+      const big = i % 5 === 0;
+      const r1 = big ? 80 : 85;
+      return `<line x1="${100 + Math.sin(a) * r1}" y1="${100 - Math.cos(a) * r1}" x2="${100 + Math.sin(a) * 89}" y2="${100 - Math.cos(a) * 89}" stroke="#8d4f1d" stroke-width="${big ? 3 : 1}" />`;
+    }).join('') + Array.from({ length: 12 }, (_, i) => {
+      const a = ((i + 1) * 30 * Math.PI) / 180;
+      return `<text x="${100 + Math.sin(a) * 66}" y="${100 - Math.cos(a) * 66}" text-anchor="middle" dominant-baseline="central" font-size="20" font-weight="900" fill="#3b2a1e">${i + 1}</text>`;
+    }).join('');
+
+    const PUZZLED = ['Hmm… what time is it?', 'Oh my, my old eyes… what time is this?', 'Can you type this one for me?', 'Hoo… which time is it, dear?'];
+    const WRONG = ['Wrong!', 'Oops, wrong!', 'Hoo, that\'s wrong!'];
+    const YAY = ['Hoo-hoo! Of course!', 'Yes! Clever you!', 'That\'s right! Thank you!', 'Wonderful!'];
+    const any = (list) => list[Math.floor(Math.random() * list.length)];
+
+    let questions = [];
+    let index = 0;
+    let locked = false;
+    let digits = '';
+    let results = [];
+
+    function show(id) {
+      ['intro', 'game', 'finish', 'over'].forEach((s) => $(s).classList.toggle('hidden', s !== id));
+    }
+
+    function animate(cls) {
+      owl.classList.remove('bounce', 'puzzled');
+      void owl.getBoundingClientRect();
+      owl.classList.add(cls);
+    }
+
+    function start(count) {
+      questions = createGame(count);
+      index = 0;
+      results = [];
+      show('game');
+      ask();
+    }
+
+    function ask() {
+      const q = questions[index];
+      const { hour, minute } = handAngles(q.time);
+      $('hourHand').style.transform = `rotate(${hour}deg)`;
+      $('minuteHand').style.transform = `rotate(${minute}deg)`;
+      $('clock').setAttribute('aria-label', `Clock ${index + 1} of ${questions.length}`);
+      $('say').textContent = any(PUZZLED);
+      renderScore();
+      setDigits('');
+      $('entry').classList.remove('right', 'wrong');
+      locked = false;
+    }
+
+    function renderScore() {
+      $('progress').innerHTML = questions.map((_, i) => i < results.length ? `<span class="done">${results[i] ? '🍰' : '❌'}</span>` : '<span>🍰</span>').join('');
+      $('mistakes').textContent = `Mistakes: ${results.filter((ok) => !ok).length} / ${allowedMistakes(questions.length)}`;
+    }
+
+    function setDigits(next) {
+      digits = next;
+      $('entry').textContent = formatEntry(digits);
+      $('okKey').disabled = digits.length < 3;
+    }
+
+    function check() {
+      if (locked || digits.length < 3) return;
+      locked = true;
+      const typed = formatEntry(digits);
+      const { answer } = questions[index];
+      const right = typed === answer;
+      results.push(right);
+      renderScore();
+      if (right) {
+        $('entry').classList.add('right');
+        $('say').textContent = `${any(YAY)} It's ${typed}!`;
+        animate('bounce');
+      } else {
+        $('entry').textContent = answer; // show the correct time
+        $('entry').classList.add('wrong');
+        $('say').textContent = `${any(WRONG)} It's ${answer}, not ${typed}.`;
+        animate('puzzled');
+      }
+      setTimeout(() => {
+        index++;
+        const mistakes = results.filter((ok) => !ok).length;
+        if (isOut(mistakes, questions.length)) show('over');
+        else if (index < questions.length) ask();
+        else { $('doneCount').textContent = `${mistakes ? results.length - mistakes + ' of ' : 'all '}${questions.length}`; show('finish'); }
+      }, right ? 1200 : 2500);
+    }
+
+    function pressKey(key) {
+      if (locked || $('game').classList.contains('hidden')) return;
+      if (/^[0-9]$/.test(key)) { if (digits.length < 4) setDigits(digits + key); }
+      else if (key === 'Backspace' || key === 'Delete') setDigits(digits.slice(0, -1));
+      else if (key === 'Enter') check();
+    }
+
+    $('numpad').addEventListener('click', (e) => {
+      const key = e.target.closest('[data-key]')?.dataset.key;
+      if (key) pressKey(key);
+    });
+    $('counts').replaceChildren(...COUNTS.map((count) => {
+      const button = document.createElement('button');
+      button.className = 'primary';
+      button.textContent = `${count} 🕰️`;
+      button.setAttribute('aria-label', `${count} clocks`);
+      button.addEventListener('click', () => start(count));
+      return button;
+    }));
+    $('again').addEventListener('click', () => show('intro'));
+    $('retry').addEventListener('click', () => show('intro'));
+    window.addEventListener('keydown', (e) => {
+      if ($('game').classList.contains('hidden') || !/^([0-9]|Backspace|Delete|Enter)$/.test(e.key)) return;
+      e.preventDefault(); // Enter must check the answer, not re-press the last tapped numpad button
+      pressKey(e.key);
+    });
+    window.addEventListener('message', (e) => {
+      if (e.origin === location.origin && e.data?.type === 'beans-key') pressKey(e.data.key);
+    });
+  </script>
+</body>
+</html>

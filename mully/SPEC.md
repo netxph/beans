@@ -56,7 +56,7 @@ Single `screen` state with 4 values:
 
 ## 5) Gameplay Rules
 - Question bank is generated per session.
-- Each question: random factors `1..10` and `correctAnswer = factorA * factorB`.
+- Each question: one factor from the selected times tables (WELCOME "Step 2" chips `1..10`, all on by default, at least one must stay on), the other random `1..10`, order randomized; `correctAnswer = factorA * factorB`.
 - Session lengths supported: `5, 10, 15, 20`.
 - User answers via on-screen keypad or keyboard.
 - Enter submits answer if not empty.
@@ -71,6 +71,7 @@ Single `screen` state with 4 values:
 Core state variables:
 - `screen: 'WELCOME' | 'GAME' | 'RESULTS' | 'ALL_TABLES'`
 - `sessionLength: number` (default `10`)
+- `selectedFactors: number[]` (default `1..10`)
 - `questions: Array<{id,factorA,factorB,correctAnswer}>`
 - `currentIndex: number`
 - `userAnswer: string`
@@ -135,6 +136,7 @@ Uses `(currentIndex / sessionLength) * 100` to show stage messages.
 ## WELCOME
 - Mascot hero area + intro text.
 - Session length selector chips (5/10/15/20).
+- Times-table selector chips (1..10, multi-select).
 - Primary CTA: Start Quiz Mission.
 - Secondary CTA: Explore Multiplication Charts.
 
